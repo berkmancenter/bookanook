@@ -1,0 +1,47 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location_id: 
+  name: MyString
+  type: 
+  min_capacity: 1
+  max_capacity: 1
+  amenities: MyText
+  attrs: MyText
+  hidden_attrs: MyText
+  hours: MyText
+  use_policy: MyText
+  description: MyText
+  photos: MyText
+  min_schedulable: 1
+  max_schedulable: 1
+  bookable: false
+  min_reservation_length: 1
+  max_reservation_length: 1
+  requires_approval: false
+  repeatable: false
+  manager_id: 
+  location: MyText
+
+two:
+  location_id: 
+  name: MyString
+  type: 
+  min_capacity: 1
+  max_capacity: 1
+  amenities: MyText
+  attrs: MyText
+  hidden_attrs: MyText
+  hours: MyText
+  use_policy: MyText
+  description: MyText
+  photos: MyText
+  min_schedulable: 1
+  max_schedulable: 1
+  bookable: false
+  min_reservation_length: 1
+  max_reservation_length: 1
+  requires_approval: false
+  repeatable: false
+  manager_id: 
+  location: MyText
