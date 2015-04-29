@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nook_id: 
+  requester_id: 
+  public: false
+  status: MyString
+  priority: 1
+  start: 2015-04-29 15:53:04
+  end: 2015-04-29 15:53:04
+  description: MyText
+  notes: MyText
+  repeats_every: MyString
+
+two:
+  nook_id: 
+  requester_id: 
+  public: false
+  status: MyString
+  priority: 1
+  start: 2015-04-29 15:53:04
+  end: 2015-04-29 15:53:04
+  description: MyText
+  notes: MyText
+  repeats_every: MyString

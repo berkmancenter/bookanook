@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  amenities: MyText
+  attrs: MyText
+  hidden_attrs: MyText
+  hours: MyText
+  description: MyText
+
+two:
+  name: MyString
+  amenities: MyText
+  attrs: MyText
+  hidden_attrs: MyText
+  hours: MyText
+  description: MyText
