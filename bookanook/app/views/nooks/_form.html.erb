@@ -1,0 +1,44 @@
+<%= simple_form_for(@nook) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :location, hint: 'Which library is this nook in?' %>
+    <%= f.input :name, hint: 'What should this nook be called?' %>
+    <%= f.input :description %>
+    <%= f.input :type, hint: 'Is a meeting room, a study room, etc.?' %>
+    <%= f.input :photos, as: :file, input_html: { multiple: true } %>
+    <%= f.input :place, hint: 'Where in the library is this nook?' %>
+
+    <hr />
+    <%= f.association :manager %>
+
+    <%= f.input :bookable %>
+    <%= f.input :requires_approval %>
+
+    <hr />
+    <%= f.input :min_schedulable,
+      hint: 'How far out does this room need to be scheduled?' %>
+    <%= f.input :max_schedulable,
+      hint: "What's the furthest out this room can be scheduled?" %>
+    <%= f.input :min_reservation_length,
+      hint: "The room must be reserved for at least this long." %>
+    <%= f.input :max_reservation_length,
+      hint: "The room cannot be reserved for longer than this." %>
+  </div>
+
+  <div>
+    <%= f.input :amenities %>
+    <%= f.input :min_capacity %>
+    <%= f.input :max_capacity %>
+
+    <%= f.input :attrs, as: :hash %>
+  </div>
+
+  <div>
+    <%= f.input :hidden_attrs, as: :hash %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

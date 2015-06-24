@@ -1,0 +1,6 @@
+<% @nook.photos.each do |photo| %>
+  <%= image_tag photo.url, size: '450x300' %>
+<% end %>
+
+<%= link_to 'Edit', edit_nook_path(@nook) %> |
+<%= link_to 'Back', nooks_path %>
