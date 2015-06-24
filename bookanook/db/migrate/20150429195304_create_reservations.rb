@@ -2,7 +2,8 @@ class CreateReservations < ActiveRecord::Migration
   def change
     create_table :reservations do |t|
       t.references :nook, index: true, foreign_key: true
-      t.references :requester, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
+
       t.boolean :public
       t.string :status
       t.integer :priority
