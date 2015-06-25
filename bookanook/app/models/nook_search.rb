@@ -8,39 +8,51 @@ class NookSearch
     @amenities = params[:amenities] || []
     @nook_types = params[:nook_types] || []
 
-    # An array of Time objects at midnight
+    # An array of Date objects
     @days = params[:days] || []
 
+    # Everything should be done in local timezone
     # This should be seconds since midnight
-    @time_range = { start: 0, end: 0 } || params[:time_range]
+    @time_range = params[:time_range] || { start: 0, end: 0 }
   end
 
   def datetime_ranges
     return [] if days.empty? || time_range[:start] == 0
     ranges = []
     days.each do |day|
-      ranges << [day + time_range[:start], day + time_range[:end]]
+      ranges << (day.to_time + time_range[:start].seconds..
+                 day.to_time + time_range[:end].seconds)
     end
+    ranges
   end
 
+  # I tried to use Sunspot here, but it's any_of..without..between chain is
+  # really buggy.
   def results
     return Nook.none if has_default_params
 
-    search = Nook.search do
-      with :location_id, location_ids unless location_ids.empty?
-      with :amenities, amenities unless amenities.empty?
-      with :type, nook_types unless nook_types.empty?
-      with :bookable, true
+    nooks = Nook.arel_table
+    filter = nooks[:bookable].eq(true)
 
-      unless datetime_ranges.empty?
-        any_of do
-          datetime_ranges.each do |range|
-            without(:reservations_starting).between(range.first, range.last)
-          end
-        end
-      end
+    filter = filter.
+      and(nooks[:location_id].in(location_ids)) unless location_ids.empty?
+
+    filter = filter.
+      and(nooks[:type].in(nook_types)) unless nook_types.empty?
+
+    unless amenities.empty?
+      amenities_sql = ActiveRecord::Base.send(
+        :sanitize_sql_array, ['"nooks"."amenities"::text[] @> ARRAY[?]', amenities])
+      filter = filter.and(Arel::Nodes::SqlLiteral.new(amenities_sql))
     end
 
-    search.results
+    datetime_ranges.each do |range|
+      reservations = Reservation.arel_table
+      filter = filter.and(reservations[:start].not_between(range)).
+        and(reservations[:end].not_between(range))
+    end
+
+    Nook.joins('LEFT JOIN reservations ON nooks.id = reservations.nook_id').
+      where(filter)
   end
 end

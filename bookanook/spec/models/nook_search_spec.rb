@@ -35,6 +35,7 @@ RSpec.describe NookSearch, type: :model do
     context 'nooks exist' do
       before(:each) do
         Nook.remove_all_from_index!
+        Reservation.remove_all_from_index!
         @nooks = create_list(:nook, 10)
         Sunspot.commit
       end
@@ -55,17 +56,54 @@ RSpec.describe NookSearch, type: :model do
       end
 
       it 'filters by type' do
-        nooks = create_list(:nook, type: 'Study Room')
+        nooks = create_list(:nook, 3, type: 'Study Room')
         Sunspot.commit
 
         search = NookSearch.new(nook_types: ['Study Room'])
-        expect(search.results.count).to eq(1)
-        expect(search.results.first).to eq(nook)
+        expect(search.results.count).to eq(3)
+        expect(search.results).to match_array(nooks)
       end
-      it 'filters by reservation time'
-      it 'only finds bookable nooks'
 
-      it 'returns relevant nooks if they exist' do
+      it 'filters by reservable time' do
+        search_days = [Date.tomorrow]
+        search_start = Time.now.seconds_since_midnight
+        search_end = search_start + 2.hours
+        search_time_range = { start: search_start, end: search_end }
+
+        nook = create(:nook)
+        create(:reservation, nook: nook,
+               start: search_days.first.to_time + search_start.seconds,
+               end: search_days.first.to_time + search_end.seconds)
+
+        Sunspot.commit
+
+        search = NookSearch.new(days: search_days, time_range: search_time_range)
+        expect(search.results).not_to include(nook)
+      end
+
+      it 'filters by reservable time available for all days' do
+        search_days = [Date.tomorrow, Date.today + 2.days]
+        search_start = Time.now.seconds_since_midnight
+        search_end = search_start + 2.hours
+        search_time_range = { start: search_start, end: search_end }
+
+        nook = create(:nook)
+        create(:reservation, nook: nook,
+               start: search_days.first.to_time + search_start.seconds,
+               end: search_days.first.to_time + search_end.seconds)
+
+        Sunspot.commit
+
+        search = NookSearch.new(days: search_days, time_range: search_time_range)
+        expect(search.results).not_to include(nook)
+      end
+
+      it 'only finds bookable nooks' do
+        create(:nook, amenities: ['snorlax'], bookable: false)
+        Sunspot.commit
+
+        search = NookSearch.new(amenities: ['snorlax'])
+        expect(search.results.count).to eq(0)
       end
 
       it 'returns zero nooks if no matching nooks exist' do
