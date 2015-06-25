@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20150429195304) do
     t.string   "type"
     t.text     "place"
     t.string   "photos",                 default: [],              array: true
-    t.json     "hours"
+    t.string   "hours"
     t.integer  "min_capacity"
     t.integer  "max_capacity"
     t.integer  "min_schedulable"
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 20150429195304) do
     t.integer  "min_reservation_length"
     t.integer  "max_reservation_length"
     t.string   "amenities",              default: [],              array: true
-    t.json     "attrs"
-    t.json     "hidden_attrs"
+    t.text     "attrs"
+    t.text     "hidden_attrs"
     t.text     "use_policy"
     t.boolean  "bookable"
     t.boolean  "requires_approval"
