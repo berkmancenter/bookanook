@@ -1,0 +1,34 @@
+FactoryGirl.define do
+  factory :nook do
+    sequence(:name, 'Nook 1')
+    description "It's a nice nook."
+    location
+    amenities ['movable furniture', 'projector']
+    bookable true
+  end
+
+  factory :location do
+    sequence(:name, 'Library 1')
+    description "It's a library"
+  end
+
+  factory :user do
+    sequence(:email) { |n| "jclark+#{n}@cyber.law.harvard.edu" }
+    password 'password'
+    password_confirmation 'password'
+
+    factory :confirmed_user do
+      after(:create) { |user| user.confirm! }
+    end
+  end
+
+  factory :reservation do
+    nook
+    association :requester, factory: :confirmed_user
+    add_attribute('public', true)
+  end
+
+  factory :nook_search do
+    skip_create
+  end
+end

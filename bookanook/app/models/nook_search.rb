@@ -1,6 +1,6 @@
 class NookSearch
   ATTRS = [:location_ids, :amenities, :nook_types, :time_range, :days]
-  attr_accessor *ATTRS
+  attr_reader *ATTRS + [:has_default_params]
 
   def initialize(params = {})
     @has_default_params = ((ATTRS - params.keys).sort == ATTRS.sort)
@@ -9,7 +9,7 @@ class NookSearch
     @nook_types = params[:nook_types] || []
 
     # An array of Time objects at midnight
-    @days = param[:days] || []
+    @days = params[:days] || []
 
     # This should be seconds since midnight
     @time_range = { start: 0, end: 0 } || params[:time_range]
@@ -26,17 +26,21 @@ class NookSearch
   def results
     return Nook.none if has_default_params
 
-    Nook.search do
-      with :location_ids, @search.location_ids
-      with :amenities, @search.amenities
-      with :type, @search.nook_types
+    search = Nook.search do
+      with :location_id, location_ids unless location_ids.empty?
+      with :amenities, amenities unless amenities.empty?
+      with :type, nook_types unless nook_types.empty?
+      with :bookable, true
 
-      any_of do
-        @search.datetime_ranges.each do |range|
-          without(:reservations_starting).between(range.first, range.last)
+      unless datetime_ranges.empty?
+        any_of do
+          datetime_ranges.each do |range|
+            without(:reservations_starting).between(range.first, range.last)
+          end
         end
       end
     end
 
+    search.results
   end
 end

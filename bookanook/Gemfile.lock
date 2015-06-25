@@ -62,6 +62,7 @@ GEM
     coffee-script-source (1.9.1.1)
     columnize (0.9.0)
     commonjs (0.2.7)
+    database_cleaner (1.4.1)
     debug_inspector (0.0.2)
     devise (3.4.1)
       bcrypt (~> 3.0)
@@ -75,6 +76,9 @@ GEM
     execjs (2.5.2)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
+    factory_girl_rails (4.5.0)
+      factory_girl (~> 4.5.0)
+      railties (>= 3.0.0)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
     i18n (0.7.0)
@@ -215,8 +219,9 @@ DEPENDENCIES
   byebug
   carrierwave!
   coffee-rails (~> 4.1.0)
+  database_cleaner
   devise
-  factory_girl
+  factory_girl_rails
   jbuilder (~> 2.0)
   jquery-rails
   less-rails-bootstrap
