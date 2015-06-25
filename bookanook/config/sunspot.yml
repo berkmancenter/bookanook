@@ -1,0 +1,21 @@
+development:
+  solr:
+    hostname: localhost
+    port: 8983
+    log_level: INFO
+    path: '/solr/bookanook_dev'
+
+test:
+  solr:
+    hostname: localhost
+    port: 8983
+    log_level: WARNING
+    path: '/solr/bookanook_test'
+
+production:
+  disabled: true
+  solr:
+    hostname: localhost
+    port: 8983
+    log_level: WARNING
+    path: '/solr/bookanook_prod'

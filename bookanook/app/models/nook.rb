@@ -10,6 +10,7 @@ class Nook < ActiveRecord::Base
     integer :location_id
     string :type
     string :amenities, multiple: true
+    boolean :bookable
     join(:reservations_starting, target: Reservation, type: :time,
          join: { from: :nook_id, to: :id }, as: 'start_d')
   end
