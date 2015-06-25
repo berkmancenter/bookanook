@@ -26,6 +26,8 @@ FactoryGirl.define do
     nook
     association :requester, factory: :confirmed_user
     add_attribute('public', true)
+    start Time.now
+    add_attribute('end', 1.hour.from_now)
   end
 
   factory :nook_search do

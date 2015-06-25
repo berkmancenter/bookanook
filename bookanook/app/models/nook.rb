@@ -3,10 +3,12 @@ require 'carrierwave/orm/activerecord'
 class Nook < ActiveRecord::Base
   belongs_to :location
   belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
+  has_many :reservations
 
   mount_uploaders :photos, PhotoUploader
 
   searchable do
+    integer :id
     integer :location_id
     string :type
     string :amenities, multiple: true
