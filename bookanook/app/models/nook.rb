@@ -5,8 +5,9 @@ class Nook < ActiveRecord::Base
   belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
   has_many :reservations
 
-  serialize :attrs, JSON
-  serialize :hidden_attrs, JSON
+  serialize :hours
+  serialize :attrs
+  serialize :hidden_attrs
 
   validates_presence_of :name, :location_id
   # schedulable and reservation_length are both in seconds
@@ -40,6 +41,7 @@ class Nook < ActiveRecord::Base
     self.attrs ||= {}
     self.hidden_attrs ||= {}
     self.bookable ||= true if bookable.nil?
+    self.requires_approval ||= true if requires_approval.nil?
     self.repeatable ||= false if repeatable.nil?
   end
 

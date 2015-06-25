@@ -7,7 +7,7 @@ class CreateNooks < ActiveRecord::Migration
       t.string :type
       t.text :place
       t.string :photos, array: true, default: []
-      t.json :hours
+      t.string :hours
 
       t.integer :min_capacity
       t.integer :max_capacity
@@ -19,8 +19,8 @@ class CreateNooks < ActiveRecord::Migration
       t.integer :max_reservation_length
 
       t.string :amenities, array: true, default: []
-      t.json :attrs
-      t.json :hidden_attrs
+      t.text :attrs
+      t.text :hidden_attrs
 
       t.text :use_policy
 

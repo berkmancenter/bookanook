@@ -79,18 +79,18 @@ class NooksController < ApplicationController
         next unless params[attr_name]
         params[attr_name] = Hash[params[attr_name].map(&:values)]
       end
-      puts params
       params
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def nook_params
-      params.require(:nook).permit({ photos: [] }, :name, :location_id, :place, :type,
-                                   :description, :bookable, :min_schedulable,
-                                   :max_schedulable, :min_reservation_length,
-                                   :max_reservation_length, :requires_approval,
-                                   :amenities, :min_capacity, :max_capacity,
-                                   { attrs: [ :key, :value ] }, { hidden_attrs: [ :key, :value ] }, :user_id)
+      params.require(:nook).permit(
+        { photos: [] }, :name, :location_id, :place, :type, :description,
+        :bookable, :manager_id, :min_schedulable, :max_schedulable,
+        :min_reservation_length, :max_reservation_length, :requires_approval,
+        :amenities, :min_capacity, :max_capacity, { attrs: [ :key, :value ] },
+        { hidden_attrs: [ :key, :value ] }, :user_id
+      )
       params['nook'] = munge_hashes params['nook']
     end
 end
