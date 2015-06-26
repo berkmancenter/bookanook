@@ -7,7 +7,7 @@ class CreateNooks < ActiveRecord::Migration
       t.string :type
       t.text :place
       t.string :photos, array: true, default: []
-      t.string :hours
+      t.references :open_schedule, index: true, foreign_key: true
 
       t.integer :min_capacity
       t.integer :max_capacity
