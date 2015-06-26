@@ -18,7 +18,7 @@
         <td><%= link_to nook.name, nook %></td>
         <td><%= link_to nook.location.name, nook.location if nook.location %></td>
         <td><%= nook.type %></td>
-        <td><%= nook.status %></td>
+        <td><%= nook.available_now? %></td>
         <td><%= nook.max_capacity %></td>
         <td><%= link_to 'Edit', edit_nook_path(nook) %></td>
         <td><%= link_to 'Destroy', nook, method: :delete, data: { confirm: 'Are you sure?' } %></td>

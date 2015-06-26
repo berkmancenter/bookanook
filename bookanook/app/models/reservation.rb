@@ -24,21 +24,83 @@ class Reservation < ActiveRecord::Base
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
     greater_than_or_equal_to: 0
+  validates :minimum_length, :maximum_length, :minimum_start, :maximum_start,
+    :minimum_capacity, :maximum_capacity
 
   after_initialize :set_defaults
 
-  searchable do
-    integer :nook_id
-    string :status
-    time :start
-    time :end
+  def length
+    self.end - self.start
+  end
+  alias :duration :length
+
+  def self.confirmed
+    where(status: Status::CONFIRMED)
+  end
+
+  def self.happening_now
+    self.happening_at(Time.now)
+  end
+
+  def self.happening_at(time)
+    confirmed.
+      where('"reservations"."start" < :time AND "reservations"."end" > :time',
+            { time: time })
   end
 
   private
 
   def set_defaults
     self.public ||= true if self.public.nil?
-    self.status ||= Status::PENDING
     self.priority ||= 0
+
+    if nook && !nook.requires_approval
+      self.status ||= Status::CONFIRMED
+    else
+      self.status ||= Status::PENDING
+    end
+  end
+
+  def minimum_length
+    if duration < nook.min_reservation_length.seconds
+      errors.add(:end, "can't be less than " + 
+                 "#{humanize_seconds(nook.min_reservation_length)} after start")
+    end
+  end
+
+  def maximum_length
+    if duration > nook.max_reservation_length.seconds
+      errors.add(:end, "can't be more than " + 
+                 "#{humanize_seconds(nook.max_reservation_length)} after start")
+    end
+  end
+
+  def minimum_start
+    if self.start < Time.now + nook.min_schedulable.seconds
+      errors.add(:start, "can't start less than " + 
+                 "#{humanize_seconds(nook.min_schedulable)} from now")
+    end
+  end
+
+  def maximum_start
+    if self.start > Time.now + nook.max_schedulable.seconds
+      errors.add(:start, "can't start more than " + 
+                 "#{humanize_seconds(nook.max_schedulable)} from now")
+    end
+  end
+
+  def minimum_capacity
+  end
+
+  def maximum_start
+  end
+
+  def humanize_seconds
+    [[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map{ |count, name|
+      if secs > 0
+        secs, n = secs.divmod(count)
+        "#{n.to_i} #{name}"
+      end
+    }.compact.reverse.join(' ')
   end
 end
