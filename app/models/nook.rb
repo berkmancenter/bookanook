@@ -1,13 +1,12 @@
 require 'carrierwave/orm/activerecord'
 
 class Nook < ActiveRecord::Base
+  include ExtensibleAttrs
+  include OpenAtHours
+
   belongs_to :location
   belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
   has_many :reservations
-
-  serialize :hours
-  serialize :attrs
-  serialize :hidden_attrs
 
   validates_presence_of :name, :location_id
   # schedulable and reservation_length are both in seconds
@@ -22,26 +21,20 @@ class Nook < ActiveRecord::Base
 
   mount_uploaders :photos, PhotoUploader
 
-  def open
-    return true if hours.nil? || hours.empty?
-  end
-
   def available_now?
-    open && bookable && reservations.happening_now.empty?
-  end
-
-  def next_available
+    location.open_now? && open_now? && bookable &&
+      reservations.happening_now.empty?
   end
 
   private
 
   def set_defaults
-    self.hours ||= {}
     self.attrs ||= {}
     self.hidden_attrs ||= {}
     self.bookable ||= true if bookable.nil?
     self.requires_approval ||= true if requires_approval.nil?
     self.repeatable ||= false if repeatable.nil?
+    self.open_schedule ||= location.open_schedule if location
   end
 
   def self.inheritance_column

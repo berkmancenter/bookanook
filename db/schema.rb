@@ -19,13 +19,15 @@ ActiveRecord::Schema.define(version: 20150429195304) do
   create_table "locations", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.string   "amenities",    default: [],              array: true
-    t.json     "attrs"
-    t.json     "hidden_attrs"
-    t.json     "hours"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.string   "amenities",        default: [],              array: true
+    t.integer  "open_schedule_id"
+    t.text     "attrs"
+    t.text     "hidden_attrs"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
+
+  add_index "locations", ["open_schedule_id"], name: "index_locations_on_open_schedule_id", using: :btree
 
   create_table "nooks", force: :cascade do |t|
     t.integer  "location_id"
@@ -34,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150429195304) do
     t.string   "type"
     t.text     "place"
     t.string   "photos",                 default: [],              array: true
-    t.string   "hours"
+    t.integer  "open_schedule_id"
     t.integer  "min_capacity"
     t.integer  "max_capacity"
     t.integer  "min_schedulable"
@@ -54,7 +56,20 @@ ActiveRecord::Schema.define(version: 20150429195304) do
   end
 
   add_index "nooks", ["location_id"], name: "index_nooks_on_location_id", using: :btree
+  add_index "nooks", ["open_schedule_id"], name: "index_nooks_on_open_schedule_id", using: :btree
   add_index "nooks", ["user_id"], name: "index_nooks_on_user_id", using: :btree
+
+  create_table "open_schedules", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "seconds_per_block",              null: false
+    t.integer  "blocks_per_span"
+    t.string   "span_name"
+    t.boolean  "blocks",            default: [],              array: true
+    t.integer  "duration",                       null: false
+    t.datetime "start",                          null: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
 
   create_table "reservations", force: :cascade do |t|
     t.integer  "nook_id"
@@ -97,7 +112,9 @@ ActiveRecord::Schema.define(version: 20150429195304) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "locations", "open_schedules"
   add_foreign_key "nooks", "locations"
+  add_foreign_key "nooks", "open_schedules"
   add_foreign_key "nooks", "users"
   add_foreign_key "reservations", "nooks"
   add_foreign_key "reservations", "users"

@@ -3,11 +3,12 @@ class CreateLocations < ActiveRecord::Migration
     create_table :locations do |t|
       t.string :name
       t.text :description
-
       t.string :amenities, array: true, default: []
-      t.json :attrs
-      t.json :hidden_attrs
-      t.json :hours
+
+      t.references :open_schedule, index: true, foreign_key: true
+
+      t.text :attrs
+      t.text :hidden_attrs
 
       t.timestamps null: false
     end
