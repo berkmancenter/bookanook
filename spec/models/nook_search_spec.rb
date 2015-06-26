@@ -34,10 +34,7 @@ RSpec.describe NookSearch, type: :model do
 
     context 'nooks exist' do
       before(:each) do
-        Nook.remove_all_from_index!
-        Reservation.remove_all_from_index!
         @nooks = create_list(:nook, 10)
-        Sunspot.commit
       end
 
       it 'filters by location' do
@@ -48,8 +45,6 @@ RSpec.describe NookSearch, type: :model do
 
       it 'filters by amenities' do
         nook = create(:nook, amenities: ['snorlax'])
-        Sunspot.commit
-
         search = NookSearch.new(amenities: ['snorlax'])
         expect(search.results.count).to eq(1)
         expect(search.results.first).to eq(nook)
@@ -57,8 +52,6 @@ RSpec.describe NookSearch, type: :model do
 
       it 'filters by type' do
         nooks = create_list(:nook, 3, type: 'Study Room')
-        Sunspot.commit
-
         search = NookSearch.new(nook_types: ['Study Room'])
         expect(search.results.count).to eq(3)
         expect(search.results).to match_array(nooks)
@@ -75,8 +68,6 @@ RSpec.describe NookSearch, type: :model do
                start: search_days.first.to_time + search_start.seconds,
                end: search_days.first.to_time + search_end.seconds)
 
-        Sunspot.commit
-
         search = NookSearch.new(days: search_days, time_range: search_time_range)
         expect(search.results).not_to include(nook)
       end
@@ -92,16 +83,12 @@ RSpec.describe NookSearch, type: :model do
                start: search_days.first.to_time + search_start.seconds,
                end: search_days.first.to_time + search_end.seconds)
 
-        Sunspot.commit
-
         search = NookSearch.new(days: search_days, time_range: search_time_range)
         expect(search.results).not_to include(nook)
       end
 
       it 'only finds bookable nooks' do
         create(:nook, amenities: ['snorlax'], bookable: false)
-        Sunspot.commit
-
         search = NookSearch.new(amenities: ['snorlax'])
         expect(search.results.count).to eq(0)
       end

@@ -20,12 +20,11 @@ class Reservation < ActiveRecord::Base
   serialize :repeats_every
 
   validates_presence_of :start, :end
-  validates_inclusion_of :status, in: Status.constants 
+  validates_inclusion_of :status, in: Status.constants.map{|s| Status.const_get(s)}
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
     greater_than_or_equal_to: 0
-  validates :minimum_length, :maximum_length, :minimum_start, :maximum_start,
-    :minimum_capacity, :maximum_capacity
+  validate :minimum_length, :maximum_length, :minimum_start, :maximum_start
 
   after_initialize :set_defaults
 
@@ -62,37 +61,35 @@ class Reservation < ActiveRecord::Base
   end
 
   def minimum_length
-    if duration < nook.min_reservation_length.seconds
+    if nook.min_reservation_length &&
+      duration < nook.min_reservation_length.seconds
       errors.add(:end, "can't be less than " + 
                  "#{humanize_seconds(nook.min_reservation_length)} after start")
     end
   end
 
   def maximum_length
-    if duration > nook.max_reservation_length.seconds
+    if nook.max_reservation_length && 
+      duration > nook.max_reservation_length.seconds
       errors.add(:end, "can't be more than " + 
                  "#{humanize_seconds(nook.max_reservation_length)} after start")
     end
   end
 
   def minimum_start
-    if self.start < Time.now + nook.min_schedulable.seconds
+    if nook.min_schedulable && 
+      self.start < Time.now + nook.min_schedulable.seconds
       errors.add(:start, "can't start less than " + 
                  "#{humanize_seconds(nook.min_schedulable)} from now")
     end
   end
 
   def maximum_start
-    if self.start > Time.now + nook.max_schedulable.seconds
+    if nook.max_schedulable && 
+      self.start > Time.now + nook.max_schedulable.seconds
       errors.add(:start, "can't start more than " + 
                  "#{humanize_seconds(nook.max_schedulable)} from now")
     end
-  end
-
-  def minimum_capacity
-  end
-
-  def maximum_start
   end
 
   def humanize_seconds
