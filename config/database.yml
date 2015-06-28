@@ -6,8 +6,8 @@
 #
 default: &default
   adapter: postgresql
-  user: bookanook
-  password: bookanook-pass
+  user: postgress
+  password: postgress
   pool: 5
   timeout: 5000
 
