@@ -1,10 +1,8 @@
-@import "my_vars.less";
-
 .nav-pills > li > a {
   background-color: white;
   font-weight: bold;
-  color: @brand-primary;
-  box-shadow: 0 2px 3px @gray-lighter;
+  color: $brand-primary;
+  box-shadow: 0 2px 3px $gray-lighter;
 }
 
 label.hash {

@@ -22,7 +22,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
 #gem 'less-rails-bootstrap'
-gem 'bootstrap-sass', '~> 3.3.0'
+gem 'bootstrap-sass'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 gem 'simple_form'
 gem 'selectize-rails'
