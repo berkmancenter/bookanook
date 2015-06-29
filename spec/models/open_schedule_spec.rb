@@ -14,6 +14,13 @@ describe OpenSchedule do
     end
   end
 
+  describe '#(span_name)s' do
+    it 'is an alias for spans' do
+      schedule = OpenSchedule.new(span_name: 'day')
+      expect(schedule.days).to eq(schedule.spans)
+    end
+  end
+
   describe '#add_9_to_5' do
     it 'marks all weekday blocks between 9am and 5pm local time as open' do
       schedule = OpenSchedule.new

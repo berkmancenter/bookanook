@@ -93,7 +93,12 @@ RSpec.describe NookSearch, type: :model do
         expect(search.results.count).to eq(0)
       end
 
-      it 'only finds open nooks'
+      it 'only finds open nooks' do
+        nook = create(:nook, amenities: ['snorlax'])
+        nook.open_schedule = OpenSchedule.new # default is always closed
+        search = NookSearch.new(amenities: ['snorlax'])
+        expect(search.results.count).to eq(0)
+      end
 
       it 'returns zero nooks if no matching nooks exist' do
         search = NookSearch.new(amenities: ['smoking room'])
