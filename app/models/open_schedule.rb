@@ -40,9 +40,7 @@ class OpenSchedule < ActiveRecord::Base
   end
 
   def open_for_range?(range)
-    start_i = block_index_for_time(range.begin)
-    end_i = block_index_for_time(range.end)
-    blocks[start_i..end_i].all?
+    blocks.values_at(*indices_for_range(range)).all?
   end
 
   def closed_for_range?(range)
@@ -59,7 +57,7 @@ class OpenSchedule < ActiveRecord::Base
 
   def add_9_to_5
     (duration / 1.day).times do |i|
-      date = start + i.days
+      date = (start + i.days).to_time
       next if date.saturday? || date.sunday?
       add_open_range(date.change(hour: 9)..date.change(hour: 17))
     end
@@ -72,10 +70,23 @@ class OpenSchedule < ActiveRecord::Base
     (seconds_since_start / seconds_per_block).send(rounding)
   end
 
-  def add_range(range, value)
+  def indices_for_range(range)
+    # Return everything if our range is too big
+    range_duration = (range.end - range.begin).seconds
+    return (0...blocks.count).to_a if range_duration >= duration
+
     start_i = block_index_for_time(range.begin)
     end_i = block_index_for_time(range.end)
-    self.blocks[start_i..end_i] = value
+
+    # Return the simple case where the range doesn't fall on a boundary
+    return (start_i..end_i).to_a if start_i < end_i
+
+    # If the range falls on a boundary, wrap around
+    (0..end_i).to_a + (start_i...blocks.count).to_a
+  end
+
+  def add_range(range, value)
+    indices_for_range(range).each{ |i| self.blocks[i] = value }
   end
 
   def num_spans
