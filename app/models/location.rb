@@ -8,7 +8,7 @@ class Location < ActiveRecord::Base
   after_initialize :set_defaults
 
   private
-  
+
   def set_defaults
     self.attrs ||= {}
     self.hidden_attrs ||= {}

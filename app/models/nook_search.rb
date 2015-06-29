@@ -31,13 +31,11 @@ class NookSearch
   def results
     return Nook.none if has_default_params
 
-    nooks = Nook.arel_table
-    filter = nooks[:bookable].eq(true)
+    scope = Nook.where(bookable: true)
 
-    filter = filter.
-      and(nooks[:location_id].in(location_ids)) unless location_ids.empty?
+    scope = scope.merge(location_id: location_ids) unless location_ids.empty?
 
-    filter = filter.
+    scope = scope.
       and(nooks[:type].in(nook_types)) unless nook_types.empty?
 
     unless amenities.empty?
@@ -47,12 +45,20 @@ class NookSearch
     end
 
     datetime_ranges.each do |range|
+      "tsrange(start, end) @> && tsrange(:begin, :end)", begin: range.begin, end: range.end
       reservations = Reservation.arel_table
       filter = filter.and(reservations[:start].not_between(range)).
         and(reservations[:end].not_between(range))
     end
 
-    Nook.joins('LEFT JOIN reservations ON nooks.id = reservations.nook_id').
-      where(filter)
+    all_results = Nook.joins('LEFT JOIN reservations ON ' +
+                             'nooks.id = reservations.nook_id').where(filter)
+    if nook.open_schedule
+      return all_results.select do |nook|
+        datetime_ranges.all?{ |range| nook.open_for_range? range }
+      end
+    end
+
+    all_results
   end
 end

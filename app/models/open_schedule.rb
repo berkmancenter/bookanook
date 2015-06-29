@@ -51,8 +51,14 @@ class OpenSchedule < ActiveRecord::Base
     schedule_duration / num_spans
   end
 
-  def method_missing(method)
+  def respond_to?(method, include_private = false)
+    return true if method == span_name.pluralize.to_sym
+    super
+  end
+
+  def method_missing(method, *args, &block)
     return spans if method == span_name.pluralize.to_sym
+    super
   end
 
   def add_9_to_5
