@@ -5,6 +5,7 @@ FactoryGirl.define do
     location
     amenities ['movable furniture', 'projector']
     bookable true
+    manager
   end
 
   factory :location do
@@ -20,6 +21,9 @@ FactoryGirl.define do
 
     factory :confirmed_user do
       after(:create) { |user| user.confirm! }
+
+      factory :manager do
+      end
     end
   end
 
