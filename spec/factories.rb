@@ -10,6 +10,7 @@ FactoryGirl.define do
   factory :location do
     sequence(:name, 'Library 1')
     description "It's a library"
+    amenities ['movable furniture', 'projector', 'conference phone']
   end
 
   factory :user do
