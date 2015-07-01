@@ -22,8 +22,21 @@ class Nook < ActiveRecord::Base
   mount_uploaders :photos, PhotoUploader
 
   def available_now?
-    location.open_now? && open_now? && bookable &&
-      reservations.happening_now.empty?
+    available_at? Time.now
+  end
+
+  def available_at?(time)
+    available = bookable && reservations.happening_at(time).empty?
+    available &&= location.open_at?(time) if location.open_schedule
+    available &&= open_at?(time) if open_schedule
+    available
+  end
+
+  def available_for?(time_range)
+    available = bookable && reservations.overlapping_with(time_range).empty?
+    available &&= location.open_for_range?(time_range) if location.open_schedule
+    available &&= open_for_range?(time_range) if open_schedule
+    available # I don't think this line is necessary, but not sure yet.
   end
 
   private

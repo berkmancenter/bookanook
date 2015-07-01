@@ -16,6 +16,7 @@ class NookSearch
     @time_range = params[:time_range] || { start: 0, end: 0 }
   end
 
+  # Turns the days and time ranges into actual datetime ranges
   def datetime_ranges
     return [] if days.empty? || time_range[:start] == 0
     ranges = []
@@ -32,33 +33,21 @@ class NookSearch
     return Nook.none if has_default_params
 
     scope = Nook.where(bookable: true)
-
-    scope = scope.merge(location_id: location_ids) unless location_ids.empty?
-
-    scope = scope.
-      and(nooks[:type].in(nook_types)) unless nook_types.empty?
+    scope = scope.where(location_id: location_ids) unless location_ids.empty?
+    scope = scope.where(type: nook_types) unless nook_types.empty?
 
     unless amenities.empty?
-      amenities_sql = ActiveRecord::Base.send(
-        :sanitize_sql_array, ['"nooks"."amenities"::text[] @> ARRAY[?]', amenities])
-      filter = filter.and(Arel::Nodes::SqlLiteral.new(amenities_sql))
+      scope = scope.where('"nooks"."amenities"::text[] @> ARRAY[?]', amenities)
     end
 
-    datetime_ranges.each do |range|
-      "tsrange(start, end) @> && tsrange(:begin, :end)", begin: range.begin, end: range.end
-      reservations = Reservation.arel_table
-      filter = filter.and(reservations[:start].not_between(range)).
-        and(reservations[:end].not_between(range))
-    end
-
-    all_results = Nook.joins('LEFT JOIN reservations ON ' +
-                             'nooks.id = reservations.nook_id').where(filter)
-    if nook.open_schedule
-      return all_results.select do |nook|
-        datetime_ranges.all?{ |range| nook.open_for_range? range }
+    unless datetime_ranges.empty?
+      return scope.select do |nook|
+        puts nook.id
+        puts nook.open_schedule.inspect
+        datetime_ranges.any?{ |range| nook.available_for? range; puts nook.available_for?(range) }
       end
     end
 
-    all_results
+    scope
   end
 end

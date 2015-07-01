@@ -38,7 +38,6 @@ describe OpenSchedule do
       sunday_midnight = OpenSchedule::A_SUNDAY_AT_LOCAL_MIDNIGHT
       sat = (sunday_midnight - 1.day)..sunday_midnight
       sun = sunday_midnight..(sunday_midnight + 24.hours)
-      puts sat.inspect
       expect(schedule.closed_for_range?(sat)).to be_truthy
       expect(schedule.closed_for_range?(sun)).to be_truthy
     end
