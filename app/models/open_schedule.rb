@@ -24,7 +24,7 @@ class OpenSchedule < ActiveRecord::Base
   end
 
   def open_at?(time)
-    blocks[block_index_for_time(time)]
+    blocks[block_index_from_time(time)]
   end
 
   def closed_at?(time)
@@ -47,6 +47,26 @@ class OpenSchedule < ActiveRecord::Base
     !open_for_range?(range)
   end
 
+  def open_ranges_containing(time)
+    time_shift = ((time - start) / duration).floor * duration
+    # Walk through each span
+    spans.map.with_index do |span, span_i|
+      # RLE it, throw out the closed, and only care about the indices
+      open_indices = span.each_index.chunk{ |i| span[i] }.select{ |open, _| open }
+
+      # For each group of indices, return a time range
+      shift = span_i * blocks_per_span
+      open_indices.map do |open, indices|
+        (time_from_block_index(indices.first + shift) + time_shift)..
+          (time_from_block_index(indices.last + shift) + time_shift)
+      end
+    end
+  end
+
+  def open_ranges
+    open_ranges_containing(Time.now)
+  end
+
   def span_duration
     schedule_duration / num_spans
   end
@@ -67,13 +87,18 @@ class OpenSchedule < ActiveRecord::Base
       next if date.saturday? || date.sunday?
       add_open_range(date.change(hour: 9)..date.change(hour: 17))
     end
+    self
   end
 
   private
 
-  def block_index_for_time(time, rounding: :floor)
+  def block_index_from_time(time, rounding: :floor)
     seconds_since_start = (time - start) % duration
     (seconds_since_start / seconds_per_block).send(rounding)
+  end
+
+  def time_from_block_index(index)
+    (start + (index * seconds_per_block).seconds).to_time
   end
 
   def indices_for_range(range)
@@ -81,8 +106,8 @@ class OpenSchedule < ActiveRecord::Base
     range_duration = (range.end - range.begin).seconds
     return (0...blocks.count).to_a if range_duration >= duration
 
-    start_i = block_index_for_time(range.begin)
-    end_i = block_index_for_time(range.end)
+    start_i = block_index_from_time(range.begin)
+    end_i = block_index_from_time(range.end)
 
     # Return the simple case where the range doesn't fall on a boundary
     return (start_i..end_i).to_a if start_i < end_i
@@ -105,7 +130,7 @@ class OpenSchedule < ActiveRecord::Base
     self.blocks_per_span ||= 24.hours.value / self.seconds_per_block
     self.span_name ||= 'day'
     self.name ||= 'Weekly Hours'
-    self.blocks = [false] * (duration / seconds_per_block)
+    self.blocks = [false] * (duration / seconds_per_block) if blocks.empty?
 
     # The week starts on Sunday at midnight. Open 9 to 5.
     self.start ||= A_SUNDAY_AT_LOCAL_MIDNIGHT

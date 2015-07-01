@@ -12,6 +12,5 @@ class Location < ActiveRecord::Base
   def set_defaults
     self.attrs ||= {}
     self.hidden_attrs ||= {}
-    self.open_schedule ||= build_open_schedule
   end
 end

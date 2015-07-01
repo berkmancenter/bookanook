@@ -38,13 +38,23 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.happening_now
-    self.happening_at(Time.now)
+    happening_at(Time.now)
   end
 
   def self.happening_at(time)
     confirmed.
       where('"reservations"."start" < :time AND "reservations"."end" > :time',
             { time: time })
+  end
+
+  def self.happening_within(time_range)
+    confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' + 
+                    'tsrange(?, ?)', time_range.begin, time_range.end)
+  end
+
+  def self.overlapping_with(time_range)
+    confirmed.where('tsrange("reservations"."start", "reservations"."end") && ' + 
+                    'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
   private
