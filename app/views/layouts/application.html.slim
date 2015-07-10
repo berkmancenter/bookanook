@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    title Bookanook
+    = stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:400,700'
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = csrf_meta_tags
+  body
+    div.container
+      = render 'layouts/admin'
+
+      p.notice = notice
+      p.alert = alert
+
+      = yield

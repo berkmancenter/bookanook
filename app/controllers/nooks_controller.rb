@@ -1,5 +1,6 @@
 class NooksController < ApplicationController
   before_action :set_nook, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!, only: [:new, :edit, :update, :create, :destroy]
 
   # GET /nooks
   # GET /nooks.json
