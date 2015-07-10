@@ -1,0 +1,9 @@
+ul.nav.nav-pills
+  li role="presentation" class="#{'active' if active_page?('locations')}"
+    = link_to 'Locations', locations_path
+  li role="presentation" class="#{'active' if active_page?('nooks')}"
+    = link_to 'Nooks', nooks_path
+  li role="presentation"
+    = link_to 'Users', nooks_path
+  li role="presentation"
+    = link_to 'Reservations', nooks_path
