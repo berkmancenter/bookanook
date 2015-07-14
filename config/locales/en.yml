@@ -21,3 +21,29 @@
 
 en:
   hello: "Hello world"
+  nooks:
+    filters:
+      keyword: 'Keyword'
+      nook_name: 'Room name'
+      statuses: 'Status'
+      status:
+        available: 'Available'
+        unavailable: 'Unavailable'
+      locations: 'Branches'
+      types: 'Room type'
+      contact: 'Contact'
+      capacity: 'Capacity'
+      capacity_min: 'Capacity: Min'
+      capacity_max: 'Capacity: Max'
+      bookable: 'Bookable'
+      amenities: 'Attributes'
+  users:
+    filters:
+      keyword: 'Keyword'
+      name: 'Name'
+      email: 'Email'
+      id: 'ID'
+      statuses: 'Status'
+      status:
+        active: 'Active'
+        banned: 'Banned'

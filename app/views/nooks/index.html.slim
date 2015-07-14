@@ -1,0 +1,94 @@
+- content_for(:left_menu) do
+  h1 bookanook
+  form#left_menu
+    div
+      = label_tag 'keyword', t('nooks.filters.keyword')
+      = text_field_tag 'keyword'
+    div
+      = label_tag 'nook_name', t('nooks.filters.nook_name')
+      = text_field_tag 'nook_name'
+    div.dropdown
+      a#dropdownMenu2.dropdown-toggle data-toggle="dropdown"
+        | #{t('nooks.filters.statuses')} (#{Nook::STATUSES.count})
+        span.caret
+      ul.dropdown-menu aria-labelledby="dropdownMenu2"
+        - Nook::STATUSES.each do |key|
+          li
+            = check_box_tag key
+            = label_tag key, t(key, scope: [:nooks, :filters, :status])
+    div.dropdown
+      a#dropdownMenu3.dropdown-toggle data-toggle="dropdown"
+        | #{t('nooks.filters.locations')} (#{locations.size})
+        span.caret
+      ul.dropdown-menu aria-labelledby="dropdownMenu3"
+        - locations.each do |location|
+          li
+            = check_box_tag 'location_ids[]', location.id, false, id: "locations_#{location.id}"
+            = label_tag "locations_#{location.id}", location.name
+    div.dropdown
+      a#dropdownMenu4.dropdown-toggle data-toggle="dropdown"
+        | #{t('nooks.filters.types')} (#{types.size})
+        span.caret
+      ul.dropdown-menu aria-labelledby="dropdownMenu4"
+        - types.each do |type|
+          li
+            = check_box_tag 'types[]', type, false, id: "types_#{type}"
+            = label_tag "types_#{type}", type.titleize
+    div
+      = label_tag 'contact', t('nooks.filters.contact')
+      = text_field_tag 'contact'
+    div
+      = label_tag 'capacity_min', t('nooks.filters.capacity_min')
+      = text_field_tag 'capacity_min'
+    div
+      = label_tag 'capacity_max', t('nooks.filters.capacity_max')
+      = text_field_tag 'capacity_max'
+    div
+      = check_box_tag 'bookable'
+      = label_tag 'bookable', t('nooks.filters.bookable')
+    div.dropdown
+      a#dropdownMenu5.dropdown-toggle data-toggle="dropdown"
+        | #{t('nooks.filters.amenities')} (#{amenities.size})
+        span.caret
+      ul.dropdown-menu aria-labelledby="dropdownMenu5"
+        - amenities.each do |amenity|
+          li
+            = check_box_tag 'amenities[]', amenity, false, id: "amenities_#{amenity}"
+            = label_tag "amenities_#{amenity}", amenity.titleize
+
+= link_to 'Edit global attributes', '#'
+
+table.table
+  thead
+    tr
+      th
+        = t('nooks.filters.nook_name').singularize
+        span.caret
+      th
+        = t('nooks.filters.locations').singularize
+        span.caret
+      th
+        = t('nooks.filters.types').singularize
+        span.caret
+      th
+        = t('nooks.filters.statuses').singularize
+        span.caret
+      th
+        = t('nooks.filters.capacity')
+        span.caret
+      th colspan="2"
+
+  tbody
+    - @nooks.each do |nook|
+      tr
+        td = link_to nook.name, nook
+        td = link_to nook.location.name, nook.location if nook.location
+        td = nook.type
+        td = nook.available_now?
+        td = nook.max_capacity
+        td = link_to 'Edit', edit_nook_path(nook)
+        td = link_to 'Destroy', nook, method: :delete, data: { confirm: 'Are you sure?' }
+
+<br>
+
+= link_to 'New Nook', new_nook_path, class: 'btn btn-primary'

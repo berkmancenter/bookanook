@@ -21,6 +21,8 @@ class Nook < ActiveRecord::Base
 
   mount_uploaders :photos, PhotoUploader
 
+  STATUSES = [ :available, :unavailable ]
+
   def available_now?
     available_at? Time.now
   end

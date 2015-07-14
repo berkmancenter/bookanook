@@ -4,8 +4,28 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  STATUSES = [ :active, :banned ]
+
   def admin?
     #TODO: Replace this placeholder.
     true
+  end
+
+  def first_name
+    #TODO: Replace this placeholder.
+    email.split('@').first.split(/[._-]/).first.try(:capitalize)
+  end
+
+  def last_name
+    #TODO: Replace this placeholder.
+    (email.split('@').first.split(/[._-]/).collect(&:capitalize) - [first_name]).first
+  end
+
+  def full_name
+    "#{first_name} #{last_name}".strip
+  end
+
+  def status
+    'active'
   end
 end

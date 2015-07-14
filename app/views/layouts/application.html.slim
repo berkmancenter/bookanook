@@ -8,9 +8,13 @@ html
     = csrf_meta_tags
   body
     div.container
-      = render 'layouts/admin'
+      div.left-menu.col-md-2
+        = content_for(:left_menu)
 
-      p.notice = notice
-      p.alert = alert
+      div.col-md-10
+        = render 'layouts/admin'
 
-      = yield
+        p.notice = notice
+        p.alert = alert
+
+        = yield

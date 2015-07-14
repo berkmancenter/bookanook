@@ -2,6 +2,8 @@ class NooksController < ApplicationController
   before_action :set_nook, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_admin!, only: [:new, :edit, :update, :create, :destroy]
 
+  helper_method :locations, :types, :amenities
+
   # GET /nooks
   # GET /nooks.json
   def index
@@ -92,5 +94,17 @@ class NooksController < ApplicationController
         :amenities, :min_capacity, :max_capacity, { attrs: [ :key, :value ] },
         { hidden_attrs: [ :key, :value ] }, { photos: [] }
       )
+    end
+
+    def locations
+      @locations ||= Location.all
+    end
+
+    def types
+      @types ||= @nooks.collect(&:type).uniq
+    end
+
+    def amenities
+      @amenities ||= @nooks.collect(&:amenities).flatten.uniq
     end
 end
