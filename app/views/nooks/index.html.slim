@@ -8,28 +8,28 @@
       = label_tag 'nook_name', t('nooks.filters.nook_name')
       = text_field_tag 'nook_name'
     div.dropdown
-      a#dropdownMenu2.dropdown-toggle data-toggle="dropdown"
+      a#statuses-dropdown.dropdown-toggle data-toggle="dropdown"
         | #{t('nooks.filters.statuses')} (#{Nook::STATUSES.count})
         span.caret
-      ul.dropdown-menu aria-labelledby="dropdownMenu2"
+      ul.dropdown-menu aria-labelledby="statuses-dropdown"
         - Nook::STATUSES.each do |key|
           li
             = check_box_tag key
             = label_tag key, t(key, scope: [:nooks, :filters, :status])
     div.dropdown
-      a#dropdownMenu3.dropdown-toggle data-toggle="dropdown"
+      a#locations-dropdown.dropdown-toggle data-toggle="dropdown"
         | #{t('nooks.filters.locations')} (#{locations.size})
         span.caret
-      ul.dropdown-menu aria-labelledby="dropdownMenu3"
+      ul.dropdown-menu aria-labelledby="locations-dropdown"
         - locations.each do |location|
           li
             = check_box_tag 'location_ids[]', location.id, false, id: "locations_#{location.id}"
             = label_tag "locations_#{location.id}", location.name
     div.dropdown
-      a#dropdownMenu4.dropdown-toggle data-toggle="dropdown"
+      a#types-dropdown.dropdown-toggle data-toggle="dropdown"
         | #{t('nooks.filters.types')} (#{types.size})
         span.caret
-      ul.dropdown-menu aria-labelledby="dropdownMenu4"
+      ul.dropdown-menu aria-labelledby="types-dropdown"
         - types.each do |type|
           li
             = check_box_tag 'types[]', type, false, id: "types_#{type}"
@@ -47,10 +47,10 @@
       = check_box_tag 'bookable'
       = label_tag 'bookable', t('nooks.filters.bookable')
     div.dropdown
-      a#dropdownMenu5.dropdown-toggle data-toggle="dropdown"
+      a#amenities-dropdown.dropdown-toggle data-toggle="dropdown"
         | #{t('nooks.filters.amenities')} (#{amenities.size})
         span.caret
-      ul.dropdown-menu aria-labelledby="dropdownMenu5"
+      ul.dropdown-menu aria-labelledby="amenities-dropdown"
         - amenities.each do |amenity|
           li
             = check_box_tag 'amenities[]', amenity, false, id: "amenities_#{amenity}"

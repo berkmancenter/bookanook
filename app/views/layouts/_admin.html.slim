@@ -10,15 +10,15 @@ ul.nav.nav-pills.navbar-left
 
 ul.nav.nav-pills.navbar-right
   li.dropdown
-    button#dropdownMenu1.btn.dropdown-toggle.row type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+    button#user-pill.btn.dropdown-toggle.row type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
       div.col-md-2
         span.glyphicon.glyphicon-certificate
       div.col-md-7
         div.col-md-12 = current_user.try(:full_name) || 'User'
-        div.col-md-12 #{current_user.admin? ? 'Admin' : '' }
+        div.col-md-12 #{current_user.try(:admin?) ? 'Admin' : '' }
       div.col-md-3
         span.glyphicon.glyphicon-menu-hamburger
         span.caret
-    ul.dropdown-menu aria-labelledby="dropdownMenu1"
+    ul.dropdown-menu aria-labelledby="user-pill"
       li = link_to 'Action', '#'
       li = link_to 'Another action', '#'

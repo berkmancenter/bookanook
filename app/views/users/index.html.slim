@@ -14,10 +14,10 @@
       = label_tag 'id', t('users.filters.id')
       = text_field_tag 'id'
     div.dropdown
-      a#dropdownMenu2.dropdown-toggle data-toggle="dropdown"
+      a#statuses-dropdown.dropdown-toggle data-toggle="dropdown"
         | #{t('users.filters.statuses')} (#{User::STATUSES.count})
         span.caret
-      ul.dropdown-menu aria-labelledby="dropdownMenu2"
+      ul.dropdown-menu aria-labelledby="statuses-dropdown"
         - User::STATUSES.each do |key|
           li
             = check_box_tag key
