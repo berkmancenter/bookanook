@@ -37,6 +37,18 @@ en:
       capacity_max: 'Capacity: Max'
       bookable: 'Bookable'
       amenities: 'Attributes'
+      libraries: 'Choose Libraries'
+      library:
+          add: 'Add a library'
+      when: 'Choose when'
+      times:
+          today: 'today'
+          future: 'future'
+      days: 'Choose days'
+      range: 'Choose time range'
+      choose_amenities: 'Choose amenities'
+      matching_rooms: 'matching rooms'
+      matching_types: 'matching room types'
   users:
     filters:
       keyword: 'Keyword'

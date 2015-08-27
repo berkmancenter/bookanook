@@ -1,0 +1,27 @@
+- content_for(:modal_left) do
+  div.clearfix
+    div.clearfix
+      h2 Book this nook - #{nook.name}
+  div.clearfix
+    div.clearfix
+      h2 #{nook.name} Profile
+      h2 #{nook.location_name}
+    = render 'shared/carousel'
+
+- content_for(:modal_right) do
+  div.clearfix
+    h2 Room Attributes
+    - amenities.each do |amenity|
+      div
+        span class="glyphicon glyphicon-ok #{amenity.in?(nook.amenities) ? 'checked' : 'unchecked'}"
+        span #{amenity.titleize}
+    div.inline
+      span Capacity:
+      span #{[nook.min_capacity.to_i, 1].max} - #{nook.max_capacity}
+    = render partial: 'shared/rating_tag', locals: { rating_label: 'Noise Level' }
+    = render partial: 'shared/rating_tag', locals: { rating_label: 'Sunlight' }
+    = render partial: 'shared/rating_tag', locals: { rating_label: 'Outlets' }
+  div.clearfix
+    h2 Upcoming Reservations
+
+= render 'shared/modal'

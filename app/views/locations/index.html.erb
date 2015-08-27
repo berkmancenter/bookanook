@@ -1,26 +1,36 @@
-<p id="notice"><%= notice %></p>
+<% content_for :left_menu do %>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+  </div>
+<% end %>
 
-<h1>Listing Locations</h1>
+<% content_for :main_menu do %>
+  <%= render 'layouts/admin' %>
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <p id="notice"><%= notice %></p>
 
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
+    <h1>Listing Locations</h1>
 
-  <tbody>
-    <% @locations.each do |location| %>
-      <tr>
-        <td><%= link_to location.name, location %></td>
-        <td><%= link_to 'Edit', edit_location_path(location) %></td>
-        <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th colspan="2"></th>
+        </tr>
+      </thead>
 
-<br>
+      <tbody>
+        <% @locations.each do |location| %>
+          <tr>
+            <td><%= link_to location.name, location %></td>
+            <td><%= link_to 'Edit', edit_location_path(location) %></td>
+            <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-<%= link_to 'New Location', new_location_path %>
+    <br>
+
+    <%= link_to 'New Location', new_location_path, class: 'btn btn-primary' %>
+  </div>
+<% end %>

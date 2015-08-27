@@ -8,6 +8,8 @@ class Nook < ActiveRecord::Base
   belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
   has_many :reservations
 
+  delegate :name, :attrs, to: :location, prefix: true, allow_nil: true
+
   validates_presence_of :name, :location_id
   # schedulable and reservation_length are both in seconds
   validates_numericality_of :min_capacity, :min_schedulable,

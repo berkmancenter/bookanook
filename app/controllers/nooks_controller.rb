@@ -4,6 +4,8 @@ class NooksController < ApplicationController
 
   helper_method :locations, :types, :amenities
 
+  layout false, only: [:edit]
+
   # GET /nooks
   # GET /nooks.json
   def index
@@ -13,11 +15,19 @@ class NooksController < ApplicationController
   # GET /nooks/1
   # GET /nooks/1.json
   def show
+    respond_to do |format|
+      format.json
+      format.html { render @nook, layout: false if request.xhr? }
+    end
   end
 
   # GET /nooks/new
   def new
     @nook = Nook.new
+    respond_to do |format|
+      format.json
+      format.html { render 'form', layout: false if request.xhr? }
+    end
   end
 
   # GET /nooks/1/edit
@@ -105,6 +115,6 @@ class NooksController < ApplicationController
     end
 
     def amenities
-      @amenities ||= @nooks.collect(&:amenities).flatten.uniq
+      @amenities ||= (@nooks || @nook.location.try(:nooks) || Nook.all).collect(&:amenities).flatten.uniq
     end
 end

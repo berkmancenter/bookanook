@@ -1,0 +1,30 @@
+- content_for(:modal_left) do
+  div.clearfix
+    div.clearfix
+      h2 #{@nook.name}
+      h2 #{@nook.location_name}
+    = render 'shared/carousel'
+  div.clearfix
+    div.clearfix
+      h2 #{@nook.name}
+      h2 #{@nook.location_name}
+
+- content_for(:modal_right) do
+  div.clearfix
+    h2 Room Attributes
+    = simple_form_for(@nook) do |f|
+      = f.input :amenities, collection: amenities, as: :check_boxes, label: false
+      div.inline
+        span Capacity:
+        = f.input :min_capacity, label: false
+        span to
+        = f.input :max_capacity, label: false
+      = render partial: 'shared/rating_tag', locals: { rating_label: 'Noise Level' }
+      = render partial: 'shared/rating_tag', locals: { rating_label: 'Sunlight' }
+      = render partial: 'shared/rating_tag', locals: { rating_label: 'Outlets' }
+  div.clearfix
+    h2 Hidden Attributes
+  div.clearfix
+    h2 Upcoming Reservations
+
+= render 'shared/modal'

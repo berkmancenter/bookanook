@@ -23,35 +23,49 @@
             = check_box_tag key
             = label_tag key, t(key, scope: [:users, :filters, :status])
 
-= link_to 'Edit global attributes', '#'
+- content_for(:modal_left) do
+  div
+    div
 
-table.table
-  thead
-    tr
-      th
-        = t('users.filters.name').singularize
-        span.caret
-      th
-        = t('users.filters.id').singularize
-        span.caret
-      th
-        = t('users.filters.statuses').singularize
-        span.caret
-      th
-        = t('users.filters.email').singularize
-        span.caret
-      th colspan="2"
+- content_for(:modal_right) do
+  div
+    div
+  div
 
-  tbody
-    - @users.each do |user|
+
+- content_for(:main_menu) do
+  div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+    = render 'layouts/admin'
+
+  = link_to 'Edit global attributes', '#', class: 'remote-modal', data: { modal: '#modal' }
+
+  table.table
+    thead
       tr
-        td = link_to user.full_name, user
-        td = link_to user.id, user
-        td = link_to user.status.titleize, user
-        td = link_to user.email, user
-        td = link_to 'Edit', edit_user_registration_path(user)
-        td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+        th
+          = t('users.filters.name').singularize
+          span.caret
+        th
+          = t('users.filters.id').singularize
+          span.caret
+        th
+          = t('users.filters.statuses').singularize
+          span.caret
+        th
+          = t('users.filters.email').singularize
+          span.caret
+        th colspan="2"
 
-<br>
+    tbody
+      - @users.each do |user|
+        tr
+          td = link_to user.full_name, user
+          td = link_to user.id, user
+          td = link_to user.status.titleize, user
+          td = link_to user.email, user
+          td = link_to 'Edit', edit_user_registration_path(user)
+          td = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'New User', new_user_registration_path, class: 'btn btn-primary'
+  <br>
+
+  = link_to 'New User', new_user_registration_path, class: 'btn btn-primary'
