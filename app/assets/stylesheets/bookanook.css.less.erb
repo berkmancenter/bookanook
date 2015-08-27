@@ -1,0 +1,281 @@
+@import "my_vars.less";
+
+body {
+  padding: 30px 50px;
+
+  &.booking {
+    background-image: url(<%= asset_path('tiled-background.svg') %>);
+    background-color: @gray-light !important;
+
+    h1,h2,h3,h4,h5,h6 {
+      margin: 0px;
+      padding-top: 20px;
+      padding-bottom: 10px;
+    }
+
+    .container-fluid {
+      padding: 0;
+      width: 1785px;
+
+      > * {
+        padding: 0;
+
+        &.left-menu {
+          width: 240px;
+          background: @gray-lightest;
+
+          form > * {
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top:  10px;
+            border-top: 2px solid @gray-lighter;
+            margin-top: 15px;
+            margin-left: 10px;
+
+            &:last-child {
+              padding-bottom: 20px;
+            }
+
+            div.btn {
+              width: 100%;
+              border: 1px solid @gray-lighter;
+              margin-top: 8px;
+
+              span:first-child:not(:last-child) {
+                float: left;
+              }
+
+              span:nth-child(2) {
+                float: right;
+              }
+            }
+
+            .datepicker {
+              td, th {
+                padding: 0 4px;
+                width: initial;
+                height: initial;
+                font-size: 12px;
+              }
+            }
+          }
+        }
+
+        &.main-menu {
+          width: 1542px;
+
+          #user-pill {
+            width: 240px;
+          }
+
+          .nooks {
+            padding: 0;
+
+            > *:not(.clearfix) {
+              padding: 0;
+              width: 250px;
+            }
+          }
+
+          .nook {
+            background-color: #fafafa;
+            margin: 10px 0 10px 10px;
+            padding: 10px;
+
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.nav-pills > li {
+  > a {
+    background-color: white;
+    font-weight: bold;
+    color: @brand-primary;
+    box-shadow: 0 2px 3px @gray-lighter;
+    border-color: @brand-primary;
+    border-width: 1px;
+    border-style: solid;
+  }
+
+  #user-pill {
+    padding: 0px;
+    width: 215px;
+    white-space: nowrap;
+
+    > div:first-child * {
+      font-size: 25px;
+      background-color: @brand-primary;
+      margin-top: 6px;
+      border-radius: 50%;
+    }
+
+    > div:last-child > *:first-child {
+      font-size: 20px;
+      padding: 8px 0px 12px;
+    }
+
+    > div:last-child > *:last-child {
+      margin-bottom: @padding-large-vertical;
+      border-top-width: @caret-width-large;
+      border-right-width: @caret-width-large;
+      border-left-width: @caret-width-large;
+    }
+
+    > div:last-child > *:first-child {
+      margin-right: 2px;
+    }
+
+    > div:nth-child(2) {
+      padding-left: 0;
+      overflow: hidden;
+
+      > * {
+        text-align: left;
+        margin-left: 5px;
+      }
+
+      *:last-child {
+        font-size: @font-size-small;
+      }
+    }
+  }
+}
+
+label.hash {
+  display: block;
+}
+
+input.hash {
+  width: 30%;
+  display: inline-block;
+}
+
+.container .left-menu, .container-fluid .left-menu {
+  > *:first-child:last-child {
+    min-height: 800px;
+  }
+
+  &:not(.booking) {
+    border-style: solid;
+    border-radius: 8px;
+    border-width: @border-radius-small;
+    border-color: @gray-lightish;
+  }
+}
+
+#modal {
+  .modal-dialog.row {
+    width: 100%;
+  }
+
+  .modal-content {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+
+    .modal-body {
+      padding: 0;
+
+      h1,h2,h3,h4,h5,h6 {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      &.right-row {
+        h1,h2,h3,h4,h5,h6 {
+          border-bottom: @border-radius-small solid @gray-lightish;
+        }
+      }
+
+      > * {
+        background: white;
+        border-radius: @border-radius-large;
+        border-color: white;
+        border-style: none;
+        min-height: 200px;
+
+        &:not(:last-child) {
+          margin-bottom: @padding-large-horizontal;
+        }
+
+        > * {
+          padding: 0 @padding-small-horizontal @padding-large-vertical @padding-small-horizontal;
+
+          &:first-child {
+            padding-top: @padding-large-vertical;
+          }
+        }
+      }
+    }
+
+    &:first-child > .modal-body:first-child > * {
+      &:first-child {
+        min-height: 600px;
+      }
+
+      > *:first-child {
+        h1,h2,h3,h4,h5,h6 {
+          &:first-child {
+            float: left;
+          }
+        }
+
+        h1,h2,h3,h4,h5,h6 {
+          &:last-child:not(:first-child) {
+            float: right;
+          }
+        }
+      }
+    }
+
+    &:last-child > .modal-body:first-child > * {
+      margin-left: @padding-large-horizontal;
+    }
+  }
+}
+
+form.edit_nook {
+  .inline {
+    > * {
+      display: inline-block;
+    }
+
+    input {
+      width: 60px;
+      padding-left: @padding-small-horizontal;
+      padding-right: @padding-small-horizontal;
+    }
+  }
+}
+
+span.checked, span.unchecked {
+  padding: 2px;
+  font-size: @font-size-small;
+  color: white;
+
+  + span {
+    margin-left: @padding-small-horizontal;
+  }
+}
+
+span.checked {
+  background-color: @brand-primary;
+}
+
+span.unchecked {
+  background-color: @gray-lightish;
+
+  + span {
+    color: @gray-lightish;
+  }
+
+  &:before {
+    visibility: hidden;
+  }
+}
