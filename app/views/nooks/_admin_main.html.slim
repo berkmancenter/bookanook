@@ -1,0 +1,46 @@
+- content_for(:main_menu) do
+  div
+    = render 'layouts/admin'
+
+    p.notice = notice
+    p.alert = alert
+
+  - #TODO: Replace this placeholder conditional.
+  = render current_user.try(:admin?) ? 'admin_filters' : 'booking_filters'
+
+  = link_to 'Edit global attributes', '#'
+
+  table.table
+    thead
+      tr
+        th
+          = t('nooks.filters.nook_name').singularize
+          span.caret
+        th
+          = t('nooks.filters.locations').singularize
+          span.caret
+        th
+          = t('nooks.filters.types').singularize
+          span.caret
+        th
+          = t('nooks.filters.statuses').singularize
+          span.caret
+        th
+          = t('nooks.filters.capacity')
+          span.caret
+        th colspan="2"
+
+    tbody
+      - @nooks.each do |nook|
+        tr
+          td = link_to nook.name, nook, class: 'remote-modal', data: { modal: '#modal' }
+          td = link_to nook.location.name, nook.location if nook.location
+          td = nook.type
+          td = nook.available_now?
+          td = nook.max_capacity
+          td = link_to 'Edit', edit_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
+          td = link_to 'Destroy', nook, method: :delete, data: { confirm: 'Are you sure?' }
+
+  <br>
+
+  = link_to 'New Nook', new_nook_path, class: 'btn btn-primary remote-modal', data: { modal: '#modal' }

@@ -1,0 +1,22 @@
+- #TODO: Replace this placeholder conditional.
+= render current_user.try(:admin?) ? 'admin_filters' : 'booking_filters'
+
+- content_for(:main_menu) do
+  div.col-xs-12.col-sm-12.col-md-12.col-lg-12
+    = render 'layouts/admin'
+
+  div.nooks.col-xs-12.col-sm-12.col-md-12.col-lg-12
+    - [Nook.all, Nook.all, Nook.all, Nook.all].flatten.each.with_index do |nook, i|
+      div.col-sm-4.col-md-3.col-lg-2
+        div.nook
+          = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg"
+          div * #{nook.name}
+          div * #{nook.location_name}
+          div * Available now
+          div * #{nook.amenities.join(', ')}
+          div * #{nook.max_capacity} #{"people".pluralize(nook.max_capacity)}
+          div
+            = link_to "Book this nook", nook, class: 'btn btn-primary remote-modal', data: { modal: '#modal' }
+          div style="height: #{Random.new.rand(70)}px"
+      - if i%6 == 5
+        div.clearfix

@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title Bookanook
+    = stylesheet_link_tag '//fonts.googleapis.com/css?family=Open+Sans:400,700'
+    = stylesheet_link_tag 'bootstrap-datepicker3.standalone.min.css'
+    = stylesheet_link_tag 'bootstrap-slider.min.css'
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+    = javascript_include_tag 'bootstrap-datepicker.min.js'
+    = javascript_include_tag 'bootstrap-slider.min.js'
+    = csrf_meta_tags
+  body class="#{content_for(:body_classes)}"
+    div.container-fluid
+      div.left-menu.col-sm-4.col-md-3.col-lg-2 class="#{content_for(:left_menu_classes)}"
+        = content_for(:left_menu)
+
+      div.main-menu.col-sm-8.col-md-9.col-lg-10 class="#{content_for(:main_menu_classes)}"
+        = content_for(:main_menu)
+
+    div#modal.modal.fade.container tabindex="-1" role="dialog"
+      div.modal-dialog.row role="document"
+        = render 'shared/modal'
+= yield

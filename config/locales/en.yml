@@ -21,3 +21,41 @@
 
 en:
   hello: "Hello world"
+  nooks:
+    filters:
+      keyword: 'Keyword'
+      nook_name: 'Room name'
+      statuses: 'Status'
+      status:
+        available: 'Available'
+        unavailable: 'Unavailable'
+      locations: 'Branches'
+      types: 'Room type'
+      contact: 'Contact'
+      capacity: 'Capacity'
+      capacity_min: 'Capacity: Min'
+      capacity_max: 'Capacity: Max'
+      bookable: 'Bookable'
+      amenities: 'Attributes'
+      libraries: 'Choose Libraries'
+      library:
+          add: 'Add a library'
+      when: 'Choose when'
+      times:
+          today: 'today'
+          future: 'future'
+      days: 'Choose days'
+      range: 'Choose time range'
+      choose_amenities: 'Choose amenities'
+      matching_rooms: 'matching rooms'
+      matching_types: 'matching room types'
+  users:
+    filters:
+      keyword: 'Keyword'
+      name: 'Name'
+      email: 'Email'
+      id: 'ID'
+      statuses: 'Status'
+      status:
+        active: 'Active'
+        banned: 'Banned'

@@ -1,5 +1,10 @@
 class NooksController < ApplicationController
   before_action :set_nook, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin!, only: [:new, :edit, :update, :create, :destroy]
+
+  helper_method :locations, :types, :amenities
+
+  layout false, only: [:edit]
 
   # GET /nooks
   # GET /nooks.json
@@ -10,11 +15,19 @@ class NooksController < ApplicationController
   # GET /nooks/1
   # GET /nooks/1.json
   def show
+    respond_to do |format|
+      format.json
+      format.html { render @nook, layout: false if request.xhr? }
+    end
   end
 
   # GET /nooks/new
   def new
     @nook = Nook.new
+    respond_to do |format|
+      format.json
+      format.html { render 'form', layout: false if request.xhr? }
+    end
   end
 
   # GET /nooks/1/edit
@@ -91,5 +104,17 @@ class NooksController < ApplicationController
         :amenities, :min_capacity, :max_capacity, { attrs: [ :key, :value ] },
         { hidden_attrs: [ :key, :value ] }, { photos: [] }
       )
+    end
+
+    def locations
+      @locations ||= Location.all
+    end
+
+    def types
+      @types ||= @nooks.collect(&:type).uniq
+    end
+
+    def amenities
+      @amenities ||= (@nooks || @nook.location.try(:nooks) || Nook.all).collect(&:amenities).flatten.uniq
     end
 end
