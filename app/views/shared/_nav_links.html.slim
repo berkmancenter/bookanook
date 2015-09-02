@@ -1,12 +1,8 @@
 ul.nav.nav-pills.navbar-left
   li role="presentation" class="#{'active' if active_page?('nooks')}"
-    = link_to 'Nooks', nooks_path
-  li role="presentation" class="#{'active' if active_page?('users')}"
-    = link_to 'Users', users_path
-  li role="presentation"
-    = link_to 'Reservations', nooks_path
-  li role="presentation" class="#{'active' if active_page?('locations')}"
-    = link_to 'Locations', locations_path
+    = link_to 'N', nooks_path
+  li role="presentation" class="#{'active' if active_page?('reservations')}"
+    = link_to 'R', '#'
 
 ul.nav.nav-pills.navbar-right
   li.dropdown
@@ -14,8 +10,7 @@ ul.nav.nav-pills.navbar-right
       div.col-md-2
         span.glyphicon.glyphicon-certificate
       div.col-md-7
-        div.col-md-12 = current_user.try(:full_name) || 'User'
-        div.col-md-12 #{current_user.try(:admin?) ? 'Admin' : '' }
+        div.col-md-12 = current_user.try(:full_name) || ''
       div.col-md-3
         span.glyphicon.glyphicon-menu-hamburger
         span.caret

@@ -8,7 +8,7 @@
       = label_tag 'nook_name', t('nooks.filters.nook_name')
       = text_field_tag 'nook_name'
     div.dropdown
-      a#statuses-dropdown.dropdown-toggle data-toggle="dropdown"
+      a#statuses-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
         | #{t('nooks.filters.statuses')} (#{Nook::STATUSES.count})
         span.caret
       ul.dropdown-menu aria-labelledby="statuses-dropdown"
@@ -17,7 +17,7 @@
             = check_box_tag key
             = label_tag key, t(key, scope: [:nooks, :filters, :status])
     div.dropdown
-      a#locations-dropdown.dropdown-toggle data-toggle="dropdown"
+      a#locations-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
         | #{t('nooks.filters.locations')} (#{locations.size})
         span.caret
       ul.dropdown-menu aria-labelledby="locations-dropdown"
@@ -26,7 +26,7 @@
             = check_box_tag 'location_ids[]', location.id, false, id: "locations_#{location.id}"
             = label_tag "locations_#{location.id}", location.name
     div.dropdown
-      a#types-dropdown.dropdown-toggle data-toggle="dropdown"
+      a#types-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
         | #{t('nooks.filters.types')} (#{types.size})
         span.caret
       ul.dropdown-menu aria-labelledby="types-dropdown"
@@ -47,7 +47,7 @@
       = check_box_tag 'bookable'
       = label_tag 'bookable', t('nooks.filters.bookable')
     div.dropdown
-      a#amenities-dropdown.dropdown-toggle data-toggle="dropdown"
+      a#amenities-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
         | #{t('nooks.filters.amenities')} (#{amenities.size})
         span.caret
       ul.dropdown-menu aria-labelledby="amenities-dropdown"

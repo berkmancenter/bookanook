@@ -27,7 +27,10 @@
       = hidden_field_tag "day"
     div
       div 4. #{t('nooks.filters.range')}
-      <input id="ex2" type="text" class="span2" value="" data-slider-min="8" data-slider-max="24" data-slider-step="0.25" data-slider-value="[10.0,14.0]"/>
+      <input id="ex2" type="text" class="span2" value="" data-slider-min="8" data-slider-max="16" data-slider-step="0.5" data-slider-value="[10.0,14.0]"/>
+      div style="width: 100%"
+        span 10:00AM
+        span 2:00PM
     div
       div 5. #{t('nooks.filters.choose_amenities')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
@@ -37,7 +40,7 @@
     div
       div Filtered Results
       div.dropdown
-        a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown"
+        a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
           | #{t('nooks.filters.matching_rooms')} (#{Nook.count})
           span.caret
         ul.dropdown-menu aria-labelledby="matching-rooms-dropdown"
@@ -46,7 +49,7 @@
               = check_box_tag nook.id
               = label_tag nook.id, nook.name
       div.dropdown
-        a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown"
+        a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
           | #{t('nooks.filters.matching_types')} (#{Nook.distinct.pluck(:type).count})
           span.caret
         ul.dropdown-menu aria-labelledby="matching-types-dropdown"
