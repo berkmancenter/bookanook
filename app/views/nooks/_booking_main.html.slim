@@ -3,7 +3,7 @@
 
 - content_for(:main_menu) do
   div.col-xs-12.col-sm-12.col-md-12.col-lg-12
-    = render 'layouts/admin'
+    = render 'shared/nav_links'
 
   div.nooks.col-xs-12.col-sm-12.col-md-12.col-lg-12
     - [Nook.all, Nook.all, Nook.all, Nook.all].flatten.each.with_index do |nook, i|

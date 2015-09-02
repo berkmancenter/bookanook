@@ -64,6 +64,25 @@ body {
         &.main-menu {
           width: 1542px;
 
+          .nav-pills {
+            &.navbar-left {
+              width: 1250px;
+              padding: 0;
+            }
+
+            &.navbar-right {
+              float: left !important;
+
+              .row {
+                margin: 0;
+              }
+            }
+
+            li > a {
+              box-shadow: none;
+            }
+          }
+
           #user-pill {
             width: 240px;
           }
@@ -166,6 +185,26 @@ input.hash {
     border-radius: 8px;
     border-width: @border-radius-small;
     border-color: @gray-lightish;
+  }
+
+  .dropdown {
+    position: initial;
+
+    a {
+      text-decoration: none;
+    }
+
+    ul.dropdown-menu {
+      position: initial;
+      border: none;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      background-clip: initial;
+    }
+  }
+
+  .slider .tooltip-inner {
+    display: none;
   }
 }
 
