@@ -57,7 +57,25 @@ $(function() {
     console.log('foo');
   });
 
-  $("#ex2").slider({});
+  $("#hour-range-slider").slider({});
+  $("#hour-range-slider").on('change', function(object) {
+    var min_start = object.value["oldValue"][0];
+    var min_end = object.value["newValue"][0];
+    var max_start = object.value["oldValue"][1];
+    var max_end = object.value["newValue"][1];
+    var minutes, hour;
+
+    if(min_start != min_end) {
+      hour = Math.floor(min_end);
+      minutes = s.lpad((min_end - hour) * 60, 2, '0');
+      $(this).parent().find('.slider-min').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
+    }
+    if(max_start != max_end) {
+      hour = Math.floor(max_end);
+      minutes = s.lpad((max_end - hour) * 60, 2, '0');
+      $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
+    }
+  });
 
   // updating nooks wall
   $(document).on('filter-updated', function (e) {

@@ -202,8 +202,32 @@ input.hash {
     }
   }
 
-  .slider .tooltip-inner {
-    display: none;
+  .slider {
+    margin-top: 15px;
+    margin-bottom: 15px;
+
+    .slider-selection {
+      background: @brand-primary;
+    }
+
+    .slider-handle {
+      border-color: @gray-light;
+      border-width: 1px;
+      background: white;
+    }
+
+    .tooltip-inner, .tooltip-arrow {
+      display: none;
+    }
+  }
+
+  .slider-min, .slider-max {
+    display: inline-block;
+    width: 50%;
+  }
+
+  .slider-max {
+    text-align: right;
   }
 }
 
