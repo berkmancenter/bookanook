@@ -3,19 +3,10 @@
   - content_for(:body_classes) { 'booking' }
   h1.text-center bookanook
   form#left_menu.booking
-    div
+    div#location-filter
       div 1. #{t('nooks.filters.libraries')}
-      div.btn
-        span BPL - Central
-        span.remove_input X
-        = hidden_field_tag 'librarie_ids[]', 14
-      div.btn
-        span BPL - East Boston
-        span.remove_input X
-        = hidden_field_tag 'librarie_ids[]', 14
-      div.btn
-        span #{t('nooks.filters.library.add')}
-        = content_tag :span, '+', class: 'add_input', data: { libraries: Location.all }
+      div#add-location-button.btn
+        = link_to t('nooks.filters.library.add'), 'select_locations', class: 'btn btn-primary remote-modal', data: { modal: '#modal' }
     div
       div 2. #{t('nooks.filters.when')}
       div#when.btn-group.btn-group-xs
