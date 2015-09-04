@@ -30,7 +30,8 @@ class NookSearch
   # I tried to use Sunspot here, but it's any_of..without..between chain is
   # really buggy.
   def results
-    return Nook.none if has_default_params
+    # maybe it should show all the nooks when no filters?
+    # return Nook.none if has_default_params
 
     scope = Nook.where(bookable: true)
     scope = scope.where(location_id: location_ids) unless location_ids.empty?

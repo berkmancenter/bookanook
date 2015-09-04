@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   end
   resources :users, only: [:index, :show]
 
+  get 'select_locations' => 'locations#select'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

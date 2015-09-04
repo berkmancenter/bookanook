@@ -1,0 +1,10 @@
+- content_for(:body_classes) {'locations-select'}
+
+- content_for(:modal_left) do
+
+- content_for(:modal_right) do
+  ul#locations-select.list-group
+    - Location.all.each do |location|
+      li.list-group-item data = {'item' => location.to_json} = location.name
+
+= render 'shared/modal'

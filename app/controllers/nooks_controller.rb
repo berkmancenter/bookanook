@@ -37,6 +37,11 @@ class NooksController < ApplicationController
   def search
     @search = NookSearch.new(params)
     @nooks = @search.results
+
+    respond_to do |format|
+      format.json
+      format.html { render 'search', layout: false if request.xhr? }
+    end
   end
 
   # POST /nooks
