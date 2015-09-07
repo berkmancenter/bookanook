@@ -9,10 +9,13 @@ html
     = stylesheet_link_tag 'bootstrap-datepicker3.standalone.min.css'
     = stylesheet_link_tag 'bootstrap-slider.min.css'
     = stylesheet_link_tag    'application', media: 'all'
+    = stylesheet_link_tag 'nprogress.css'
     = javascript_include_tag 'underscore.string.min.js'
     = javascript_include_tag 'application'
     = javascript_include_tag 'bootstrap-datepicker.min.js'
     = javascript_include_tag 'bootstrap-slider.min.js'
+    = javascript_include_tag 'masonry.min.js'
+    = javascript_include_tag 'nprogress.js'
     = csrf_meta_tags
   body class="#{content_for(:body_classes)}"
     div.container-fluid

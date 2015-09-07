@@ -1,24 +1,4 @@
 $(function() {
-  //$('.selectize').selectize();
-  $(document).on('click', '.remote-modal', function(e){
-    e.preventDefault();
-    var data = $(e.target).data();
-    modal = $(data['modal']);
-    if($(e.target).attr('href') && !data['target']) {
-      data['target'] = $(e.target).attr('href');
-    }
-    if(data['target']) {
-      $(modal).find('.modal-dialog').load(data['target']);
-    }
-    modal.modal();
-  });
-
-  $(document).on('click', '#modal,.modal-backdrop', function(e){
-    if($(e.target).hasClass('modal-dialog') || $(e.target).hasClass('modal-backdrop')) {
-      $('#modal').modal('toggle');
-    }
-  });
-
   $(document).on('click', '.dropdown-menu input, .dropdown-menu label, .dropdown-menu label li', function(e){
     e.stopPropagation();
   });
@@ -45,6 +25,40 @@ $(function() {
     $(this).find('.dropdown-toggle').data('clicked', false);
   });
 
+  /**
+   * Filters general
+   */
+
+  // updating nooks wall
+  $(document).on('filter-updated', function (e, params) {
+    var searchParams = {};
+
+    // locations filter selection
+    var selected = [];
+    $('.selected-location-item').each(function (k, val) {
+      selected.push($(this).attr('data-item-id'));
+    });
+    searchParams.location_ids = selected;
+
+    // when filter selection
+    var activeWhen = $('#when button.active').first();
+    searchParams.when = activeWhen.val();
+
+    // time filter selection
+    var time = $('#hour-range-slider').slider('getValue');
+    searchParams.time = {
+      from: time[0],
+      to: time[1]
+    };
+
+    // getting nooks items
+    updateWall(searchParams);
+  });
+
+  /**
+   * Date filter
+   */
+
   $('.datepicker-element').datepicker();
 
   $(".datepicker-element").on("changeDate", function(event) {
@@ -57,8 +71,12 @@ $(function() {
     console.log('foo');
   });
 
+  /**
+   * Time filter
+   */
+
   $("#hour-range-slider").slider({});
-  $("#hour-range-slider").on('change', function(object) {
+  $("#hour-range-slider").on('change', function (object) {
     var min_start = object.value["oldValue"][0];
     var min_end = object.value["newValue"][0];
     var max_start = object.value["oldValue"][1];
@@ -75,106 +93,178 @@ $(function() {
       minutes = s.lpad((max_end - hour) * 60, 2, '0');
       $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
     }
+
+    // refresh a list only when user finished moving
+    if (typeof hourRangeTimer !== 'undefined') {
+      clearTimeout(hourRangeTimer);
+    }
+    hourRangeTimer = setTimeout(function () {
+      NProgress.start();
+
+      // getting nooks items
+      $(document).trigger('filter-updated');
+    }, 700);
   });
 
-  // updating nooks wall
-  $(document).on('filter-updated', function (e) {
-    var searchParams = {};
-
-    // locations filter selection
-    var selected = [];
-    $('.selected-location-item').each(function (k, val) {
-      selected.push($(this).attr('data-item-id'));
-    });
-    searchParams.location_ids = selected;
-
-    // getting nooks items
-    $.get('nooks/search.json', searchParams)
-        .success(function (data) {
-          updateWall(data);
-        });
-  });
-
-  // updating nooks wall
-  var updateWall = function (items) {
-    var containers = $('.nooks .col-sm-4.col-md-3.col-lg-2');
-    var contCount = 0;
-
-    $('.nook').remove();
-
-    $(items).each(function (key, nook) {
-      var nookItem = $('<div/>', {
-        class: 'nook'
-      });
-
-      var nookImg = $('<img/>', {
-        src: 'http://www.w3schools.com/bootstrap/img_chania.jpg'
-      });
-
-      var nookName = $('<div/>', {
-        text: '*' + nook.name
-      });
-
-      var nookLocationName = $('<div/>', {
-        text: '*' + nook.location_name
-      });
-
-      var available = $('<div/>', {
-        text: '* Available now'
-      });
-
-      var bookItem = $('<div/>');
-
-      var bookItemLink = $('<a/>', {
-        class: 'btn btn-primary remote-modal',
-        'data-modal': '#modal',
-        href: '/nooks/' + nook.id,
-        text: 'Book this nook'
-      });
-
-      nookItem.append(nookImg);
-      nookItem.append(nookName);
-      nookItem.append(nookLocationName);
-      nookItem.append(available);
-      bookItem.append(bookItemLink);
-      nookItem.append(bookItem);
-
-      containers.eq(contCount).append(nookItem);
-
-      contCount++;
-    });
-  };
+  /**
+   * Location filter
+   */
 
   // selecting location items
   $(document).on('click', '#locations-select li', function (e) {
-    var locationData = $(this).data('item');
+    $(this).toggleClass('active');
+  });
+  // process location selection
+  $(document).on('click', '#process-locations-select', function () {
+    var locationActiveItems = $('#locations-select li.active');
 
-    var newElem = $('<div/>', {
-      class: 'btn selected-location-item',
-      'data-item-id': locationData.id
+    NProgress.start();
+
+    locationActiveItems.each(function (key, item) {
+      var locationData = $(item).data('item');
+
+      var newElem = $('<div/>', {
+        class: 'btn selected-location-item',
+        'data-item-id': locationData.id
+      });
+
+      var nameElem  = $('<span/>', {
+        text: locationData.name
+      });
+
+      var removeElem = $('<span/>', {
+        class: 'remove_input',
+        text: 'x'
+      });
+
+      removeElem.on('click', function() {
+        NProgress.start();
+
+        $(this).parent().remove();
+        $(document).trigger('filter-updated');
+      });
+
+      nameElem.appendTo(newElem);
+      removeElem.appendTo(newElem);
+
+      $('#add-location-button').before(newElem);
     });
-
-    var nameElem  = $('<span/>', {
-      text: locationData.name
-    });
-
-    var removeElem = $('<span/>', {
-      class: 'remove_input',
-      text: 'X'
-    });
-
-    removeElem.on('click', function() {
-      $(this).parent().remove();
-      $(document).trigger('filter-updated');
-    });
-
-    nameElem.appendTo(newElem);
-    removeElem.appendTo(newElem);
-
-    $('#add-location-button').before(newElem);
 
     $(document).trigger('filter-updated');
 
     modal.modal('hide');
   });
+
+  locationsModalLoaded = function () {
+    var selected = [];
+    $('.selected-location-item').each(function (k, val) {
+      selected.push($(this).attr('data-item-id'));
+    });
+
+    $('#locations-select li').each(function (key, value) {
+      var elem = $(this);
+
+      var locationData = elem.data('item');
+
+      if (selected.indexOf(String(locationData.id)) !== -1) {
+        elem.remove();
+      }
+    });
+  };
+
+  /**
+   * Time period filter
+   */
+
+  $('#when button').on('click', function () {
+    var elem = $(this);
+
+    NProgress.start();
+
+    $('#when button').removeClass('active');
+    elem.addClass('active');
+
+    var searchParams = {};
+    searchParams.when = elem.val();
+
+    // getting nooks items
+    $(document).trigger('filter-updated');
+  });
+
+  /**
+   * General modal related
+   */
+
+  // cancel modal
+  $(document).on('click', '.close-modal', function () {
+    modal.modal('hide');
+  });
+
+  // init modals
+  $(document).on('click', '.remote-modal', function (e) {
+    e.preventDefault();
+    var data = $(e.target).data();
+
+    NProgress.start();
+
+    modal = $(data['modal']);
+
+    if($(e.target).attr('href') && !data['target']) {
+      data['target'] = $(e.target).attr('href');
+    }
+    if(data['target']) {
+      $(modal).find('.modal-dialog').load(data['target'], function () {
+        NProgress.done();
+
+        if (typeof data.callback !== 'undefined') {
+          var callbackFunc = data.callback;
+          window[callbackFunc]();
+        }
+      });
+    }
+
+    modal.modal();
+  });
+
+  $(document).on('click', '#modal,.modal-backdrop', function (e) {
+    if($(e.target).hasClass('modal-dialog') || $(e.target).hasClass('modal-backdrop')) {
+      $('#modal').modal('toggle');
+    }
+  });
+
+  /**
+   * Wall related
+   */
+
+  // responsive nooks wall
+  // why timeout? no idea, masonry is not working every time when it's not here
+  setTimeout(function () {
+    $('.nooks').masonry({
+      // set itemSelector so .grid-sizer is not used in layout
+      itemSelector: '.nook-item',
+      // use element for option
+      columnWidth: '.nook-item',
+      percentPosition: true
+    });
+  }, 1);
+
+  // updating nooks wall
+  var updateWall = function (searchParams) {
+    $('.nooks').empty();
+    $('.nooks').load('/nooks//search', searchParams, function () {
+      $('.nooks').masonry('destroy');
+
+      setTimeout(function() {
+        $('.nooks').masonry({
+          // set itemSelector so .grid-sizer is not used in layout
+          itemSelector: '.nook-item',
+          // use element for option
+          columnWidth: '.nook-item',
+          percentPosition: true
+        });
+      }, 1);
+
+      NProgress.done();
+    });
+  };
 });
