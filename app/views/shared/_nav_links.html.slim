@@ -1,8 +1,12 @@
 ul.nav.nav-pills.navbar-left
   li role="presentation" class="#{'active' if active_page?('nooks')}"
-    = link_to 'N', nooks_path
+    = link_to nooks_path do
+      span.glyphicon.glyphicon-globe
+    end
   li role="presentation" class="#{'active' if active_page?('reservations')}"
-    = link_to 'R', '#'
+    = link_to '#' do
+      span.glyphicon.glyphicon-time
+    end
 
 ul.nav.nav-pills.navbar-right
   li.dropdown

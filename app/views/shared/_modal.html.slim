@@ -1,6 +1,8 @@
-div.modal-content.col-md-9
-  div.modal-body.row.left-row
-    = content_for(:modal_left)
-div.modal-content.col-md-3
-  div.modal-body.row.right-row
-    = content_for(:modal_right)
+div class="panel panel-default #{content_for(:modal_class)}"
+  div.panel-heading
+    h3.panel-title
+      = content_for(:modal_title)
+  div.panel-body
+    = content_for(:modal_content)
+  div.panel-footer
+    = content_for(:modal_footer)

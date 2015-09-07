@@ -37,13 +37,14 @@ en:
       capacity_max: 'Capacity: Max'
       bookable: 'Bookable'
       amenities: 'Attributes'
-      libraries: 'Choose Libraries'
+      libraries: 'Choose libraries'
       library:
           add: 'Add a library'
       when: 'Choose when'
       times:
           today: 'today'
           future: 'future'
+          this-week: 'this week'
       days: 'Choose days'
       range: 'Choose time range'
       choose_amenities: 'Choose amenities'

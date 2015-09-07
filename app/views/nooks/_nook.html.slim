@@ -1,14 +1,15 @@
-- content_for(:modal_left) do
+- content_for(:modal_title) {'Book this nook'}
+
+- content_for(:modal_content) do
   div.clearfix
     div.clearfix
-      h2 Book this nook - #{nook.name}
+      h1 Book this nook - #{nook.name}
   div.clearfix
     div.clearfix
       h2 #{nook.name} Profile
       h2 #{nook.location_name}
     = render 'shared/carousel'
 
-- content_for(:modal_right) do
   div.clearfix
     h2 Room Attributes
     - amenities.each do |amenity|

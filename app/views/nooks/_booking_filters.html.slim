@@ -3,15 +3,19 @@
   - content_for(:body_classes) { 'booking' }
   h1.text-center bookanook
   form#left_menu.booking
-    div#location-filter
+    div#location-filter.btn-group-sm
       div 1. #{t('nooks.filters.libraries')}
       div#add-location-button.btn
-        = link_to t('nooks.filters.library.add'), 'select_locations', class: 'btn btn-primary remote-modal', data: { modal: '#modal' }
+        = link_to 'select_locations', class: 'btn btn-primary remote-modal', data: { modal: '#modal', callback: 'locationsModalLoaded' } do
+          = t('nooks.filters.library.add')
+          span#add-location-sign +
+        end
     div
       div 2. #{t('nooks.filters.when')}
-      div#when.btn-group.btn-group-xs
-        button#today.btn #{t('nooks.filters.times.today')}
-        button#future.btn #{t('nooks.filters.times.future')}
+      div#when.btn-group.btn-group-sm
+        button#today.btn value="today" type="button" #{t('nooks.filters.times.today')}
+        button#this-week.btn.active value="this-week" type="button" #{t('nooks.filters.times.this-week')}
+        button#future.btn value="future" type="button" #{t('nooks.filters.times.future')}
     div
       div 3. #{t('nooks.filters.days')}
       div#days.datepicker-element data-date="#{Time.now.to_date.strftime('%m/%d/%Y')}"
@@ -19,7 +23,7 @@
     div
       div 4. #{t('nooks.filters.range')}
       <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="8" data-slider-max="17" data-slider-step="0.5" data-slider-value="[10.0,14.0]"/>
-      div style="width: 100%"
+      div.clearfix
         div.slider-min 10:00AM
         div.slider-max 2:00PM
     div
@@ -28,7 +32,7 @@
         div
           = check_box_tag('amenities[]', amenity, false, id: "amenity_#{amenity}")
           = label_tag("amenity_#{amenity}", amenity.titleize) 
-    div
+    div#filtered-results
       div Filtered Results
       div.dropdown
         a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
