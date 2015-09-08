@@ -7,14 +7,25 @@
 
   div.nooks.col-xs-12.col-sm-12.col-md-12.col-lg-12
     - [Nook.all, Nook.all, Nook.all, Nook.all].flatten.each.with_index do |nook, i|
-      div.col-sm-4.col-md-3.col-lg-2.nook-item
+      div.nook-item
         div.nook
           = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg"
-          div * #{nook.name}
-          div * #{nook.location_name}
-          div * Available now
-          div * #{nook.amenities.join(', ')}
-          div * #{nook.max_capacity} #{"people".pluralize(nook.max_capacity)}
+          div
+            span.nook-icon.name
+            = nook.name
+          div
+            span.nook-icon.location
+            = nook.location_name
+          div
+            span.nook-icon.availability
+            = 'Available now'
+          div
+            span.nook-icon.amenities
+            = nook.amenities.join(', ')
+          div
+            span.nook-icon.maxcapacity
+            = nook.max_capacity
+            = "people".pluralize(nook.max_capacity)
           div
             = link_to "Book this nook", nook, class: 'btn btn-primary remote-modal book-this-nook', data: { modal: '#modal' }
       - if i%6 == 5

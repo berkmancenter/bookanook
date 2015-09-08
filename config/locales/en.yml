@@ -50,6 +50,7 @@ en:
       choose_amenities: 'Choose amenities'
       matching_rooms: 'matching rooms'
       matching_types: 'matching room types'
+      filtered_results: 'Filtered Results'
   users:
     filters:
       keyword: 'Keyword'

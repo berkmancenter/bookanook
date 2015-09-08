@@ -11,11 +11,11 @@ ul.nav.nav-pills.navbar-left
 ul.nav.nav-pills.navbar-right
   li.dropdown
     a#user-pill.dropdown-toggle.row data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-      div.col-md-2
+      div.col-xs-2.col-sm-2.col-md-2.col-lg-2
         span.glyphicon.glyphicon-certificate
-      div.col-md-7
+      div.col-xs-7.col-sm-7.col-md-7.col-lg-7
         div.col-md-12 = current_user.try(:full_name) || ''
-      div.col-md-3
+      div.col-xs-3.col-sm-3.col-md-3.col-lg-3
         span.glyphicon.glyphicon-menu-hamburger
         span.caret
     ul.dropdown-menu aria-labelledby="user-pill"
