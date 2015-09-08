@@ -18,7 +18,7 @@
         button#future.btn value="future" type="button" #{t('nooks.filters.times.future')}
     div
       div 3. #{t('nooks.filters.days')}
-      div#days.datepicker-element data-date="#{Time.now.to_date.strftime('%m/%d/%Y')}"
+      div#days.datepicker-element
       = hidden_field_tag "day"
     div
       div 4. #{t('nooks.filters.range')}
@@ -26,29 +26,37 @@
       div.clearfix
         div.slider-min 10:00AM
         div.slider-max 2:00PM
-    div
-      div 5. #{t('nooks.filters.choose_amenities')}
+    div.amenities
+      div.filter-title 5. #{t('nooks.filters.choose_amenities')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
-        div
-          = check_box_tag('amenities[]', amenity, false, id: "amenity_#{amenity}")
-          = label_tag("amenity_#{amenity}", amenity.titleize) 
+        div.amenity
+          = check_box_tag amenity, amenity
+          = label_tag amenity do
+            span
+            = amenity.titleize
+          end
+    div.transparent-separator
     div#filtered-results
-      div Filtered Results
+      div.filter-title Filtered Results
       div.dropdown
         a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
-          | #{t('nooks.filters.matching_rooms')} (#{Nook.count})
+          | #{Nook.count} #{t('nooks.filters.matching_rooms')}
           span.caret
-        ul.dropdown-menu aria-labelledby="matching-rooms-dropdown"
+        ul.dropdown-menu#matching-rooms-list aria-labelledby="matching-rooms-dropdown"
           - Nook.all.each do |nook|
             li
-              = check_box_tag nook.id
-              = label_tag nook.id, nook.name
+              = check_box_tag nook.id, nook.id
+              = label_tag nook.id do
+                span
+                = nook.name
       div.dropdown
         a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
-          | #{t('nooks.filters.matching_types')} (#{Nook.distinct.pluck(:type).count})
+          | #{Nook.distinct.pluck(:type).count} #{t('nooks.filters.matching_types')}
           span.caret
-        ul.dropdown-menu aria-labelledby="matching-types-dropdown"
+        ul.dropdown-menu#matching-types-list aria-labelledby="matching-types-dropdown"
           - Nook.distinct.pluck(:type).each do |key|
             li
-              = check_box_tag key
-              = label_tag key, key.titleize.pluralize
+              = check_box_tag key, key
+              = label_tag key do
+                span
+                = key.titleize.pluralize
