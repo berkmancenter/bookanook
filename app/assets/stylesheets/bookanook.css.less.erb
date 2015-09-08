@@ -45,7 +45,11 @@ body {
               }
             }
 
-            .datepicker-element { margin-top: 10px; }
+            .datepicker-element {
+              margin-top: 10px;
+
+              .datepicker-inline { width: 100%; }
+            }
 
             .datepicker {
               table {
@@ -185,7 +189,34 @@ body {
             }
           }
 
-          .nook-item { padding-right: 0; }
+          .nook-item {
+            padding-right: 0;
+            padding-left: 10px;
+          }
+
+          @media (max-width: 768px) {
+            .nook-item { width: 100%; }
+          }
+
+          @media (max-width: 1000px) and (min-width: 768px)  {
+            .nook-item { width: 50%; }
+          }
+
+          @media (min-width: 1000px) {
+            .nook-item { width: 33.333333333%; }
+          }
+
+          @media (min-width: 1200px) {
+            .nook-item { width: 25%; }
+          }
+
+          @media (min-width: 1400px) {
+            .nook-item { width: 20%; }
+          }
+
+          @media (min-width: 1700px) {
+            .nook-item { width: 16.666666667%; }
+          }
         }
       }
     }
@@ -217,6 +248,22 @@ body {
 
     input[type=checkbox]:checked + label span {
       background: url(<%= asset_path('checkbox-on.gif') %>) left top no-repeat;
+    }
+
+    .nook-icon {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      background-position: center center;
+      background-repeat: no-repeat;
+      vertical-align: middle;
+      margin-right: 5px;
+
+      &.name { background-image: url(<%= asset_path('nook_name.gif') %>) }
+      &.location { background-image: url(<%= asset_path('nook_location.gif') %>) }
+      &.availability { background-image: url(<%= asset_path('nook_availability.gif') %>) }
+      &.amenities { background-image: url(<%= asset_path('nook_amenities.gif') %>) }
+      &.maxcapacity { background-image: url(<%= asset_path('nook_maxcapacity.gif') %>) }
     }
   }
 }
