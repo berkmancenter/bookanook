@@ -51,6 +51,33 @@ $(function() {
       to: time[1]
     };
 
+    // date filter selection
+    searchParams.amentities = [];
+    searchParams.date = $(".datepicker-element").first().datepicker('getFormattedDate').split(',');
+
+    // amentities filter selection
+    $('.amenity input:checked').each(function (key, val) {
+      var elem = $(this);
+
+      searchParams.amentities.push(elem.val());
+    });
+
+    // matching rooms filter selection
+    searchParams.matching_rooms = [];
+    $('#matching-rooms-list input:checked').each(function (key, val) {
+      var elem = $(this);
+
+      searchParams.matching_rooms.push(elem.val());
+    });
+
+    // matching rooms filter selection
+    searchParams.matching_types = [];
+    $('#matching-types-list input:checked').each(function (key, val) {
+      var elem = $(this);
+
+      searchParams.matching_types.push(elem.val());
+    });
+
     // getting nooks items
     updateWall(searchParams);
   });
@@ -59,12 +86,14 @@ $(function() {
    * Date filter
    */
 
-  $('.datepicker-element').datepicker();
+  $('.datepicker-element').datepicker({
+    multidate: true
+  });
 
   $(".datepicker-element").on("changeDate", function(event) {
-    $(event.target).parent().find('input').val(
-      $(event.target).datepicker('getFormattedDate')
-    )
+    NProgress.start();
+
+    $(document).trigger('filter-updated');
   });
 
   $(".datepicker-element").on("hide", function(event) {
@@ -188,6 +217,22 @@ $(function() {
     searchParams.when = elem.val();
 
     // getting nooks items
+    $(document).trigger('filter-updated');
+  });
+
+  /**
+   * Amenitiies filter
+   */
+
+  $('.amenity input').on('change', function () {
+    $(document).trigger('filter-updated');
+  });
+
+  /**
+   * Types filter
+   */
+
+  $('#filtered-results input').on('change', function () {
     $(document).trigger('filter-updated');
   });
 

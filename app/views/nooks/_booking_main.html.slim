@@ -17,6 +17,5 @@
           div * #{nook.max_capacity} #{"people".pluralize(nook.max_capacity)}
           div
             = link_to "Book this nook", nook, class: 'btn btn-primary remote-modal book-this-nook', data: { modal: '#modal' }
-          div style="height: #{Random.new.rand(70)}px"
       - if i%6 == 5
         div.clearfix
