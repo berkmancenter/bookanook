@@ -91,7 +91,6 @@ body {
           }
 
           #when {
-            margin-top: 10px;
             width: 100%;
 
             button {
@@ -103,7 +102,10 @@ body {
               &#this-week {
                 border-left: none;
                 border-right: none;
+                margin-left: 0;
               }
+
+              &#future { margin-left: 0; }
 
               &.active { color: #ec137c; }
             }
@@ -131,7 +133,41 @@ body {
             border-top: none;
           }
 
-          .filter-title { margin-bottom: 10px; }
+          .filter {
+            &.inactive {
+              color: #cccccc;
+
+              * { display: none; }
+              .filter-title { display: block; }
+            }
+
+            .filter-title { margin-bottom: 10px; }
+            .filter-title + * { margin-top: 0px; }
+
+            &.date {
+              &.this-week {
+                .date-this-week {
+                  width: 100%;
+
+                  button {
+                    border: 2px solid #d4d3d1;
+                    background-color: #ffffff;
+                    margin-right: 5px;
+                    display: block;
+                    float: left;
+
+                    &.active { color: #ec137c; }
+                  }
+                }
+
+                .date-future { display: none; }
+              }
+
+              &.future {
+                .date-this-week { display: none; }
+              }
+            }
+          }
         }
 
         &.main-menu {
@@ -236,6 +272,7 @@ body {
     .btn:active.focus,
     .btn.active.focus {
       outline: 0;
+      border: none;
     }
 
     input[type=checkbox] {
@@ -416,7 +453,7 @@ input.hash {
   .slider-max { float: right; }
 
   #add-location-button {
-    margin: 8px 0 0 0;
+    margin: 0;
     padding: 0;
     border-color: #d4d3d1;
 

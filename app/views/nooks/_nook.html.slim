@@ -2,24 +2,24 @@
   div class="panel panel-default"
     div.panel-heading
       h3.panel-title
-        span Book this nook
+        span #{t('nooks.book_this_nook')}
         span.pull-right.nook-title #{nook.name}
     div.panel-body
   div class="panel panel-default"
     div.panel-heading
-      h3.panel-title #{nook.name} Profile
+      h3.panel-title #{nook.name} #{t('nooks.profile')}
     div.panel-body
       = render 'shared/carousel', :nook_images => nook.photos
       div.empty-separator
       div.description #{nook.description}
       div.empty-separator
-      div Location: #{nook.location_name}
-      div Room type: #{nook.type}
+      div #{t('nooks.location')}: #{nook.location_name}
+      div #{t('nooks.room_type')}: #{nook.type}
 
 - content_for(:modal_right) do
   div class="panel panel-default"
     div.panel-heading
-      h3.panel-title Room Attributes
+      h3.panel-title #{t('nooks.room_attributes')}
     div.panel-body
       - amenities.each do |amenity|
         div.amenity
@@ -29,7 +29,7 @@
             = amenity.titleize
         div
       div.empty-separator
-      span Capacity:
+      span #{t('nooks.capacity')}:
       = ' '
       span #{[nook.min_capacity.to_i, 1].max}-#{nook.max_capacity}
       div.empty-separator
@@ -39,7 +39,7 @@
 
   div class="panel panel-default"
     div.panel-heading
-      h3.panel-title Upcoming Reservations
+      h3.panel-title #{t('nooks.upcoming')}
     div.panel-body
 
 = render 'shared/modal'
