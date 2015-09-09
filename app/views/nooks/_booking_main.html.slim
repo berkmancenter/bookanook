@@ -6,10 +6,10 @@
     = render 'shared/nav_links'
 
   div.nooks.col-xs-12.col-sm-12.col-md-12.col-lg-12
-    - [Nook.all, Nook.all, Nook.all, Nook.all].flatten.each.with_index do |nook, i|
+    - [Nook.all].flatten.each.with_index do |nook, i|
       div.nook-item
         div.nook
-          = image_tag nook.photos.first
+          = image_tag nook.photos.first ? nook.photos.first : 'placeholder.jpg'
           div.nook-property
             span.nook-icon.name
             = nook.name
