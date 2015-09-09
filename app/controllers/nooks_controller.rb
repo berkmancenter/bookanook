@@ -2,7 +2,7 @@ class NooksController < ApplicationController
   before_action :set_nook, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_admin!, only: [:new, :edit, :update, :create, :destroy]
 
-  helper_method :locations, :types, :amenities
+  helper_method :locations, :types, :amenities, :available_now
 
   layout false, only: [:edit]
 

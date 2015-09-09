@@ -9,22 +9,23 @@
     - [Nook.all, Nook.all, Nook.all, Nook.all].flatten.each.with_index do |nook, i|
       div.nook-item
         div.nook
-          = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg"
-          div
+          = image_tag nook.photos.first
+          div.nook-property
             span.nook-icon.name
             = nook.name
-          div
+          div.nook-property
             span.nook-icon.location
             = nook.location_name
-          div
+          div.nook-property
             span.nook-icon.availability
-            = 'Available now'
-          div
+            = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
+          div.nook-property
             span.nook-icon.amenities
             = nook.amenities.join(', ')
-          div
+          div.nook-property
             span.nook-icon.maxcapacity
             = nook.max_capacity
+            = ' '
             = "people".pluralize(nook.max_capacity)
           div
             = link_to "Book this nook", nook, class: 'btn btn-primary remote-modal book-this-nook', data: { modal: '#modal' }

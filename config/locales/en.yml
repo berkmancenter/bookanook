@@ -51,6 +51,8 @@ en:
       matching_rooms: 'matching rooms'
       matching_types: 'matching room types'
       filtered_results: 'Filtered Results'
+    available_now: 'Available now'
+    not_available_now: 'Not available now'
   users:
     filters:
       keyword: 'Keyword'
