@@ -22,6 +22,15 @@
 en:
   hello: "Hello world"
   nooks:
+    available_now: 'Available now'
+    not_available_now: 'Not available now'
+    book_this_nook: 'Book this nook'
+    profile: 'profile'
+    room_attributes: 'Room Attributes'
+    capacity: 'Capacity'
+    upcoming: 'Upcoming Reservations'
+    location: 'Location'
+    room_type: 'Room type'
     filters:
       keyword: 'Keyword'
       nook_name: 'Room name'
@@ -51,8 +60,6 @@ en:
       matching_rooms: 'matching rooms'
       matching_types: 'matching room types'
       filtered_results: 'Filtered Results'
-    available_now: 'Available now'
-    not_available_now: 'Not available now'
   users:
     filters:
       keyword: 'Keyword'

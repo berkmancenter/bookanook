@@ -54,6 +54,11 @@ $(function() {
     // date filter selection
     searchParams.amentities = [];
     searchParams.date = $(".datepicker-element").first().datepicker('getFormattedDate').split(',');
+    var selected = [];
+    $('form.booking .filter.date button.active').each(function (k, val) {
+      selected.push($(this).val());
+    });
+    searchParams.date_day_by_day = selected;
 
     // amentities filter selection
     $('.amenity input:checked').each(function (key, val) {
@@ -70,7 +75,7 @@ $(function() {
       searchParams.matching_rooms.push(elem.val());
     });
 
-    // matching rooms filter selection
+    // matching rooms types filter selection
     searchParams.matching_types = [];
     $('#matching-types-list input:checked').each(function (key, val) {
       var elem = $(this);
@@ -98,6 +103,14 @@ $(function() {
 
   $(".datepicker-element").on("hide", function(event) {
     console.log('foo');
+  });
+
+  $('form.booking .date-this-week button').on('click', function () {
+    NProgress.start();
+
+    $(this).toggleClass('active');
+
+    $(document).trigger('filter-updated');
   });
 
   /**
@@ -212,6 +225,17 @@ $(function() {
 
     $('#when button').removeClass('active');
     elem.addClass('active');
+
+    if (elem.val() === 'today') {
+      $('.filter.date').removeClass('this-week future').addClass('today');
+      $('.filter.date').addClass('inactive');
+    } else if (elem.val() === 'this-week') {
+      $('.filter.date').removeClass('today future').addClass('this-week');
+      $('.filter.date').removeClass('inactive');
+    } else if (elem.val() === 'future') {
+      $('.filter.date').removeClass('today this-week').addClass('future');
+      $('.filter.date').removeClass('inactive');
+    }
 
     var searchParams = {};
     searchParams.when = elem.val();
