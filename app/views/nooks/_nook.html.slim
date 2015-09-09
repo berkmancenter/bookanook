@@ -1,27 +1,45 @@
 - content_for(:modal_left) do
-  div.clearfix
-    div.clearfix
-      h1 Book this nook - #{nook.name}
-  div.clearfix
-    div.clearfix
-      h2 #{nook.name} Profile
-      h2 #{nook.location_name}
-    = render 'shared/carousel'
+  div class="panel panel-default"
+    div.panel-heading
+      h3.panel-title
+        span Book this nook
+        span.pull-right.nook-title #{nook.name}
+    div.panel-body
+  div class="panel panel-default"
+    div.panel-heading
+      h3.panel-title #{nook.name} Profile
+    div.panel-body
+      = render 'shared/carousel', :nook_images => nook.photos
+      div.empty-separator
+      div.description #{nook.description}
+      div.empty-separator
+      div Location: #{nook.location_name}
+      div Room type: #{nook.type}
 
 - content_for(:modal_right) do
-  div.clearfix
-    h2 Room Attributes
-    - amenities.each do |amenity|
-      div
-        span class="glyphicon glyphicon-ok #{amenity.in?(nook.amenities) ? 'checked' : 'unchecked'}"
-        span #{amenity.titleize}
-    div.inline
+  div class="panel panel-default"
+    div.panel-heading
+      h3.panel-title Room Attributes
+    div.panel-body
+      - amenities.each do |amenity|
+        div.amenity
+          = check_box_tag '', '', amenity.in?(nook.amenities)
+          = label_tag '' do
+            span.blue
+            = amenity.titleize
+        div
+      div.empty-separator
       span Capacity:
-      span #{[nook.min_capacity.to_i, 1].max} - #{nook.max_capacity}
-    = render partial: 'shared/rating_tag', locals: { rating_label: 'Noise Level' }
-    = render partial: 'shared/rating_tag', locals: { rating_label: 'Sunlight' }
-    = render partial: 'shared/rating_tag', locals: { rating_label: 'Outlets' }
-  div.clearfix
-    h2 Upcoming Reservations
+      = ' '
+      span #{[nook.min_capacity.to_i, 1].max}-#{nook.max_capacity}
+      div.empty-separator
+      = render partial: 'shared/rating_tag', locals: {rating_label: 'Noise Level'}
+      = render partial: 'shared/rating_tag', locals: {rating_label: 'Sunlight'}
+      = render partial: 'shared/rating_tag', locals: {rating_label: 'Outlets'}
+
+  div class="panel panel-default"
+    div.panel-heading
+      h3.panel-title Upcoming Reservations
+    div.panel-body
 
 = render 'shared/modal'

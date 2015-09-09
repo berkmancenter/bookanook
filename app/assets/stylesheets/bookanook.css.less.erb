@@ -13,6 +13,12 @@ body {
       padding-bottom: 10px;
     }
 
+    div.empty-separator {
+      height: 10px;
+      width: 100%;
+      clear: both;
+    }
+
     .container-fluid {
       padding: 0;
 
@@ -125,10 +131,6 @@ body {
             border-top: none;
           }
 
-          .amenity {
-            label { font-weight: normal; }
-          }
-
           .filter-title { margin-bottom: 10px; }
         }
 
@@ -223,6 +225,10 @@ body {
       }
     }
 
+    .amenity {
+      label { font-weight: normal; }
+    }
+
     .btn:focus,
     .btn:active:focus,
     .btn.active:focus,
@@ -248,9 +254,8 @@ body {
       cursor: pointer;
     }
 
-    input[type=checkbox]:checked + label span {
-      background: url(<%= asset_path('checkbox-on.gif') %>) left top no-repeat;
-    }
+    input[type=checkbox]:checked + label span { background: url(<%= asset_path('checkbox-on.gif') %>) left top no-repeat; }
+    input[type=checkbox]:checked + label span.blue { background: url(<%= asset_path('checkbox-on-blue.gif') %>) left top no-repeat; }
 
     .nook-icon {
       display: inline-block;
@@ -266,6 +271,28 @@ body {
       &.availability { background-image: url(<%= asset_path('nook_availability.gif') %>) }
       &.amenities { background-image: url(<%= asset_path('nook_amenities.gif') %>) }
       &.maxcapacity { background-image: url(<%= asset_path('nook_maxcapacity.gif') %>) }
+    }
+
+    #nook-carousel {
+      .carousel-control { color: #4099D0; }
+
+      .item { max-height: 400px; }
+    }
+
+    .carousel-thumbnails {
+      margin-top: 10px;
+
+      > div:first-child { padding-left: 0; }
+      > div {
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+
+      .thumbnail { margin-bottom: 0; }
+
+      a.thumbnail:hover,
+      a.thumbnail:focus,
+      a.thumbnail.active { border-color: #4099D0; }
     }
   }
 }
@@ -412,80 +439,28 @@ input.hash {
 }
 
 #modal {
-  .modal-dialog.row {
-    width: 100%;
-  }
+  .modal-dialog.row { width: 100%; }
 
   .modal-content {
     background: transparent;
     box-shadow: none;
     border: none;
-
-    .modal-body {
-      padding: 0;
-
-      h1,h2,h3,h4,h5,h6 {
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-
-      &.right-row {
-        h1,h2,h3,h4,h5,h6 {
-          border-bottom: @border-radius-small solid @gray-lightish;
-        }
-      }
-
-      > * {
-        background: white;
-        border-radius: @border-radius-large;
-        border-color: white;
-        border-style: none;
-        min-height: 200px;
-
-        &:not(:last-child) {
-          margin-bottom: @padding-large-horizontal;
-        }
-
-        > * {
-          padding: 0 @padding-small-horizontal @padding-large-vertical @padding-small-horizontal;
-
-          &:first-child {
-            padding-top: @padding-large-vertical;
-          }
-        }
-      }
-    }
-
-    &:first-child > .modal-body:first-child > * {
-      &:first-child {
-        min-height: 600px;
-      }
-
-      > *:first-child {
-        h1,h2,h3,h4,h5,h6 {
-          &:first-child {
-            float: left;
-          }
-        }
-
-        h1,h2,h3,h4,h5,h6 {
-          &:last-child:not(:first-child) {
-            float: right;
-          }
-        }
-      }
-    }
-
-    &:last-child > .modal-body:first-child > * {
-      margin-left: @padding-large-horizontal;
-    }
+    padding: 0;
   }
 
   .select-locations-modal {
-    button {
-      margin-right: 10px;
-    }
+    button { margin-right: 10px; }
   }
+
+  .panel-title {
+    padding: 0;
+    font-size: 14px;
+
+    .nook-title { font-weight: normal; }
+  }
+
+  .amenity input[type=checkbox] + label { opacity: 0.5; }
+  .amenity input[type=checkbox]:checked + label { opacity: 1; }
 }
 
 form.edit_nook {

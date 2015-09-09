@@ -205,7 +205,7 @@ $(function() {
    * Time period filter
    */
 
-  $('#when button').on('click', function () {
+  $('form.booking #when button').on('click', function () {
     var elem = $(this);
 
     NProgress.start();
@@ -224,7 +224,7 @@ $(function() {
    * Amenitiies filter
    */
 
-  $('.amenity input').on('change', function () {
+  $('form.booking .amenity input').on('change', function () {
     $(document).trigger('filter-updated');
   });
 
@@ -232,7 +232,7 @@ $(function() {
    * Types filter
    */
 
-  $('#filtered-results input').on('change', function () {
+  $('form.booking #filtered-results input').on('change', function () {
     $(document).trigger('filter-updated');
   });
 
