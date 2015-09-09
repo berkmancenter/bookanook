@@ -10,7 +10,6 @@
       h3.panel-title #{nook.name} #{t('nooks.profile')}
     div.panel-body
       = render 'shared/carousel', :nook_images => nook.photos
-      div.empty-separator
       div.description #{nook.description}
       div.empty-separator
       div #{t('nooks.location')}: #{nook.location_name}
