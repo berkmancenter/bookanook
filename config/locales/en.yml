@@ -60,6 +60,23 @@ en:
       matching_rooms: 'matching rooms'
       matching_types: 'matching room types'
       filtered_results: 'Filtered Results'
+  reservations:
+    week_day: 'Week day'
+    time_range: 'Time range'
+    fill_form: 'Fill out a reservation form to book'
+    event_name: 'Event name'
+    description: 'Description'
+    number: 'Number'
+    contact: 'Contact'
+    event_url: 'Event URL'
+    video_url: 'Videostream link'
+    this_info_hidden: 'The information in this section will be hidden from the public calendar'
+    speakers: 'Speakers'
+    food_drinks: 'Food / Drinks'
+    projector: 'Projector'
+    library_notes: 'Notes for library staff'
+    ideas: 'Ideas for room improvements to support events like this'
+    other_spaces: 'What other spaces does your group use for event like this?'
   users:
     filters:
       keyword: 'Keyword'
