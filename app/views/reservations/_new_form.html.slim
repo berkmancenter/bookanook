@@ -1,13 +1,13 @@
 div.reservation-form
   div.reservation-when-day
-    div.row-title = '1. Week day'
+    div.row-title 1. #{t('reservations.week_day')}
     div.empty-separator
     div.btn-group.btn-group-sm.reservation-when-days
       - (Date.today..Date.today + 6.days).map.each do |day|
         button.btn type="button" value="#{day}" = day.strftime("%A")[0]
     div.empty-separator
   div.reservation-when-time
-    div.row-title = '2. Time range'
+    div.row-title 2. #{t('reservations.time_range')}
 
     div.empty-separator
 
@@ -29,7 +29,7 @@ div.reservation-form
   div.empty-separator
 
   a.reservation-form-toggle
-    = 'Fill out a reservation form to book '
+    = t('reservations.fill_form') + ' '
     span.glyphicon.glyphicon-chevron-down
   div.reservation-form-body
     hr.better-hr
@@ -37,27 +37,27 @@ div.reservation-form
     form
       table.col-sm-7.reservation-form-part1
         tr
-          td = '*Event name:'
+          td = '*' + t('reservations.event_name') + ':'
           td
             input.form-control type="text" name="reservation-event-name" id="reservation-event-name"
         tr
-          td = '*Description:'
+          td = '*' + t('reservations.description') + ':'
           td
             textarea.form-control name="reservation-description" id="reservation-description"
         tr
-          td = '*Number:'
+          td = '*' + t('reservations.number') + ':'
           td
             input.form-control type="number" min="1" name="reservation-number" id="reservation-number"
         tr
-          td = '*Contact'
+          td = '*' + t('reservations.contact') + ':'
           td
             input.form-control type="text" name="reservation-contact" id="reservation-contact"
         tr
-          td = 'Event URL:'
+          td = t('reservations.event_url') + ':'
           td
             input.form-control type="text" name="reservation-eventurl" id="reservation-eventurl"
         tr
-          td = 'Videostream link:'
+          td = t('reservations.video_url') + ':'
           td
             input.form-control type="text" name="reservation-videolink" id="reservation-videolink"
 
@@ -66,7 +66,7 @@ div.reservation-form
       table.col-sm-12.reservation-part2
         tr
           td
-            = 'The information in this section will be hidden from the public calendar'
+            = t('reservations.this_info_hidden')
           td
             table.col-sm-12
               tr
@@ -74,24 +74,24 @@ div.reservation-form
                   input type="checkbox" id="reservation-speakers" name="reservation-speakers"
                   label for="reservation-speakers"
                     span
-                    = 'Speakers'
+                    = t('reservations.speakers')
                   input type="checkbox" id="reservation-food" name="reservation-food"
                   label for="reservation-food"
                     span
-                    = 'Food / Drinks'
+                    = t('reservations.food_drinks')
                   input type="checkbox" id="reservation-projector" name="reservation-projector"
                   label for="reservation-projector"
                     span
-                    = 'Projector'
+                    = t('reservations.projector')
               tr
                 td
-                  textarea.form-control placeholder="Notes for library staff" name="reservation-noteslibrary" id="reservation-noteslibrary"
+                  textarea.form-control placeholder="#{t('reservations.library_notes')}" name="reservation-noteslibrary" id="reservation-noteslibrary"
               tr
                 td
-                  textarea.form-control placeholder="Ideas for room improvements to support events like this" name="reservation-ideas" id="reservation-ideas"
+                  textarea.form-control placeholder="#{t('reservations.ideas')}" name="reservation-ideas" id="reservation-ideas"
               tr
                 td
-                  textarea.form-control placeholder="What other spaces does your group use for event like this?" name="reservation-otherspaces" id="reservation-otherspaces"
+                  textarea.form-control placeholder="#{t('reservations.other_spaces')}" name="reservation-otherspaces" id="reservation-otherspaces"
               tr
                 td
                   button.btn#book-reservation Book!
