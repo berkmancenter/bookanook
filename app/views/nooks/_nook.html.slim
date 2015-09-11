@@ -5,7 +5,7 @@
         span #{t('nooks.book_this_nook')}
         span.pull-right.nook-title #{nook.name}
     div.panel-body
-      = render partial: 'reservations/new_form'
+      = render partial: 'reservations/new_form', locals: {nook: nook}
   div class="panel panel-default"
     div.panel-heading
       h3.panel-title #{nook.name} #{t('nooks.profile')}

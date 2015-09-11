@@ -1,7 +1,8 @@
 - content_for(:left_menu) do
   - content_for(:left_menu_classes) { 'booking' }
   - content_for(:body_classes) { 'booking' }
-  h1.text-center bookanook
+  h1.text-center
+    a.site-title href="/" bookanook
   form#left_menu.booking
     div#location-filter.btn-group-sm.filter
       div.filter-title 1. #{t('nooks.filters.libraries')}
@@ -20,13 +21,8 @@
       div.date-future
         div#days.datepicker-element
       div.date-this-week.clearfix.btn-group.btn-group-sm
-        button.btn type="button" value="Su" S
-        button.btn type="button" value="M" M
-        button.btn type="button" value="Tu" T
-        button.btn type="button" value="W" W
-        button.btn type="button" value="Th" T
-        button.btn type="button" value="F" F
-        button.btn type="button" value="Sa" S
+        - (Date.today..Date.today + 6.days).map.each do |day|
+          button.btn type="button" value="#{day}" = day.strftime("%A")[0]
     div.filter
       div.filter-title 4. #{t('nooks.filters.range')}
       <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="8" data-slider-max="17" data-slider-step="0.5" data-slider-value="[10.0,14.0]"/>

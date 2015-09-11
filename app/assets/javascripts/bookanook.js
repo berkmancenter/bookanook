@@ -26,6 +26,104 @@ $(function() {
   });
 
   /**
+   * Reservation form
+   */
+
+  $(document).on('click', '.reservation-form-toggle', function () {
+    var elem = $(this);
+    var formBody = $('.reservation-form-body').first();
+
+    if (formBody.is(':visible')) {
+      formBody.hide();
+      elem.html('Fill out a reservation form to book ');
+
+      var arrowElem = $('<span/>', {
+        class: 'glyphicon glyphicon-chevron-down'
+      });
+    } else {
+      formBody.show();
+
+      elem.html('Hide reservation form ');
+
+      var arrowElem = $('<span/>', {
+        class: 'glyphicon glyphicon-chevron-up'
+      });
+    }
+
+    arrowElem.appendTo(elem);
+  });
+
+  $(document).on('submit', '.reservation-form form', function (e) {
+    var form = $(this);
+    var formFields = form.find('input, textarea');
+    var requiredFields = form.find('#reservation-event-name, #reservation-description, #reservation-number, #reservation-contact');
+    var toPost = {};
+
+    e.preventDefault();
+
+    formFields.removeClass('fill-in');
+
+    requiredFields.map(function (index, field) {
+      var requiredElem = $(field);
+
+      if (requiredElem.val() == '') {
+        requiredElem.addClass('fill-in');
+      }
+    });
+
+    if (form.find('.fill-in').length > 0) {
+      var alert = $('<div/>', {
+        text: 'Fill out required fields before submitting.',
+        class: 'alert alert-danger',
+        role: 'alert'
+      });
+
+      form.prepend(alert)
+      alert.delay(2000).fadeOut(1000);
+
+      return;
+    }
+
+    formFields.each(function (index, field) {
+      var fieldEl = $(field);
+
+      if (fieldEl.is('[type=checkbox]')) {
+        toPost[fieldEl.attr('name')] = fieldEl.is(':checked');
+      } else {
+        toPost[fieldEl.attr('name')] = fieldEl.val();
+      }
+    });
+
+    $.post('reservations', toPost);
+  });
+
+  $(document).on('click', '.reservation-form .reservation-when-day button', function () {
+    var elem = $(this);
+    var isActive = elem.hasClass('active');
+
+    $('.reservation-form .reservation-when-day button').removeClass('active');
+
+    if (isActive === false) {
+      elem.toggleClass('active');
+    }
+  });
+
+  bookModalLoaded = function () {
+  };
+
+  $(document).on('click', '.reservation-when-time-item', function () {
+    var elem = $(this);
+
+    if (elem.hasClass('open')) {
+      elem.removeClass('open');
+      elem.addClass('selected');
+    } else if (elem.hasClass('selected')) {
+      elem.removeClass('selected');
+      elem.addClass('open');
+    }
+  });
+
+  /**
    * Filters general
    */
 
@@ -91,9 +189,7 @@ $(function() {
    * Date filter
    */
 
-  $('.datepicker-element').datepicker({
-    multidate: true
-  });
+  $('.datepicker-element').datepicker({});
 
   $(".datepicker-element").on("changeDate", function(event) {
     NProgress.start();
