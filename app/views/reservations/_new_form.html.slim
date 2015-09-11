@@ -1,0 +1,97 @@
+div.reservation-form
+  div.reservation-when-day
+    div.row-title = '1. Week day'
+    div.empty-separator
+    div.btn-group.btn-group-sm.reservation-when-days
+      - (Date.today..Date.today + 6.days).map.each do |day|
+        button.btn type="button" value="#{day}" = day.strftime("%A")[0]
+    div.empty-separator
+  div.reservation-when-time
+    div.row-title = '2. Time range'
+
+    div.empty-separator
+
+    div.reservation-when-times
+      div.col-sm-6
+        - (['12:00AM'] + (1..11).map {|h| "#{h}:00AM"}).each_with_index do |num, i|
+          div.reservation-when-time-item.col-sm-1.open
+            button.btn type="button" value="#{num}"
+            - if i.even?
+              span.small = num
+      div.col-sm-6
+        - (['12:00PM'] + (1..11).map {|h| "#{h}:00PM"}).each_with_index do |num, i|
+          div.reservation-when-time-item.col-sm-1.open
+            button.btn.col-sm-1 type="button" value="#{num}"
+            - if i.even?
+              span.small = num
+
+    div.empty-separator
+  div.empty-separator
+
+  a.reservation-form-toggle
+    = 'Fill out a reservation form to book '
+    span.glyphicon.glyphicon-chevron-down
+  div.reservation-form-body
+    hr.better-hr
+
+    form
+      table.col-sm-7.reservation-form-part1
+        tr
+          td = '*Event name:'
+          td
+            input.form-control type="text" name="reservation-event-name" id="reservation-event-name"
+        tr
+          td = '*Description:'
+          td
+            textarea.form-control name="reservation-description" id="reservation-description"
+        tr
+          td = '*Number:'
+          td
+            input.form-control type="number" min="1" name="reservation-number" id="reservation-number"
+        tr
+          td = '*Contact'
+          td
+            input.form-control type="text" name="reservation-contact" id="reservation-contact"
+        tr
+          td = 'Event URL:'
+          td
+            input.form-control type="text" name="reservation-eventurl" id="reservation-eventurl"
+        tr
+          td = 'Videostream link:'
+          td
+            input.form-control type="text" name="reservation-videolink" id="reservation-videolink"
+
+      hr.better-hr
+
+      table.col-sm-12.reservation-part2
+        tr
+          td
+            = 'The information in this section will be hidden from the public calendar'
+          td
+            table.col-sm-12
+              tr
+                td
+                  input type="checkbox" id="reservation-speakers" name="reservation-speakers"
+                  label for="reservation-speakers"
+                    span
+                    = 'Speakers'
+                  input type="checkbox" id="reservation-food" name="reservation-food"
+                  label for="reservation-food"
+                    span
+                    = 'Food / Drinks'
+                  input type="checkbox" id="reservation-projector" name="reservation-projector"
+                  label for="reservation-projector"
+                    span
+                    = 'Projector'
+              tr
+                td
+                  textarea.form-control placeholder="Notes for library staff" name="reservation-noteslibrary" id="reservation-noteslibrary"
+              tr
+                td
+                  textarea.form-control placeholder="Ideas for room improvements to support events like this" name="reservation-ideas" id="reservation-ideas"
+              tr
+                td
+                  textarea.form-control placeholder="What other spaces does your group use for event like this?" name="reservation-otherspaces" id="reservation-otherspaces"
+              tr
+                td
+                  button.btn#book-reservation Book!
