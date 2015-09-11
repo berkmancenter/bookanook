@@ -1,0 +1,209 @@
+@import "my_vars.less";
+
+body {
+  &.booking {
+    .container-fluid {
+      > * {
+        &.left-menu {
+          > h1 { background: @gray-lightest; }
+
+          form > * {
+            padding: 10px;
+            border-top: 2px solid #CECDCA;
+            background: @gray-lightest;
+
+            &:last-child {
+              padding-bottom: 20px;
+            }
+
+            div.btn {
+              width: 100%;
+              border: 2px solid #f0f0ee;
+              margin-top: 8px;
+
+              span:first-child:not(:last-child) {
+                float: left;
+              }
+
+              span:nth-child(2) {
+                float: right;
+              }
+            }
+
+            .datepicker-element {
+              margin-top: 10px;
+
+              .datepicker-inline { width: 100%; }
+            }
+
+            .datepicker {
+              table {
+                border-spacing: 2px;
+                border-collapse: separate;
+                width: 100%;
+
+                th { font-weight: normal; }
+
+                td, th {
+                  padding: 0 4px;
+                  width: initial;
+                  height: initial;
+                  font-size: 12px;
+                }
+
+                thead {
+                  tr:first-child {
+                    color: #ec137c;
+
+                    th { font-size: 105%; }
+                  }
+                }
+              }
+
+              table tr td.active.active,
+              span.month.active {
+                background-color: #E9E8E7;
+                color: #ec137c;
+                border: none;
+              }
+            }
+          }
+
+          .amenity {
+            label { font-weight: normal; }
+          }
+
+          #when {
+            width: 100%;
+
+            button {
+              width: 33.33333%;
+              display: inline-block;
+              border: 2px solid #d4d3d1;
+              background-color: #ffffff;
+
+              &#this-week {
+                border-left: none;
+                border-right: none;
+                margin-left: 0;
+              }
+
+              &#future { margin-left: 0; }
+
+              &.active { color: #ec137c; }
+            }
+          }
+
+          #filtered-results {
+            border-top: 0;
+
+            a { color: #7b7979; }
+
+            .dropdown-menu {
+              position: static;
+              float: none;
+              background-color: transparent;
+              padding-left: 20px;
+
+              label { font-weight: normal; }
+            }
+          }
+
+          .transparent-separator {
+            background-color: transparent;
+            height: 10px;
+            padding: 0;
+            border-top: none;
+          }
+
+          .filter {
+            &.inactive {
+              color: #cccccc;
+
+              * { display: none; }
+              .filter-title { display: block; }
+            }
+
+            .filter-title { margin-bottom: 10px; }
+            .filter-title + * { margin-top: 0px; }
+
+            &.date {
+              &.this-week {
+                .date-this-week {
+                  width: 100%;
+
+                  button {
+                    border: 2px solid #d4d3d1;
+                    background-color: #ffffff;
+                    margin-right: 5px;
+                    display: block;
+                    float: left;
+
+                    &.active { color: #ec137c; }
+                  }
+                }
+
+                .date-future { display: none; }
+              }
+
+              &.future {
+                .date-this-week { display: none; }
+              }
+            }
+
+            .slider {
+              margin-top: 10px;
+              margin-bottom: 15px;
+              width: 100%;
+
+              .slider-selection {
+                background: @brand-primary;
+              }
+
+              .slider-handle {
+                border-color: @gray-light;
+                border-width: 1px;
+                background: white;
+              }
+
+              .tooltip-inner, .tooltip-arrow {
+                display: none;
+              }
+            }
+
+            .slider-min, .slider-max {
+              display: inline-block;
+              border: 1px solid #7b7979;
+              padding: 2px;
+            }
+
+            .slider-min { float: left; }
+            .slider-max { float: right; }
+
+            #add-location-button {
+              margin: 0;
+              padding: 0;
+              border-color: #d4d3d1;
+
+              a {
+                color: @brand-primary;
+                width: 100%;
+                background-color: #e9e9e9;
+                border: 0;
+                text-align: left;
+                padding: 5px 10px;
+                font-size: 12px;
+                line-height: 1.5;
+                border-radius: 3px;
+              }
+
+              #add-location-sign { float: right; }
+            }
+
+            .selected-location-item + #add-location-button { margin-top: 8px; }
+          }
+        }
+      }
+    }
+  }
+}

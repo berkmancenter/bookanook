@@ -16,7 +16,7 @@
           div.nook-property
             span.nook-icon.location
             = nook.location_name
-          div.nook-property
+          div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
             span.nook-icon.availability
             = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
           div.nook-property
