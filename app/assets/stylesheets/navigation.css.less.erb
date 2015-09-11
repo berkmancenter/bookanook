@@ -1,0 +1,53 @@
+@import "my_vars.less";
+
+.nav-pills > li {
+  > a {
+    background-color: white;
+    font-weight: bold;
+    color: @brand-primary;
+    box-shadow: 0 2px 3px @gray-lighter;
+  }
+
+  #user-pill {
+    padding: 0px;
+    width: 215px;
+    white-space: nowrap;
+
+    > div:first-child * {
+      font-size: 25px;
+      background-color: @brand-primary;
+      margin-top: 6px;
+      border-radius: 50%;
+    }
+
+    > div:last-child > *:first-child {
+      font-size: 20px;
+      padding: 8px 0px 12px;
+    }
+
+    > div:last-child > *:last-child {
+      margin-bottom: @padding-large-vertical;
+      border-top-width: @caret-width-large;
+      border-right-width: @caret-width-large;
+      border-left-width: @caret-width-large;
+    }
+
+    > div:last-child > *:first-child {
+      margin-right: 2px;
+    }
+
+    > div:nth-child(2) {
+      padding-left: 0;
+      overflow: hidden;
+
+      > * {
+        text-align: left;
+        margin-left: 5px;
+      }
+
+      *:last-child {
+        font-size: @font-size-small;
+      }
+    }
+  }
+}

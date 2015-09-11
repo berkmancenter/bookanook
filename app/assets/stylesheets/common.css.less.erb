@@ -1,0 +1,139 @@
+@import "my_vars.less";
+
+body {
+  padding: 2%;
+
+  &.booking {
+    background-image: url(<%= asset_path('tiled-background.svg') %>);
+    background-color: @gray-background;
+
+    h1,h2,h3,h4,h5,h6 {
+      margin: 0px;
+      padding-top: 20px;
+      padding-bottom: 10px;
+    }
+
+    div.empty-separator {
+      height: 10px;
+      width: 100%;
+      clear: both;
+    }
+
+    .container-fluid {
+      padding: 0;
+
+      > * {
+        padding: 0;
+      }
+    }
+
+    .btn:focus,
+    .btn:active:focus,
+    .btn.active:focus,
+    .btn.focus,
+    .btn:active.focus,
+    .btn.active.focus {
+      outline: 0;
+      border: none;
+    }
+
+    input[type=checkbox] {
+      display: none;
+    }
+
+    input[type=checkbox] + label { cursor: pointer; }
+
+    input[type=checkbox] + label span {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      margin: -1px 4px 0 0;
+      vertical-align: middle;
+      background: url(<%= asset_path('checkbox-off.gif') %>) left top no-repeat;
+      cursor: pointer;
+    }
+
+    input[type=checkbox]:checked + label span { background: url(<%= asset_path('checkbox-on.gif') %>) left top no-repeat; }
+    input[type=checkbox]:checked + label span.blue { background: url(<%= asset_path('checkbox-on-blue.gif') %>) left top no-repeat; }
+  }
+}
+
+label.hash {
+  display: block;
+}
+
+input.hash {
+  width: 30%;
+  display: inline-block;
+}
+
+.container .left-menu, .container-fluid .left-menu {
+  > *:first-child:last-child {
+    min-height: 800px;
+  }
+
+  &:not(.booking) {
+    border-style: solid;
+    border-radius: 8px;
+    border-width: @border-radius-small;
+    border-color: @gray-lightish;
+  }
+
+  .dropdown {
+    position: initial;
+
+    a {
+      text-decoration: none;
+    }
+
+    ul.dropdown-menu {
+      position: initial;
+      border: none;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      background-clip: initial;
+    }
+  }
+
+  .btn:hover { color: #7b7979; }
+}
+
+form.edit_nook {
+  .inline {
+    > * {
+      display: inline-block;
+    }
+
+    input {
+      width: 60px;
+      padding-left: @padding-small-horizontal;
+      padding-right: @padding-small-horizontal;
+    }
+  }
+}
+
+span.checked, span.unchecked {
+  padding: 2px;
+  font-size: @font-size-small;
+  color: white;
+
+  + span {
+    margin-left: @padding-small-horizontal;
+  }
+}
+
+span.checked {
+  background-color: @brand-primary;
+}
+
+span.unchecked {
+  background-color: @gray-lightish;
+
+  + span {
+    color: @gray-lightish;
+  }
+
+  &:before {
+    visibility: hidden;
+  }
+}
