@@ -20,25 +20,39 @@ $(function() {
 
     // time filter selection
     var time = $('#hour-range-slider').slider('getValue');
-    searchParams.time = {
-      from: time[0],
-      to: time[1]
+
+    searchParams.time_range = {
+      start: time[0] * 3600,
+      end: time[1] * 3600
     };
 
     // date filter selection
-    searchParams.amentities = [];
-    searchParams.date = $(".datepicker-element").first().datepicker('getFormattedDate').split(',');
     var selected = [];
-    $('form.booking .filter.date button.active').each(function (k, val) {
-      selected.push($(this).val());
-    });
-    searchParams.date_day_by_day = selected;
+
+    var activeWhen = $('#when button.active').first().val();
+
+    if (activeWhen === 'today') {
+      selected.push($('.date-this-week button').first().val());
+    } else if (activeWhen === 'this-week') {
+      $('.date-this-week button.active').each(function () {
+        selected.push($(this).val());
+      });
+    } else if (activeWhen === 'future') {
+      var selectedDate = $('.datepicker-element').first().datepicker('getFormattedDate');
+      var dateArr = selectedDate.split('/');
+
+      var date = dateArr[2] + '-' + dateArr[0] + '-' + dateArr[1];
+
+      selected.push(date);
+    }
+    searchParams.days = selected;
 
     // amentities filter selection
+    searchParams.amenities = [];
     $('.amenity input:checked').each(function (key, val) {
       var elem = $(this);
 
-      searchParams.amentities.push(elem.val());
+      searchParams.amenities.push(elem.val());
     });
 
     // matching rooms filter selection
@@ -50,11 +64,11 @@ $(function() {
     });
 
     // matching rooms types filter selection
-    searchParams.matching_types = [];
+    searchParams.nook_types = [];
     $('#matching-types-list input:checked').each(function (key, val) {
       var elem = $(this);
 
-      searchParams.matching_types.push(elem.val());
+      searchParams.nook_types.push(elem.val());
     });
 
     // getting nooks items
@@ -222,6 +236,8 @@ $(function() {
    */
 
   $('form.booking .amenity input').on('change', function () {
+    NProgress.start();
+
     $(document).trigger('filter-updated');
   });
 
@@ -230,6 +246,8 @@ $(function() {
    */
 
   $('form.booking #filtered-results input').on('change', function () {
+    NProgress.start();
+
     $(document).trigger('filter-updated');
   });
 });

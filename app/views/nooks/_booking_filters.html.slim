@@ -47,7 +47,7 @@
         ul.dropdown-menu#matching-rooms-list aria-labelledby="matching-rooms-dropdown"
           - Nook.all.each do |nook|
             li
-              = check_box_tag nook.id, nook.id
+              = check_box_tag nook.id, nook.id, true
               = label_tag nook.id do
                 span
                 = nook.name
@@ -58,7 +58,7 @@
         ul.dropdown-menu#matching-types-list aria-labelledby="matching-types-dropdown"
           - Nook.distinct.pluck(:type).each do |key|
             li
-              = check_box_tag key, key
+              = check_box_tag key, key, true
               = label_tag key do
                 span
                 = key.titleize.pluralize

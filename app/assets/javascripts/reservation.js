@@ -68,7 +68,7 @@ $(function() {
       }
     });
 
-    $.post('reservations', toPost);
+    $.post('reservations.json', toPost);
   });
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {
