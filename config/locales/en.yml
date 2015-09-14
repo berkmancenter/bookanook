@@ -77,6 +77,8 @@ en:
     library_notes: 'Notes for library staff'
     ideas: 'Ideas for room improvements to support events like this'
     other_spaces: 'What other spaces does your group use for event like this?'
+    today: 'Today'
+    tomorrow: 'Tomorrow'
   users:
     filters:
       keyword: 'Keyword'
