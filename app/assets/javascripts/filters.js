@@ -1,128 +1,4 @@
 $(function() {
-  $(document).on('click', '.dropdown-menu input, .dropdown-menu label, .dropdown-menu label li', function(e){
-    e.stopPropagation();
-  });
-
-  $(document).on('shown.bs.dropdown', '.left-menu .dropdown', function() {
-    $(this).data('closable', false);
-  });
-
-  $(document).on('click', '.left-menu .dropdown a', function() {
-    if($(this).data('clicked')) {
-      var d = $(this).closest('.dropdown');
-      d.data('closable', true); d.trigger('force-hide');
-    } else {
-      $(this).data('clicked', true);
-    }
-  });
-
-  $(document).on('hide.bs.dropdown', '.left-menu .dropdown', function() {
-    return $(this).data('closable');
-  });
-
-  $(document).on('force-hide', '.left-menu .dropdown', function() {
-    $(this).removeClass('open');
-    $(this).find('.dropdown-toggle').data('clicked', false);
-  });
-
-  /**
-   * Reservation form
-   */
-
-  $(document).on('click', '.reservation-form-toggle', function () {
-    var elem = $(this);
-    var formBody = $('.reservation-form-body').first();
-
-    if (formBody.is(':visible')) {
-      formBody.hide();
-      elem.html('Fill out a reservation form to book ');
-
-      var arrowElem = $('<span/>', {
-        class: 'glyphicon glyphicon-chevron-down'
-      });
-    } else {
-      formBody.show();
-
-      elem.html('Hide reservation form ');
-
-      var arrowElem = $('<span/>', {
-        class: 'glyphicon glyphicon-chevron-up'
-      });
-    }
-
-    arrowElem.appendTo(elem);
-  });
-
-  $(document).on('submit', '.reservation-form form', function (e) {
-    var form = $(this);
-    var formFields = form.find('input, textarea');
-    var requiredFields = form.find('#reservation-event-name, #reservation-description, #reservation-number, #reservation-contact');
-    var toPost = {};
-
-    e.preventDefault();
-
-    formFields.removeClass('fill-in');
-
-    requiredFields.map(function (index, field) {
-      var requiredElem = $(field);
-
-      if (requiredElem.val() == '') {
-        requiredElem.addClass('fill-in');
-      }
-    });
-
-    if (form.find('.fill-in').length > 0) {
-      var alert = $('<div/>', {
-        text: 'Fill out required fields before submitting.',
-        class: 'alert alert-danger',
-        role: 'alert'
-      });
-
-      form.prepend(alert)
-      alert.delay(2000).fadeOut(1000);
-
-      return;
-    }
-
-    formFields.each(function (index, field) {
-      var fieldEl = $(field);
-
-      if (fieldEl.is('[type=checkbox]')) {
-        toPost[fieldEl.attr('name')] = fieldEl.is(':checked');
-      } else {
-        toPost[fieldEl.attr('name')] = fieldEl.val();
-      }
-    });
-
-    $.post('reservations', toPost);
-  });
-
-  $(document).on('click', '.reservation-form .reservation-when-day button', function () {
-    var elem = $(this);
-    var isActive = elem.hasClass('active');
-
-    $('.reservation-form .reservation-when-day button').removeClass('active');
-
-    if (isActive === false) {
-      elem.toggleClass('active');
-    }
-  });
-
-  bookModalLoaded = function () {
-  };
-
-  $(document).on('click', '.reservation-when-time-item', function () {
-    var elem = $(this);
-
-    if (elem.hasClass('open')) {
-      elem.removeClass('open');
-      elem.addClass('selected');
-    } else if (elem.hasClass('selected')) {
-      elem.removeClass('selected');
-      elem.addClass('open');
-    }
-  });
-
   /**
    * Filters general
    */
@@ -191,13 +67,13 @@ $(function() {
 
   $('.datepicker-element').datepicker({});
 
-  $(".datepicker-element").on("changeDate", function(event) {
+  $(".datepicker-element").on("changeDate", function (event) {
     NProgress.start();
 
     $(document).trigger('filter-updated');
   });
 
-  $(".datepicker-element").on("hide", function(event) {
+  $(".datepicker-element").on("hide", function (event) {
     console.log('foo');
   });
 
@@ -221,12 +97,12 @@ $(function() {
     var max_end = object.value["newValue"][1];
     var minutes, hour;
 
-    if(min_start != min_end) {
+    if (min_start != min_end) {
       hour = Math.floor(min_end);
       minutes = s.lpad((min_end - hour) * 60, 2, '0');
       $(this).parent().find('.slider-min').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
     }
-    if(max_start != max_end) {
+    if (max_start != max_end) {
       hour = Math.floor(max_end);
       minutes = s.lpad((max_end - hour) * 60, 2, '0');
       $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
@@ -248,10 +124,11 @@ $(function() {
    * Location filter
    */
 
-  // selecting location items
+    // selecting location items
   $(document).on('click', '#locations-select li', function (e) {
     $(this).toggleClass('active');
   });
+
   // process location selection
   $(document).on('click', '#process-locations-select', function () {
     var locationActiveItems = $('#locations-select li.active');
@@ -266,7 +143,7 @@ $(function() {
         'data-item-id': locationData.id
       });
 
-      var nameElem  = $('<span/>', {
+      var nameElem = $('<span/>', {
         text: locationData.name
       });
 
@@ -275,7 +152,7 @@ $(function() {
         text: 'x'
       });
 
-      removeElem.on('click', function() {
+      removeElem.on('click', function () {
         NProgress.start();
 
         $(this).parent().remove();
@@ -355,81 +232,4 @@ $(function() {
   $('form.booking #filtered-results input').on('change', function () {
     $(document).trigger('filter-updated');
   });
-
-  /**
-   * General modal related
-   */
-
-  // cancel modal
-  $(document).on('click', '.close-modal', function () {
-    modal.modal('hide');
-  });
-
-  // init modals
-  $(document).on('click', '.remote-modal', function (e) {
-    e.preventDefault();
-    var data = $(e.target).data();
-
-    NProgress.start();
-
-    modal = $(data['modal']);
-
-    if($(e.target).attr('href') && !data['target']) {
-      data['target'] = $(e.target).attr('href');
-    }
-    if(data['target']) {
-      $(modal).find('.modal-dialog').load(data['target'], function () {
-        NProgress.done();
-
-        if (typeof data.callback !== 'undefined') {
-          var callbackFunc = data.callback;
-          window[callbackFunc]();
-        }
-      });
-    }
-
-    modal.modal();
-  });
-
-  $(document).on('click', '#modal,.modal-backdrop', function (e) {
-    if($(e.target).hasClass('modal-dialog') || $(e.target).hasClass('modal-backdrop')) {
-      $('#modal').modal('toggle');
-    }
-  });
-
-  /**
-   * Wall related
-   */
-
-  // responsive nooks wall
-  // why timeout? no idea, masonry is not working every time when it's not here
-  setTimeout(function () {
-    $('.nooks').masonry({
-      // set itemSelector so .grid-sizer is not used in layout
-      itemSelector: '.nook-item',
-      // use element for option
-      columnWidth: '.nook-item',
-      percentPosition: true
-    });
-  }, 1);
-
-  // updating nooks wall
-  var updateWall = function (searchParams) {
-    $('.nooks').empty();
-    $('.nooks').load('/nooks//search', searchParams, function () {
-      $('.nooks').masonry('destroy');
-
-      setTimeout(function() {
-        $('.nooks').masonry({
-          // set itemSelector so .grid-sizer is not used in layout
-          itemSelector: '.nook-item',
-          // use element for option
-          columnWidth: '.nook-item',
-          percentPosition: true
-        });
-      }, 1);
-
-      NProgress.done();
-    });
-  };
 });

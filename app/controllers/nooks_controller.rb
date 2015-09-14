@@ -106,7 +106,7 @@ class NooksController < ApplicationController
         :name, :location_id, :place, :type, :description,
         :bookable, :user_id, :min_schedulable, :max_schedulable,
         :min_reservation_length, :max_reservation_length, :requires_approval,
-        :amenities, :min_capacity, :max_capacity, { attrs: [ :key, :value ] },
+        :amenities, :min_capacity, :max_capacity, :startingDay, { attrs: [ :key, :value ] },
         { hidden_attrs: [ :key, :value ] }, { photos: [] }
       )
     end
