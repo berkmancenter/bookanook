@@ -13,12 +13,14 @@ Rails.application.routes.draw do
       post :search
     end
   end
-  resources :users, only: [:index, :show]
 
   get 'select_locations' => 'locations#select'
 
   namespace :admin do
     resources :nooks
+    resources :reservations
+    resources :locations
+    resources :users, only: [:index, :show]
   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
