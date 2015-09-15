@@ -1,0 +1,27 @@
+.admin {
+  /* navigation */
+  .nav-pills {
+    &.navbar-left {
+      li {
+        margin-right: 10px;
+
+        a { border: 2px solid #0198CB; }
+
+        &.active {
+          a {
+            color: #ffffff;
+            background-color: #0198CB;
+          }
+        }
+      }
+    }
+
+    > li {
+      > a { color: #0198CB; }
+    }
+
+    #user-pill {
+      div:first-child * { background-color: #0198CB; }
+    }
+  }
+}

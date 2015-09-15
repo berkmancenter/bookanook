@@ -91,3 +91,5 @@ en:
       status:
         active: 'Active'
         banned: 'Banned'
+  filters:
+    search: 'Search'
