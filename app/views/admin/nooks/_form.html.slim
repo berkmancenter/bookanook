@@ -1,0 +1,40 @@
+- content_for(:modal_left) do
+  div.panel.panel-default.edit_nook
+    div.panel-heading
+      h3.panel-title
+        span #{@nook.name}
+        span.pull-right.nook-title #{@nook.location_name}
+    div.panel-body
+      = render 'shared/carousel', :nook_images => @nook.photos
+    div.panel-body
+      = simple_form_for([:admin, @nook]) do |f|
+        = f.input :name, label: t('nooks.filters.nook_name')
+        = f.input :place, label: t('nooks.filters.location')
+        = f.association :location, label: t('nooks.filters.branch')
+        = f.input :type, label: t('nooks.filters.room_type')
+        = f.association :manager, label: t('nooks.filters.contact')
+        = f.input :description, label: t('reservations.description')
+
+- content_for(:modal_right) do
+  div.panel.panel-default
+    div.panel-heading
+      h3.panel-title Room Attributes
+    div.panel-body
+      = simple_form_for([:admin, @nook]) do |f|
+        = f.input :amenities, collection: amenities, as: :check_boxes, label: false
+        div.inline
+          span Capacity:
+          = f.input :min_capacity, label: false
+          span to
+          = f.input :max_capacity, label: false
+        = render partial: 'shared/rating_tag', locals: { rating_label: 'Noise Level' }
+        = render partial: 'shared/rating_tag', locals: { rating_label: 'Sunlight' }
+        = render partial: 'shared/rating_tag', locals: { rating_label: 'Outlets' }
+  div.panel.panel-default
+    div.panel-heading
+      h3.panel-title Hidden Attributes
+  div.panel.panel-default
+    div.panel-heading
+      h3.panel-title Upcoming Reservations
+    div.panel-body
+      = render 'shared/nook_reservations', nook: @nook
