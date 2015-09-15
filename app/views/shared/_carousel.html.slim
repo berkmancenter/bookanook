@@ -1,21 +1,22 @@
-- if nook_images.count > 0
-  div#nook-carousel.carousel.slide data-ride="carousel"
-    div.carousel-inner role="listbox"
-      - nook_images.each_with_index do |image, i|
-        div class=('item' + (i == 0 ? ' active' : ''))
-          = image_tag image
+- nook_images = ['placeholder.jpg'] if nook_images.count < 1
+div#nook-carousel.carousel.slide data-ride="carousel"
+  div.carousel-inner role="listbox"
+    - nook_images.each_with_index do |image, i|
+      - Rails.logger.debug image
+      div class=('item' + (i == 0 ? ' active' : ''))
+        = image_tag image
 
-    - if nook_images.count > 1
-      a.left.carousel-control href="#nook-carousel" role="button" data-slide="prev"
-        span.glyphicon.glyphicon-chevron-left aria-hidden="true"
-        span.sr-only Previous
-      a.right.carousel-control href="#nook-carousel" role="button" data-slide="next"
-        span.glyphicon.glyphicon-chevron-right aria-hidden="true"
-        span.sr-only Next
   - if nook_images.count > 1
-    div.carousel-thumbnails
-      - nook_images.each_with_index do |image, i|
-        div.col-md-2
-          a.thumbnail href="#nook-carousel" role="button" data-slide-to="#{i}"
-            = image_tag image
-  div.empty-separator
+    a.left.carousel-control href="#nook-carousel" role="button" data-slide="prev"
+      span.glyphicon.glyphicon-chevron-left aria-hidden="true"
+      span.sr-only Previous
+    a.right.carousel-control href="#nook-carousel" role="button" data-slide="next"
+      span.glyphicon.glyphicon-chevron-right aria-hidden="true"
+      span.sr-only Next
+- if nook_images.count > 1
+  div.carousel-thumbnails
+    - nook_images.each_with_index do |image, i|
+      div.col-md-2
+        a.thumbnail href="#nook-carousel" role="button" data-slide-to="#{i}"
+          = image_tag image
+div.empty-separator

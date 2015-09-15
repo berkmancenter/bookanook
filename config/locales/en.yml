@@ -31,6 +31,7 @@ en:
     upcoming: 'Upcoming Reservations'
     location: 'Location'
     room_type: 'Room type'
+    branch: 'Branch'
     filters:
       keyword: 'Keyword'
       nook_name: 'Room name'
@@ -79,6 +80,7 @@ en:
     other_spaces: 'What other spaces does your group use for event like this?'
     today: 'Today'
     tomorrow: 'Tomorrow'
+    no_reservations: 'None'
   users:
     filters:
       keyword: 'Keyword'

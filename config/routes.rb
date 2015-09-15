@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   root 'nooks#index'
   resources :locations
   resources :reservations
-  resources :nooks do
+  resources :nooks, except: [:new, :edit, :create, :update, :destroy] do
     collection do
       get :search
       post :search
@@ -16,6 +16,10 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show]
 
   get 'select_locations' => 'locations#select'
+
+  namespace :admin do
+    resources :nooks
+  end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

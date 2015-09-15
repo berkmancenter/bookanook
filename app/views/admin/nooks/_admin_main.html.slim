@@ -5,8 +5,7 @@
     p.notice = notice
     p.alert = alert
 
-  - #TODO: Replace this placeholder conditional.
-  = render current_user.try(:admin?) ? 'admin_filters' : 'booking_filters'
+  = render 'admin_filters'
 
   = link_to 'Edit global attributes', '#'
 
@@ -38,9 +37,9 @@
           td = nook.type
           td = nook.available_now?
           td = nook.max_capacity
-          td = link_to 'Edit', edit_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
+          td = link_to 'Edit', edit_admin_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
           td = link_to 'Destroy', nook, method: :delete, data: { confirm: 'Are you sure?' }
 
   <br>
 
-  = link_to 'New Nook', new_nook_path, class: 'btn btn-primary remote-modal', data: { modal: '#modal' }
+  = link_to 'New Nook', new_admin_nook_path, class: 'btn btn-primary remote-modal', data: { modal: '#modal' }

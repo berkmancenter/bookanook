@@ -41,27 +41,6 @@
     div.panel-heading
       h3.panel-title #{t('nooks.upcoming')}
     div.panel-body
-      - @upcoming = nook.reservations.where('start > ?', DateTime.now).limit(10).order('start asc')
-      - @upcoming.each_with_index do |reservation, i|
-        div.upcoming-reservation.clearfix
-          - if ((i - 1) < 0 || (@upcoming[i - 1].start.strftime('%d') != reservation.start.strftime('%d')))
-            div.upcoming-reservation-day
-              = reservation.start.strftime('%B')
-              = ' '
-              = reservation.start.strftime('%d')
-              - if reservation.start.today?
-                = ' - '
-                = t('reservations.today')
-              - if reservation.start.to_date == Date.tomorrow
-                = ' - '
-                = t('reservations.tomorrow')
-          div.upcoming-reservation-user.col-sm-6
-            = reservation.requester.email
-          div.upcoming-reservation-range.col-sm-6.text-right
-            = reservation.start.strftime('%I:%M%p')
-            = '-'
-            = reservation.end.strftime('%I:%M%p')
-          - if (!@upcoming[i + 1].nil? && @upcoming[i + 1].start.strftime('%d') != reservation.start.strftime('%d'))
-            div.empty-separator
+      = render 'shared/nook_reservations', nook: nook
 
 = render 'shared/modal'
