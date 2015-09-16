@@ -6,14 +6,21 @@
         span.pull-right.nook-title #{@nook.location_name}
     div.panel-body
       = render 'shared/carousel', :nook_images => @nook.photos
+      div.image-uploader
+        = simple_form_for [:admin, @nook], :html => {:multipart => true, :'data-type' => 'json', :id => 'nook-image-form'}, :remote => true do |f|
+          div.btn.btn-primary.file-upload
+            span +
+            = f.file_field :image, :class => 'upload'
     div.panel-body
-      = simple_form_for([:admin, @nook]) do |f|
+      = simple_form_for [:admin, @nook], :html => {:'data-type' => 'json'}, :remote => true do |f|
         = f.input :name, label: t('nooks.filters.nook_name')
-        = f.input :place, label: t('nooks.filters.location')
+        = f.input :place, label: t('nooks.filters.location'), as: :string
         = f.association :location, label: t('nooks.filters.branch')
         = f.input :type, label: t('nooks.filters.room_type')
-        = f.association :manager, label: t('nooks.filters.contact')
         = f.input :description, label: t('reservations.description')
+    div.panel-body
+      h5
+        = 'Reservations'
 
 - content_for(:modal_right) do
   div.panel.panel-default

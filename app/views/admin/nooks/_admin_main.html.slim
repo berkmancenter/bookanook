@@ -32,13 +32,13 @@
     tbody
       - @nooks.each do |nook|
         tr
-          td = link_to nook.name, nook, class: 'remote-modal', data: { modal: '#modal' }
+          td = link_to nook.name, edit_admin_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
           td = link_to nook.location.name, nook.location if nook.location
           td = nook.type
-          td = nook.available_now?
+          td = ''
           td = nook.max_capacity
           td = link_to 'Edit', edit_admin_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
-          td = link_to 'Destroy', nook, method: :delete, data: { confirm: 'Are you sure?' }
+          td = link_to 'Remove', nook, method: :destroy, data: { confirm: 'Are you sure?' }
 
   <br>
 

@@ -34,9 +34,19 @@ class Admin::NooksController < Admin::BaseController
   end
 
   def update
+    uploaded_image = params[:nook][:image]
+    if (!uploaded_image.nil?)
+      @nook.photos = @nook.photos.push(uploaded_image)
+      @nook.save!
+
+      render :json => @nook.photos, status: :ok
+
+      return
+    end
+
     respond_to do |format|
       if @nook.update(nook_params)
-        format.html { redirect_to @nook, notice: 'Nook was successfully updated.' }
+        format.html { redirect_to [:admin, @nook], notice: 'Nook was successfully updated.' }
         format.json { render :show, status: :ok, location: @nook }
       else
         format.html { render :edit }

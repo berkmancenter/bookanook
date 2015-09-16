@@ -6,4 +6,19 @@
   a {
     &:hover { color: #0198CB; }
   }
+
+  table {
+    th {
+      a {
+        &.current {
+          padding-right: 12px;
+          background-repeat: no-repeat;
+          background-position: right center;
+
+          &.asc { background-image: url(<%= asset_path('arrow-up.svg') %>) }
+          &.desc { background-image: url(<%= asset_path('arrow-down.svg') %>) }
+        }
+      }
+    }
+  }
 }
