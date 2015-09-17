@@ -1,29 +1,32 @@
 @import "my_vars.less";
 
 body {
+  #nook-carousel {
+    .carousel-control { color: #4099D0; }
+
+    .item { max-height: 400px; }
+  }
+
+  .carousel-thumbnails {
+    margin-top: 10px;
+
+    > div {
+      margin-bottom: 10px;
+      cursor: pointer;
+      float: none;
+      display: inline-block;
+      vertical-align: top;
+      padding-left: 0;
+    }
+
+    .thumbnail { margin-bottom: 0; }
+
+    a.thumbnail:hover,
+    a.thumbnail:focus,
+    a.thumbnail.active { border-color: #4099D0; }
+  }
+
   &.booking {
-    #nook-carousel {
-      .carousel-control { color: #4099D0; }
-
-      .item { max-height: 400px; }
-    }
-
-    .carousel-thumbnails {
-      margin-top: 10px;
-
-      > div:first-child { padding-left: 0; }
-      > div {
-        margin-bottom: 10px;
-        cursor: pointer;
-      }
-
-      .thumbnail { margin-bottom: 0; }
-
-      a.thumbnail:hover,
-      a.thumbnail:focus,
-      a.thumbnail.active { border-color: #4099D0; }
-    }
-
     .reservation-form {
       .reservation-form-toggle {
         color: #ec137c;

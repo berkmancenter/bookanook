@@ -64,10 +64,16 @@ class Admin::LocationsController < Admin::BaseController
   # DELETE /locations/1
   # DELETE /locations/1.json
   def destroy
-    @location.destroy
     respond_to do |format|
-      format.html { redirect_to locations_url, notice: 'Location was successfully destroyed.' }
-      format.json { head :no_content }
+      begin
+        @location.destroy
+      rescue ActiveRecord::InvalidForeignKey
+        format.html { redirect_to admin_locations_url, notice: 'Location is still referenced from table nooks. Can\'t remove.' }
+        format.json { head :no_content }
+      rescue
+        format.html { redirect_to admin_locations_url, notice: 'Location was successfully destroyed.' }
+        format.json { head :no_content }
+      end
     end
   end
 
