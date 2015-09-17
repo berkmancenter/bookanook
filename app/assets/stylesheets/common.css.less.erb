@@ -3,6 +3,12 @@
 body {
   padding: 2%;
 
+  div.empty-separator {
+    height: 10px;
+    width: 100%;
+    clear: both;
+  }
+
   &.booking {
     background-image: url(<%= asset_path('tiled-background.svg') %>);
     background-color: @gray-background;
@@ -14,12 +20,6 @@ body {
     }
 
     label { font-weight: normal; }
-
-    div.empty-separator {
-      height: 10px;
-      width: 100%;
-      clear: both;
-    }
 
     .container-fluid {
       padding: 0;

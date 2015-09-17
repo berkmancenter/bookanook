@@ -9,6 +9,10 @@
 
   = link_to 'Edit global attributes', '#'
 
+  div.empty-separator
+
+  = link_to 'New Nook', new_admin_nook_path, class: 'btn btn-primary remote-modal', data: { modal: '#modal' }
+
   table.table
     thead
       tr
@@ -37,9 +41,5 @@
           td = nook.type
           td = ''
           td = nook.max_capacity
-          td = link_to 'Edit', edit_admin_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
-          td = link_to 'Remove', nook, method: :destroy, data: { confirm: 'Are you sure?' }
-
-  <br>
-
-  = link_to 'New Nook', new_admin_nook_path, class: 'btn btn-primary remote-modal', data: { modal: '#modal' }
+          td = link_to t('edit'), edit_admin_nook_path(nook), class: 'remote-modal', data: { modal: '#modal' }
+          td = link_to t('remove'), admin_nook_path(nook), method: :destroy, data: { confirm: t('are_you_sure') }

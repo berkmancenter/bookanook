@@ -20,6 +20,16 @@ class Admin::NooksController < Admin::BaseController
   end
 
   def create
+    uploaded_image = params[:nook][:image]
+    if (!uploaded_image.nil?)
+      uploader = TempPhotoUploader.new
+      uploader.store!(uploaded_image)
+
+      render :json => uploader.filename, status: :ok
+
+      return
+    end
+
     @nook = Nook.new(nook_params)
 
     respond_to do |format|
@@ -85,8 +95,8 @@ class Admin::NooksController < Admin::BaseController
         :name, :location_id, :place, :type, :description,
         :bookable, :user_id, :min_schedulable, :max_schedulable,
         :min_reservation_length, :max_reservation_length, :requires_approval,
-        :amenities, :min_capacity, :max_capacity, { attrs: [ :key, :value ] },
-        { hidden_attrs: [ :key, :value ] }, { photos: [] }
+        :min_capacity, :max_capacity, { attrs: [ :key, :value ] },
+        { hidden_attrs: [ :key, :value ] }, { photos: [] }, { amenities: []}
       )
     end
 
