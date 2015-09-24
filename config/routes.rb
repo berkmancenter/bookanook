@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'nooks#index'
   resources :locations
+  resources :reservations
   resources :nooks do
     collection do
       get :search
