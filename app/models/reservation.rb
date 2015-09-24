@@ -71,7 +71,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def minimum_length
-    if nook.min_reservation_length &&
+    if nook && nook.min_reservation_length &&
       duration < nook.min_reservation_length.seconds
       errors.add(:end, "can't be less than " + 
                  "#{humanize_seconds(nook.min_reservation_length)} after start")
@@ -79,7 +79,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def maximum_length
-    if nook.max_reservation_length && 
+    if nook && nook.max_reservation_length && 
       duration > nook.max_reservation_length.seconds
       errors.add(:end, "can't be more than " + 
                  "#{humanize_seconds(nook.max_reservation_length)} after start")
@@ -87,7 +87,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def minimum_start
-    if nook.min_schedulable && 
+    if nook && nook.min_schedulable && 
       self.start < Time.now + nook.min_schedulable.seconds
       errors.add(:start, "can't start less than " + 
                  "#{humanize_seconds(nook.min_schedulable)} from now")
@@ -95,7 +95,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def maximum_start
-    if nook.max_schedulable && 
+    if nook && nook.max_schedulable && 
       self.start > Time.now + nook.max_schedulable.seconds
       errors.add(:start, "can't start more than " + 
                  "#{humanize_seconds(nook.max_schedulable)} from now")

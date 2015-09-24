@@ -25,6 +25,11 @@ class ReservationsController < ApplicationController
   # POST /reservations.json
   def create
     @reservation = Reservation.new(reservation_params)
+    @reservation.requester = current_user
+    if params[:nook_id]
+      @nook = Nook.find(nook_id)
+      @reservation.nook = @nook
+    end
 
     respond_to do |format|
       if @reservation.save
@@ -69,6 +74,6 @@ class ReservationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reservation_params
-      params[:reservation]
+      params.require(:reservation).permit(:start, :end, :description, :notes)
     end
 end
