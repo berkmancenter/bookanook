@@ -1,0 +1,31 @@
+- content_for(:modal_left) do
+  div.panel.panel-default.edit_reservation
+    div.panel-heading
+      h3.panel-title
+      h3.panel-title.pull-right
+        = @reservation.nook.location.name
+    div.panel-body
+      = simple_form_for [:admin, @reservation], :html => {} do |f|
+        div.form-group.text.optional.reservation_event_name
+          label.text.optional.control-label = t('reservations.event_name')
+          = text_field_tag :event_name, 'UNKNOWN FIELD', disabled: true, class: "text optional form-control"
+        = f.input :status, label: t('reservations.filters.statuses'), collection: status_collection
+        = f.submit 'Save'
+        = f.association :nook, label: t('reservations.filters.room'), collection: @reservation.nook.location.nooks, disabled: true
+        = f.association :requester, label: t('reservations.users').singularize, collection: [[@reservation.requester.full_name, @reservation.requester.id]], disabled: true
+        = f.input :email, label: t('reservations.contact'), disabled: true
+        div.form-group.text.optional.reservation_number
+          label.text.optional.control-label = t('reservations.number')
+          = text_field_tag :number, 'UNKNOWN FIELD', disabled: true, class: "text optional form-control", disabled: true
+        div.form-group.text.optional.reservation_type
+          label.text.optional.control-label = t('reservations.type')
+          = text_field_tag :type, @reservation.nook.type, disabled: true, class: "text optional form-control", disabled: true
+        = f.input :description, label: t('reservations.event_description'), disabled: true
+        = f.input :notes, label: t('reservations.notes'), disabled: true
+        = f.input :start, label: t('reservations.filters.start'), as: :datetime, disabled: true
+        = f.input :end, label: t('reservations.filters.end'), as: :datetime, disabled: true
+
+- content_for(:modal_right) do
+  div.panel.panel-default
+    div.panel-heading
+      h3.panel-title = t('nooks.hidden_attributes')

@@ -2,10 +2,14 @@ class Reservation < ActiveRecord::Base
   belongs_to :nook
   belongs_to :requester, class_name: 'User', foreign_key: 'user_id'
 
+  delegate :email, to: :requester
+
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
   end
+
+  STATUSES = Status.constants.map{|s| Status.const_get(s)}
 
   # From active_support/core_ext/numeric/time.rb
   REPEATABLE_UNITS = [
@@ -20,7 +24,7 @@ class Reservation < ActiveRecord::Base
   serialize :repeats_every
 
   validates_presence_of :start, :end
-  validates_inclusion_of :status, in: Status.constants.map{|s| Status.const_get(s)}
+  validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
     greater_than_or_equal_to: 0
