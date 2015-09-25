@@ -1,0 +1,22 @@
+<%= simple_form_for(@location) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :description %>
+  </div>
+
+  <div>
+    <%= f.input :amenities, as: :selectize %>
+    <%= f.input :attrs, as: :hash %>
+    <%= f.input :hidden_attrs, as: :hash %>
+  </div>
+  
+  <div>
+    <%= f.input :hours, as: :hash %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

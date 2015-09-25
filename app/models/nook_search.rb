@@ -21,8 +21,8 @@ class NookSearch
     return [] if days.empty? || time_range[:start] == 0
     ranges = []
     days.each do |day|
-      ranges << (day.to_time + time_range[:start].seconds..
-                 day.to_time + time_range[:end].seconds)
+      ranges << (day.to_time + time_range[:start]..
+                 day.to_time + time_range[:end])
     end
     ranges
   end
@@ -30,7 +30,8 @@ class NookSearch
   # I tried to use Sunspot here, but it's any_of..without..between chain is
   # really buggy.
   def results
-    return Nook.none if has_default_params
+    # maybe it should show all the nooks when no filters?
+    # return Nook.none if has_default_params
 
     scope = Nook.where(bookable: true)
     scope = scope.where(location_id: location_ids) unless location_ids.empty?

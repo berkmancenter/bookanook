@@ -1,12 +1,14 @@
+- content_for(:body_classes) {'admin'}
+
 ul.nav.nav-pills.navbar-left
-  li role="presentation" class="#{'active' if active_page?('nooks')}"
-    = link_to 'Nooks', nooks_path
-  li role="presentation" class="#{'active' if active_page?('users')}"
-    = link_to 'Users', users_path
-  li role="presentation"
-    = link_to 'Reservations', nooks_path
-  li role="presentation" class="#{'active' if active_page?('locations')}"
-    = link_to 'Locations', locations_path
+  li role="presentation" class="#{'active' if active_page?('admin/nooks')}"
+    = link_to 'Nooks', admin_nooks_path
+  li role="presentation" class="#{'active' if active_page?('admin/users')}"
+    = link_to 'Users', admin_users_path
+  li role="presentation" class="#{'active' if active_page?('admin/reservations')}"
+    = link_to 'Reservations', admin_reservations_path
+  li role="presentation" class="#{'active' if active_page?('admin/locations')}"
+    = link_to 'Locations', admin_locations_path
 
 ul.nav.nav-pills.navbar-right
   li.dropdown
@@ -20,5 +22,7 @@ ul.nav.nav-pills.navbar-right
         span.glyphicon.glyphicon-menu-hamburger
         span.caret
     ul.dropdown-menu aria-labelledby="user-pill"
-      li = link_to 'Action', '#'
-      li = link_to 'Another action', '#'
+      - if user_signed_in?
+        li = link_to('Logout', destroy_user_session_path, :method => :delete)
+      - else
+        li = link_to('Login', new_user_session_path)

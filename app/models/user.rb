@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
 
   STATUSES = [ :active, :banned ]
 
+  has_many :reservations
+
   def admin?
     #TODO: Replace this placeholder.
     true

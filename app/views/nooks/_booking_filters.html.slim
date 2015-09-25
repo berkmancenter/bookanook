@@ -1,56 +1,64 @@
 - content_for(:left_menu) do
   - content_for(:left_menu_classes) { 'booking' }
   - content_for(:body_classes) { 'booking' }
-  h1 bookanook
+  h1.text-center
+    a.site-title href="/" bookanook
   form#left_menu.booking
-    div
-      div 1. #{t('nooks.filters.libraries')}
-      div.btn
-        span BPL - Central
-        span.remove_input X
-        = hidden_field_tag 'librarie_ids[]', 14
-      div.btn
-        span BPL - East Boston
-        span.remove_input X
-        = hidden_field_tag 'librarie_ids[]', 14
-      div.btn
-        span #{t('nooks.filters.library.add')}
-        = content_tag :span, '+', class: 'add_input', data: { libraries: Location.all }
-    div
-      div 2. #{t('nooks.filters.when')}
-      div#when.btn-group.btn-group-xs
-        button#today.btn #{t('nooks.filters.times.today')}
-        button#future.btn #{t('nooks.filters.times.future')}
-    div
-      div 3. #{t('nooks.filters.days')}
-      div#days.datepicker-element data-date="#{Time.now.to_date.strftime('%m/%d/%Y')}"
-      = hidden_field_tag "day"
-    div
-      div 4. #{t('nooks.filters.range')}
-      <input id="ex2" type="text" class="span2" value="" data-slider-min="8" data-slider-max="24" data-slider-step="0.25" data-slider-value="[10.0,14.0]"/>
-    div
-      div 5. #{t('nooks.filters.choose_amenities')}
+    div#location-filter.btn-group-sm.filter
+      div.filter-title 1. #{t('nooks.filters.libraries')}
+      div#add-location-button.btn
+        = link_to 'select_locations', class: 'btn btn-primary remote-modal', data: { modal: '#modal', callback: 'locationsModalLoaded' } do
+          span = t('nooks.filters.library.add')
+          span#add-location-sign +
+    div.filter.when
+      div.filter-title 2. #{t('nooks.filters.when')}
+      div#when.btn-group.btn-group-sm
+        button#today.btn value="today" type="button" #{t('nooks.filters.times.today')}
+        button#this-week.btn.active value="this-week" type="button" #{t('nooks.filters.times.this-week')}
+        button#future.btn value="future" type="button" #{t('nooks.filters.times.future')}
+    div.filter.date.this-week
+      div.filter-title 3. #{t('nooks.filters.days')}
+      div.date-future
+        div#days.datepicker-element
+      div.date-this-week.clearfix.btn-group.btn-group-sm
+        - (Date.today..Date.today + 6.days).map.each do |day|
+          button.btn type="button" value="#{day}" = day.strftime("%A")[0]
+    div.filter
+      div.filter-title 4. #{t('nooks.filters.range')}
+      <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="6" data-slider-max="22" data-slider-step="1" data-slider-value="[10.0,14.0]"/>
+      div.clearfix
+        div.slider-min 10:00AM
+        div.slider-max 2:00PM
+    div.amenities.filter
+      div.filter-title 5. #{t('nooks.filters.choose_amenities')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
-        div
-          = check_box_tag('amenities[]', amenity, false, id: "amenity_#{amenity}")
-          = label_tag("amenity_#{amenity}", amenity.titleize) 
-    div
-      div Filtered Results
+        div.amenity
+          = check_box_tag amenity, amenity
+          = label_tag amenity do
+            span
+            = amenity.titleize
+    div.transparent-separator
+    div#filtered-results.filter
+      div.filter-title #{t('nooks.filters.filtered_results')}
       div.dropdown
-        a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown"
-          | #{t('nooks.filters.matching_rooms')} (#{Nook.count})
+        a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
+          | #{Nook.count} #{t('nooks.filters.matching_rooms')}
           span.caret
-        ul.dropdown-menu aria-labelledby="matching-rooms-dropdown"
+        ul.dropdown-menu#matching-rooms-list aria-labelledby="matching-rooms-dropdown"
           - Nook.all.each do |nook|
             li
-              = check_box_tag nook.id
-              = label_tag nook.id, nook.name
+              = check_box_tag nook.id, nook.id, true
+              = label_tag nook.id do
+                span
+                = nook.name
       div.dropdown
-        a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown"
-          | #{t('nooks.filters.matching_types')} (#{Nook.distinct.pluck(:type).count})
+        a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
+          | #{Nook.distinct.pluck(:type).count} #{t('nooks.filters.matching_types')}
           span.caret
-        ul.dropdown-menu aria-labelledby="matching-types-dropdown"
+        ul.dropdown-menu#matching-types-list aria-labelledby="matching-types-dropdown"
           - Nook.distinct.pluck(:type).each do |key|
             li
-              = check_box_tag key
-              = label_tag key, key.titleize.pluralize
+              = check_box_tag key, key, true
+              = label_tag key do
+                span
+                = key.titleize.pluralize

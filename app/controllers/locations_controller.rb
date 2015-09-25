@@ -22,6 +22,15 @@ class LocationsController < ApplicationController
   def edit
   end
 
+  # GET /select_locations
+  def select
+    @locations = Location.all
+    respond_to do |format|
+      format.json
+      format.html { render @select, layout: false if request.xhr? }
+    end
+  end
+
   # POST /locations
   # POST /locations.json
   def create

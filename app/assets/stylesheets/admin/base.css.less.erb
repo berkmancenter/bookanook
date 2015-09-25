@@ -1,0 +1,40 @@
+.admin {
+  color: #000000;
+
+  h1, h2, h3, h4, h5, h6 { color: #0198CB; }
+
+  a {
+    &:hover { color: #0198CB; }
+
+    &.btn {
+      color: #0198CB;
+      background-color: #ffffff;
+      border: 2px solid #0198CB;
+      font-weight: bold;
+
+      &:hover { background-color: #eeeeee; }
+
+      &:active,
+      &:focus {
+        color: #0198CB;
+        background-color: #eeeeee;
+        border: 2px solid #0198CB;
+      }
+    }
+  }
+
+  table {
+    th {
+      a {
+        &.current {
+          padding-right: 12px;
+          background-repeat: no-repeat;
+          background-position: right center;
+
+          &.asc { background-image: url(<%= asset_path('arrow-up.svg') %>) }
+          &.desc { background-image: url(<%= asset_path('arrow-down.svg') %>) }
+        }
+      }
+    }
+  }
+}

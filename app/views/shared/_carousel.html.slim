@@ -1,30 +1,23 @@
-div#myCarousel.carousel.slide data-ride="carousel"
-
+- nook_images = ['placeholder.jpg'] if nook_images.count < 1
+div#nook-carousel
+  div#nook-carousel-element.carousel.slide data-ride="carousel"
     div.carousel-inner role="listbox"
-      div.item.active
-        img src="http://www.w3schools.com/bootstrap/img_chania.jpg" alt="Chania" width="460" height="345"
+      - nook_images.each_with_index do |image, i|
+        - Rails.logger.debug image
+        div class=('item' + (i == 0 ? ' active' : ''))
+          = image_tag image
 
-      div.item
-        img src="http://www.w3schools.com/bootstrap/img_chania2.jpg" alt="Chania" width="460" height="345"
-    
-      div.item
-        img src="http://www.w3schools.com/bootstrap/img_flower.jpg" alt="Flower" width="460" height="345"
-
-      div.item
-        img src="http://www.w3schools.com/bootstrap/img_flower2.jpg" alt="Flower" width="460" height="345"
-
-    a.left.carousel-control href="#myCarousel" role="button" data-slide="prev"
-      span.glyphicon.glyphicon-chevron-left aria-hidden="true"
-      span.sr-only Previous
-    a.right.carousel-control href="#myCarousel" role="button" data-slide="next"
-      span.glyphicon.glyphicon-chevron-right aria-hidden="true"
-      span.sr-only Next
-div
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = image_tag "http://www.w3schools.com/bootstrap/img_chania.jpg", class: 'col-md-2'
-  = button_tag "+", class: 'btn btn-primary col-md-2'
+    - if nook_images.count > 1
+      a.left.carousel-control href="#nook-carousel-element" role="button" data-slide="prev"
+        span.glyphicon.glyphicon-chevron-left aria-hidden="true"
+        span.sr-only Previous
+      a.right.carousel-control href="#nook-carousel-element" role="button" data-slide="next"
+        span.glyphicon.glyphicon-chevron-right aria-hidden="true"
+        span.sr-only Next
+  - if nook_images.count > 1
+    div.carousel-thumbnails
+      - nook_images.each_with_index do |image, i|
+        div.col-md-2
+          a.thumbnail href="#nook-carousel-element" role="button" data-slide-to="#{i}"
+            = image_tag image
+div.empty-separator
