@@ -13,6 +13,12 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.remotipart
+//= require jquery.iframe-transport
+//= require underscore.string.min
 //= require selectize
 //= require twitter/bootstrap
+//= require bootstrap-datepicker.min
+//= require bootstrap-slider.min
+//= require masonry.min
+//= require nprogress
 //= require_tree .
