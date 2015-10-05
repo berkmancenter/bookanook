@@ -31,7 +31,7 @@ $(function() {
     var form = $(this);
     var formFields = form.find('input, textarea');
     var requiredFields = form.find('#reservation-event-name, #reservation-description, #reservation-number, #reservation-contact');
-    var toPost = {};
+    var toPost = { nook_id: form.find('input[name="nook_id"]').val() };
 
     e.preventDefault();
 
@@ -68,7 +68,14 @@ $(function() {
       }
     });
 
-    $.post('reservations.json', toPost);
+    var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.open.selected');
+    var start = selectedTimes.first().find('button').val();
+    var end = selectedTimes.last().find('button').val();
+    toPost.start = start;
+    toPost.end = end;
+    console.log(toPost);
+
+    $.post('reservations.json', { reservation: toPost });
   });
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {

@@ -23,8 +23,8 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new(reservation_params)
     @reservation.requester = current_user
-    if params[:nook_id]
-      @nook = Nook.find(nook_id)
+    if params[:reservation][:nook_id]
+      @nook = Nook.find(params[:reservation][:nook_id])
       @reservation.nook = @nook
     end
 

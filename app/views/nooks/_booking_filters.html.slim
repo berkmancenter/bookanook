@@ -13,16 +13,12 @@
     div.filter.when
       div.filter-title 2. #{t('nooks.filters.when')}
       div#when.btn-group.btn-group-sm
-        button#today.btn value="today" type="button" #{t('nooks.filters.times.today')}
-        button#this-week.btn.active value="this-week" type="button" #{t('nooks.filters.times.this-week')}
+        button#today.btn.active value="today" type="button" #{t('nooks.filters.times.today')}
         button#future.btn value="future" type="button" #{t('nooks.filters.times.future')}
     div.filter.date.this-week
       div.filter-title 3. #{t('nooks.filters.days')}
       div.date-future
         div#days.datepicker-element
-      div.date-this-week.clearfix.btn-group.btn-group-sm
-        - (Date.today..Date.today + 6.days).map.each do |day|
-          button.btn type="button" value="#{day}" = day.strftime("%A")[0]
     div.filter
       div.filter-title 4. #{t('nooks.filters.range')}
       <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="6" data-slider-max="22" data-slider-step="1" data-slider-value="[10.0,14.0]"/>
