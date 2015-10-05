@@ -5,6 +5,9 @@ class CreateReservations < ActiveRecord::Migration
       t.references :user, index: true, foreign_key: true
 
       t.boolean :public
+      t.string :name
+      t.string :url
+      t.string :stream_url
       t.string :status
       t.integer :priority
       t.datetime :start

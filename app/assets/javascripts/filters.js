@@ -32,11 +32,7 @@ $(function() {
     var activeWhen = $('#when button.active').first().val();
 
     if (activeWhen === 'today') {
-      selected.push($('.date-this-week button').first().val());
-    } else if (activeWhen === 'this-week') {
-      $('.date-this-week button.active').each(function () {
-        selected.push($(this).val());
-      });
+      selected.push(new Date().toISOString().replace(/T.*$/, ''));
     } else if (activeWhen === 'future') {
       var selectedDate = $('.datepicker-element').first().datepicker('getFormattedDate');
       var dateArr = selectedDate.split('/');
@@ -216,9 +212,6 @@ $(function() {
     if (elem.val() === 'today') {
       $('.filter.date').removeClass('this-week future').addClass('today');
       $('.filter.date').addClass('inactive');
-    } else if (elem.val() === 'this-week') {
-      $('.filter.date').removeClass('today future').addClass('this-week');
-      $('.filter.date').removeClass('inactive');
     } else if (elem.val() === 'future') {
       $('.filter.date').removeClass('today this-week').addClass('future');
       $('.filter.date').removeClass('inactive');

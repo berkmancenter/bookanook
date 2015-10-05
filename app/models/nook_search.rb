@@ -4,25 +4,27 @@ class NookSearch
 
   def initialize(params = {})
     @has_default_params = ((ATTRS - params.keys).sort == ATTRS.sort)
-    @location_ids = params[:location_ids] || []
-    @amenities = params[:amenities] || []
-    @nook_types = params[:nook_types] || []
+    @location_ids = params['location_ids'] || []
+    @amenities = params['amenities'] || []
+    @nook_types = params['nook_types'] || []
 
     # An array of Date objects
-    @days = params[:days] || []
+    @days = params['days'] || []
 
     # Everything should be done in local timezone
     # This should be seconds since midnight
-    @time_range = params[:time_range] || { start: 0, end: 0 }
+    @time_range = params['time_range'] || { 'start' => 0, 'end' => 0 }
+    @time_range['start'] = @time_range['start'].to_i
+    @time_range['end'] = @time_range['end'].to_i
   end
 
   # Turns the days and time ranges into actual datetime ranges
   def datetime_ranges
-    return [] if days.empty? || time_range[:start] == 0
+    return [] if days.empty? || time_range['start'] == 0
     ranges = []
     days.each do |day|
-      ranges << (day.to_time + time_range[:start]..
-                 day.to_time + time_range[:end])
+      ranges << (day.to_time + time_range['start']..
+                 day.to_time + time_range['end'])
     end
     ranges
   end
@@ -43,9 +45,7 @@ class NookSearch
 
     unless datetime_ranges.empty?
       return scope.select do |nook|
-        puts nook.id
-        puts nook.open_schedule.inspect
-        datetime_ranges.any?{ |range| nook.available_for? range; puts nook.available_for?(range) }
+        datetime_ranges.any?{ |range| nook.available_for? range }
       end
     end
 

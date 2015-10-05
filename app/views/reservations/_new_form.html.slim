@@ -1,13 +1,6 @@
 div.reservation-form
-  div.reservation-when-day
-    div.row-title 1. #{t('reservations.week_day')}
-    div.empty-separator
-    div.btn-group.btn-group-sm.reservation-when-days
-      - (Date.today..Date.today + 6.days).map.each do |day|
-        button.btn type="button" value="#{day}" = day.strftime("%A")[0]
-    div.empty-separator
   div.reservation-when-time
-    div.row-title 2. #{t('reservations.time_range')}
+    div.row-title #{t('reservations.time_range')}
 
     div.empty-separator
 
@@ -35,31 +28,24 @@ div.reservation-form
     hr.better-hr
 
     form
+      input type="hidden" name="nook_id" value=nook.id
       table.col-sm-7.reservation-form-part1
         tr
           td = '*' + t('reservations.event_name') + ':'
           td
-            input.form-control type="text" name="reservation-event-name" id="reservation-event-name"
+            input.form-control type="text" name="event_name" id="reservation-event-name"
         tr
           td = '*' + t('reservations.description') + ':'
           td
-            textarea.form-control name="reservation-description" id="reservation-description"
-        tr
-          td = '*' + t('reservations.number') + ':'
-          td
-            input.form-control type="number" min="1" name="reservation-number" id="reservation-number"
-        tr
-          td = '*' + t('reservations.contact') + ':'
-          td
-            input.form-control type="text" name="reservation-contact" id="reservation-contact"
+            textarea.form-control name="description" id="reservation-description"
         tr
           td = t('reservations.event_url') + ':'
           td
-            input.form-control type="text" name="reservation-eventurl" id="reservation-eventurl"
+            input.form-control type="url" name="url" id="reservation-eventurl"
         tr
           td = t('reservations.video_url') + ':'
           td
-            input.form-control type="text" name="reservation-videolink" id="reservation-videolink"
+            input.form-control type="url" name="stream_url" id="reservation-videolink"
 
       hr.better-hr
 
@@ -85,7 +71,7 @@ div.reservation-form
                     = t('reservations.projector')
               tr
                 td
-                  textarea.form-control placeholder="#{t('reservations.library_notes')}" name="reservation-noteslibrary" id="reservation-noteslibrary"
+                  textarea.form-control placeholder="#{t('reservations.library_notes')}" name="notes" id="reservation-noteslibrary"
               tr
                 td
                   textarea.form-control placeholder="#{t('reservations.ideas')}" name="reservation-ideas" id="reservation-ideas"
