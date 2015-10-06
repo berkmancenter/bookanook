@@ -26,13 +26,13 @@ FactoryGirl.define do
     factory :confirmed_user do
       after(:create) { |user| user.confirm! }
 
-      factory :manager do
-      end
+      factory :manager
     end
   end
 
   factory :reservation do
     nook
+    sequence(:name) { |n| "Test Reservation #{n}" }
     association :requester, factory: :confirmed_user
     add_attribute('public', true)
     start Time.now
