@@ -70,7 +70,7 @@ RSpec.describe NookSearch, type: :model do
 
         search = NookSearch.new(days: search_days, time_range: search_time_range)
         expect(search.results.count).to be > 0
-        expect(search.results).not_to include(nook)
+        expect(search.results.collect(&:id)).not_to include(nook.id)
       end
 
       it 'filters by reservable time available for any day', wip: true do
@@ -80,7 +80,6 @@ RSpec.describe NookSearch, type: :model do
         search_time_range = { start: search_start, end: search_end }
 
         nook = create(:nook)
-        puts "NOOK id: #{nook.id}"
         create(:confirmed_reservation, nook: nook,
                start: search_days.first.to_time + search_start.seconds,
                end: search_days.first.to_time + search_end.seconds)
@@ -98,6 +97,7 @@ RSpec.describe NookSearch, type: :model do
       it 'only finds open nooks' do
         nook = create(:nook, amenities: ['snorlax'])
         nook.open_schedule = OpenSchedule.new # default is always closed
+        nook.save
         search = NookSearch.new(amenities: ['snorlax'])
         expect(search.results.count).to eq(0)
       end

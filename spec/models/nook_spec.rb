@@ -2,10 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Nook, type: :model do
   describe 'default attributes' do
-    nook = Nook.new
+    before(:each) do
+      @nook = create(:nook)
+    end
 
     it 'has basic attributes' do
-      expect(nook).to respond_to(
+      expect(@nook).to respond_to(
         :name, :description, :type, :place,
         :min_capacity, :max_capacity,
         :min_schedulable, :max_schedulable,
@@ -16,23 +18,23 @@ RSpec.describe Nook, type: :model do
     end
 
     it 'has ExtensibleAttributes' do
-      expect(nook).to respond_to( :attrs, :hidden_attrs )
+      expect(@nook).to respond_to( :attrs, :hidden_attrs )
     end
 
     it 'has open_schedule' do
-      expect(nook).to respond_to :open_schedule
+      expect(@nook).to respond_to :open_schedule
     end
 
     it 'has a location' do
-      expect(nook).to respond_to :location
+      expect(@nook).to respond_to :location
     end
 
     it 'has a manager' do
-      expect(nook).to respond_to :manager
+      expect(@nook).to respond_to :manager
     end
 
     it 'has reservations' do
-      expect(nook).to respond_to :reservations
+      expect(@nook).to respond_to :reservations
     end
   end
 
@@ -41,12 +43,6 @@ RSpec.describe Nook, type: :model do
       nook = Nook.new
       expect(nook.attrs).to eq( { } )
       expect(nook.hidden_attrs).to eq( { } )
-    end
-
-    it 'sets open_schedule after initialize' do
-      location = FactoryGirl.create :location
-      nook = Nook.new location: location
-      expect(nook.open_schedule).to be_present
     end
   end
 
@@ -73,19 +69,16 @@ RSpec.describe Nook, type: :model do
   end
 
   describe '#manager' do
-    FactoryGirl.create :nook
-    nook = Nook.last
-
     it 'has a manager' do
+      nook = create(:nook)
       expect( nook.manager ).to be_present
     end
   end
 
   describe '#reservations' do
-    FactoryGirl.create :reservation
-    nook = Nook.last
-
     it 'has a reservation' do
+      nook = create(:nook)
+      create(:reservation, nook: nook)
       expect( nook.reservations.count ).to eq( 1 )
     end
   end

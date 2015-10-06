@@ -47,6 +47,14 @@ class OpenSchedule < ActiveRecord::Base
     !open_for_range?(range)
   end
 
+  def always_closed?
+    !blocks.any?
+  end
+
+  def always_open?
+    blocks.all?
+  end
+
   def open_ranges_containing(time)
     time_shift = ((time - start) / duration).floor * duration
     # Walk through each span

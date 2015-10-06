@@ -14,6 +14,10 @@ describe OpenSchedule do
     end
   end
 
+  describe '#always_closed?' do
+    it 'returns true when never open'
+  end
+
   describe '#(span_name)s' do
     it 'is an alias for spans' do
       schedule = OpenSchedule.new(span_name: 'day')

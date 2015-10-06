@@ -27,11 +27,6 @@ RSpec.describe Location, type: :model do
       expect(location.attrs).to eq( { } )
       expect(location.hidden_attrs).to eq( { } )
     end
-
-    it 'sets open_schedule after initialize' do
-      location = Location.new
-      expect(location.open_schedule).to be_present
-    end
   end
 
   describe '#amenities' do
@@ -49,19 +44,17 @@ RSpec.describe Location, type: :model do
   end
 
   describe '#nooks' do
-    FactoryGirl.create :nook
-    location = Location.last
-
     it 'has a nook' do
+      location = create(:location)
+      create(:nook, location: location)
       expect( location.nooks.count ).to eq( 1 )
     end
   end
 
   describe '#reservations' do
-    FactoryGirl.create :reservation
-    location = Location.last
-
     it 'has a reservation' do
+      location = create(:location)
+      create(:reservation, nook: create(:nook, location: location))
       expect( location.reservations.count ).to eq( 1 )
     end
   end

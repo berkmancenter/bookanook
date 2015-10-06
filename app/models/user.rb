@@ -15,12 +15,12 @@ class User < ActiveRecord::Base
 
   def first_name
     #TODO: Replace this placeholder.
-    email.split('@').first.split(/[._-]/).first.try(:capitalize)
+    email.split('@').first.split(/[._-]/).first
   end
 
   def last_name
     #TODO: Replace this placeholder.
-    (email.split('@').first.split(/[._-]/).collect(&:capitalize) - [first_name]).first
+    (email.split('@').first.split(/[._-]/) - [first_name]).last
   end
 
   def full_name
