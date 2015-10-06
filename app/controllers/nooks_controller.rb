@@ -14,6 +14,8 @@ class NooksController < ApplicationController
   # GET /nooks/1
   # GET /nooks/1.json
   def show
+    @reservation = Reservation.new
+    @reservation.nook = @nook
     respond_to do |format|
       format.json
       format.html { render @nook, layout: false if request.xhr? }

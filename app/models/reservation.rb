@@ -23,7 +23,7 @@ class Reservation < ActiveRecord::Base
 
   serialize :repeats_every
 
-  validates_presence_of :start, :end
+  validates_presence_of :name, :start, :end
   validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,

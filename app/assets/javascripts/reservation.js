@@ -27,55 +27,20 @@ $(function() {
     arrowElem.appendTo(elem);
   });
 
-  $(document).on('submit', '.reservation-form form', function (e) {
-    var form = $(this);
-    var formFields = form.find('input, textarea');
-    var requiredFields = form.find('#reservation-event-name, #reservation-description, #reservation-number, #reservation-contact');
-    var toPost = { nook_id: form.find('input[name="nook_id"]').val() };
-
-    e.preventDefault();
-
-    formFields.removeClass('fill-in');
-
-    requiredFields.map(function (index, field) {
-      var requiredElem = $(field);
-
-      if (requiredElem.val() == '') {
-        requiredElem.addClass('fill-in');
-      }
-    });
-
-    if (form.find('.fill-in').length > 0) {
-      var alert = $('<div/>', {
-        text: 'Fill out required fields before submitting.',
-        class: 'alert alert-danger',
-        role: 'alert'
-      });
-
-      form.prepend(alert)
-      alert.delay(2000).fadeOut(1000);
-
-      return;
-    }
-
-    formFields.each(function (index, field) {
-      var fieldEl = $(field);
-
-      if (fieldEl.is('[type=checkbox]')) {
-        toPost[fieldEl.attr('name')] = fieldEl.is(':checked');
-      } else {
-        toPost[fieldEl.attr('name')] = fieldEl.val();
-      }
-    });
+  $(document).on('ajax:before', '#new_reservation', function(e) {
+    var $form = $(this);
 
     var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.open.selected');
     var start = selectedTimes.first().find('button').val();
     var end = selectedTimes.last().find('button').val();
-    toPost.start = start;
-    toPost.end = end;
-    console.log(toPost);
-
-    $.post('reservations.json', { reservation: toPost });
+    $form.find('#reservation_start').val(start);
+    $form.find('#reservation_end').val(end);
+    $form.on('ajax:success', function(e, data, status, xhr) {
+      window.location.assign(data);
+    });
+    $form.on('ajax:error', function(e, xhr, status, error) {
+      $form.replaceWith($(xhr.responseText).find('.reservation-form form'));
+    });
   });
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {

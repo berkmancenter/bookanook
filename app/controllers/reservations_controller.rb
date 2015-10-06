@@ -30,10 +30,17 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
+        format.html {
+          flash[:notice] = t('reservations.submitted')
+          if request.xhr?
+            render text: nooks_url
+          else
+            redirect_to nooks_path
+          end
+        }
         format.json { render :show, status: :created, location: @reservation }
       else
-        format.html { render :new }
+        format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
     end
@@ -59,6 +66,7 @@ class ReservationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reservation_params
-      params.require(:reservation).permit(:start, :end, :description, :notes)
+      params.require(:reservation).permit(:name, :start, :end, :description,
+                                          :url, :stream_url, :notes)
     end
 end
