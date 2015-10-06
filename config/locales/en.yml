@@ -109,6 +109,7 @@ en:
     number: 'Number'
     contact: 'Contact'
     notes: 'Notes'
+    submitted: 'Your reservation has been submitted for review'
   users:
     filters:
       keyword: 'Keyword'

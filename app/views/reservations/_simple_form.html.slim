@@ -1,0 +1,47 @@
+= simple_form_for(@reservation, remote: true, html: { class: 'form-horizontal' },
+  wrapper: :horizontal_form,
+    wrapper_mappings: { check_boxes: :horizontal_radio_and_checkboxes, radio_buttons: :horizontal_radio_and_checkboxes, file: :horizontal_file_input, boolean: :horizontal_boolean }) do |f|
+      = f.association :nook, as: :hidden
+      = f.input :name, label: t('reservations.event_name')
+      = f.input :description, label: t('reservations.description')
+      = f.input :url, as: :url, label: t('reservations.event_url')
+      = f.input :stream_url, as: :url, label: t('reservations.video_url')
+      = f.input :start, as: :hidden
+      = f.input :end, as: :hidden
+
+      hr.better-hr
+
+      table.col-sm-12.reservation-part2
+        tr
+          td
+            = t('reservations.this_info_hidden')
+          td
+            table.col-sm-12
+              tr
+                td
+                  input type="checkbox" id="reservation-speakers" name="reservation-speakers"
+                  label for="reservation-speakers"
+                    span
+                      = t('reservations.speakers')
+                  input type="checkbox" id="reservation-food" name="reservation-food"
+                  label for="reservation-food"
+                    span
+                      = t('reservations.food_drinks')
+                  input type="checkbox" id="reservation-projector" name="reservation-projector"
+                  label for="reservation-projector"
+                    span
+                      = t('reservations.projector')
+              tr
+                td
+                  textarea.form-control placeholder="#{t('reservations.library_notes')}" name="notes" id="reservation-noteslibrary"
+              tr
+                td
+                  textarea.form-control placeholder="#{t('reservations.ideas')}" name="reservation-ideas" id="reservation-ideas"
+              tr
+                td
+                  textarea.form-control placeholder="#{t('reservations.other_spaces')}" name="reservation-otherspaces" id="reservation-otherspaces"
+              tr
+                td
+                  button.btn#book-reservation Book!
+
+      = f.button :submit, 'Book!'
