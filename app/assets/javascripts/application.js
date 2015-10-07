@@ -20,5 +20,6 @@
 //= require bootstrap-datepicker.min
 //= require bootstrap-slider.min
 //= require masonry.min
+//= require imagesloaded.pkgd.min
 //= require nprogress
 //= require_tree .

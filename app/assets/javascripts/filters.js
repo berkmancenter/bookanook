@@ -75,7 +75,9 @@ $(function() {
    * Date filter
    */
 
-  $('.datepicker-element').datepicker({});
+  $('.datepicker-element').datepicker({
+    startDate: new Date(),
+  });
 
   $(".datepicker-element").on("changeDate", function (event) {
     NProgress.start();
@@ -110,12 +112,12 @@ $(function() {
     if (min_start != min_end) {
       hour = Math.floor(min_end);
       minutes = s.lpad((min_end - hour) * 60, 2, '0');
-      $(this).parent().find('.slider-min').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
+      $(this).parent().find('.slider-min').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour >= 12 ? 'PM' : 'AM'));
     }
     if (max_start != max_end) {
       hour = Math.floor(max_end);
       minutes = s.lpad((max_end - hour) * 60, 2, '0');
-      $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM'));
+      $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour >= 12 ? 'PM' : 'AM'));
     }
 
     // refresh a list only when user finished moving
@@ -204,24 +206,23 @@ $(function() {
   $('form.booking #when button').on('click', function () {
     var elem = $(this);
 
-    NProgress.start();
-
     $('#when button').removeClass('active');
     elem.addClass('active');
 
     if (elem.val() === 'today') {
+      NProgress.start();
       $('.filter.date').removeClass('this-week future').addClass('today');
       $('.filter.date').addClass('inactive');
+      var searchParams = {};
+      searchParams.when = elem.val();
+
+      // getting nooks items
+      $(document).trigger('filter-updated');
     } else if (elem.val() === 'future') {
       $('.filter.date').removeClass('today this-week').addClass('future');
       $('.filter.date').removeClass('inactive');
     }
 
-    var searchParams = {};
-    searchParams.when = elem.val();
-
-    // getting nooks items
-    $(document).trigger('filter-updated');
   });
 
   /**

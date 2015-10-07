@@ -8,7 +8,7 @@ class NooksController < ApplicationController
   # GET /nooks
   # GET /nooks.json
   def index
-    @nooks = Nook.all
+    @nooks = []#Nook.order(:id)
   end
 
   # GET /nooks/1
@@ -24,7 +24,7 @@ class NooksController < ApplicationController
 
   def search
     @search = NookSearch.new(params)
-    @nooks = @search.results
+    @nooks = @search.results.sort_by(&:id)
 
     respond_to do |format|
       format.json

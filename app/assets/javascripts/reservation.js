@@ -29,12 +29,27 @@ $(function() {
 
   $(document).on('ajax:before', '#new_reservation', function(e) {
     var $form = $(this);
+    var activeWhen = $('#when button.active').first().val();
+
+    var startDate = new Date();
+    var endDate = new Date();
+
+    if (activeWhen === 'future') {
+      startDate = $('.datepicker-element').first().datepicker('getDate');
+      endDate = $('.datepicker-element').first().datepicker('getDate');
+    }
 
     var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.open.selected');
-    var start = selectedTimes.first().find('button').val();
-    var end = selectedTimes.last().find('button').val();
-    $form.find('#reservation_start').val(start);
-    $form.find('#reservation_end').val(end);
+    var startTime = selectedTimes.first().find('button').val();
+    var endTime = selectedTimes.last().find('button').val();
+    startDate.setHours(parseInt(startTime.slice(0, 2)));
+    startDate.setMinutes(parseInt(startTime.slice(2)));
+    endDate.setHours(parseInt(endTime.slice(0, 2)));
+    endDate.setMinutes(parseInt(endTime.slice(2)));
+
+    $form.find('#reservation_start').val(startDate.toISOString());
+    $form.find('#reservation_end').val(endDate.toISOString());
+
     $form.on('ajax:success', function(e, data, status, xhr) {
       window.location.assign(data);
     });
@@ -84,11 +99,11 @@ $(function() {
 
     var hour = Math.floor(timeSliderValues[0]);
     var minutes = s.lpad((timeSliderValues[0] - hour) * 60, 2, '0');
-    var from = (hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM');
+    var from = hour + '' + minutes;
 
     hour = Math.floor(timeSliderValues[1]);
     minutes = s.lpad((timeSliderValues[1] - hour) * 60, 2, '0');
-    var to = (hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour > 12 ? 'PM' : 'AM');
+    var to = hour + '' + minutes;
 
     var makeActive = false;
     $('.reservation-when-time-item').each(function () {
