@@ -56,7 +56,6 @@ class NookSearch
     nooks
   end
 
-
   class Hash
     def self.transform_keys_to_symbols(value)
       return value if not value.is_a?(Hash)

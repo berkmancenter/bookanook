@@ -5,7 +5,7 @@
     = render 'shared/nav_links'
 
   div.nooks.col-xs-12.col-sm-12.col-md-12.col-lg-12
-    - Nook.all.each.with_index do |nook, i|
+    - @nooks.each.with_index do |nook, i|
       div.nook-item
         div.nook
           = image_tag nook.photos.first ? nook.photos.first : 'placeholder.jpg'

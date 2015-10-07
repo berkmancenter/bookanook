@@ -6,17 +6,17 @@ div.reservation-form
 
     div.reservation-when-times
       div.col-sm-6
-        - (['12:00AM'] + (1..11).map {|h| "#{h}:00AM"}).each_with_index do |num, i|
+        - (0..11).each do |hour|
           div.reservation-when-time-item.col-sm-1.open
-            button.btn type="button" value="#{num}"
-            - if i.even?
-              span.small = num
+            button.btn type="button" value="#{hour.to_s.rjust(2, '0')}00"
+            - if hour.even?
+              span.small = "#{hour == 0 ? 12 : hour}:00AM"
       div.col-sm-6
-        - (['12:00PM'] + (1..11).map {|h| "#{h}:00PM"}).each_with_index do |num, i|
+        - (12..23).each do |hour|
           div.reservation-when-time-item.col-sm-1.open
-            button.btn.col-sm-1 type="button" value="#{num}"
-            - if i.even?
-              span.small = num
+            button.btn.col-sm-1 type="button" value="#{hour.to_s.rjust(2, '0')}00"
+            - if hour.even?
+              span.small = "#{hour == 12 ? hour : hour - 12}:00PM"
 
     div.empty-separator
   div.empty-separator
