@@ -42,6 +42,5 @@
                   textarea.form-control placeholder="#{t('reservations.other_spaces')}" name="reservation-otherspaces" id="reservation-otherspaces"
               tr
                 td
-                  button.btn#book-reservation Book!
+                  = f.button :submit, 'Book!', id: 'book-reservation'
 
-      = f.button :submit, 'Book!'
