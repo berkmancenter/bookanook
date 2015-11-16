@@ -1,12 +1,15 @@
 class Reservation < ActiveRecord::Base
   belongs_to :nook
-  belongs_to :requester, class_name: 'User', foreign_key: 'user_id'
+  belongs_to :requester, class_name: 'User', foreign_key: 'user_id',
+    inverse_of: :reservations
 
   delegate :email, to: :requester
 
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
+
+    Hash = Hash[Status.constants.map{|s| [s, Status.const_get(s)] }]
   end
 
   STATUSES = Status.constants.map{|s| Status.const_get(s)}
@@ -31,6 +34,10 @@ class Reservation < ActiveRecord::Base
   validate :minimum_length, :maximum_length, :minimum_start, :maximum_start
 
   after_initialize :set_defaults
+
+  def requester_id
+    user_id
+  end
 
   def length
     self.end - self.start

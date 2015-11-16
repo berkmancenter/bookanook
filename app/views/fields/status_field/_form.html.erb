@@ -1,0 +1,4 @@
+<%= f.label field.attribute %>
+<%= f.select(field.attribute) do %>
+  <%= options_for_select(field.statuses) %>
+<% end %>
