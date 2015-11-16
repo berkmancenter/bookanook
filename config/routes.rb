@@ -17,10 +17,11 @@ Rails.application.routes.draw do
   get 'select_locations' => 'locations#select'
 
   namespace :admin do
-    resources :nooks
-    resources :reservations
-    resources :locations
-    resources :users, only: [:index, :show]
+    DashboardManifest::DASHBOARDS.each do |dashboard_resource|
+      resources dashboard_resource
+    end
+
+    root controller: DashboardManifest::ROOT_DASHBOARD, action: :index
   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

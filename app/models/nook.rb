@@ -28,6 +28,10 @@ class Nook < ActiveRecord::Base
   # CarrierWave is throwing errors without it
   skip_callback :commit, :after, :remove_previously_stored_photos
 
+  def manager_id
+    user_id
+  end
+
   def available_now?
     available_at? Time.now
   end
