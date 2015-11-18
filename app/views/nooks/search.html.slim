@@ -20,4 +20,5 @@
         = ' '
         = "people".pluralize(nook.max_capacity)
       div
-        = link_to t('nooks.book_this_nook'), nook, class: 'btn btn-primary remote-modal book-this-nook', data: {modal: '#modal', callback: 'bookModalLoaded'}
+        = link_to t('nooks.book_this_nook'), reserve_nook_path(nook),
+          class: 'btn btn-primary remote-modal book-this-nook', data: {modal: '#modal', callback: 'bookModalLoaded'}

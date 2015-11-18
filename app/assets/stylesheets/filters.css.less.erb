@@ -5,7 +5,14 @@ body {
     .container-fluid {
       > * {
         &.left-menu {
-          > h1 { background: @gray-lightest; }
+          > h1 {
+            background: @gray-lightest;
+            padding: 0.5em 0;
+          }
+
+          .logo {
+            width: 120px;
+          }
 
           form > * {
             padding: 10px 15px 20px;

@@ -1,5 +1,6 @@
 class NooksController < ApplicationController
-  before_action :set_nook, only: [:show]
+  before_action :set_nook, only: [:show, :reserve]
+  before_action :authenticate_user!, only: [:reserve]
 
   helper_method :locations, :types, :amenities, :available_now
 
@@ -14,8 +15,6 @@ class NooksController < ApplicationController
   # GET /nooks/1
   # GET /nooks/1.json
   def show
-    @reservation = Reservation.new
-    @reservation.nook = @nook
     respond_to do |format|
       format.json
       format.html { render @nook, layout: false if request.xhr? }
@@ -29,6 +28,17 @@ class NooksController < ApplicationController
     respond_to do |format|
       format.json
       format.html { render 'search', layout: false if request.xhr? }
+    end
+  end
+
+  def reserve
+    @reservation = Reservation.new
+    @reservation.nook = @nook
+    respond_to do |format|
+      format.json
+      format.html {
+        render partial: 'nooks/nook', locals: { nook: @nook }, layout: false if request.xhr?
+      }
     end
   end
 
