@@ -11,14 +11,15 @@ $(function() {
   // init modals
   $(document).on('click', '.remote-modal', function (e) {
     e.preventDefault();
-    var data = $(e.target).data();
+    var $link = $(e.target).closest('.remote-modal');
+    var data = $link.data();
 
     NProgress.start();
 
     modal = $(data['modal']);
 
-    if ($(e.target).attr('href') && !data['target']) {
-      data['target'] = $(e.target).attr('href');
+    if ($link.attr('href') && !data['target']) {
+      data['target'] = $link.attr('href');
     }
     if (data['target']) {
       $(modal).find('.modal-dialog').load(data['target'], function () {
