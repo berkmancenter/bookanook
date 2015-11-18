@@ -6,7 +6,7 @@ class Nook < ActiveRecord::Base
 
   belongs_to :location
   belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
-  has_many :reservations
+  has_many :reservations, dependent: :destroy
 
   delegate :name, :attrs, to: :location, prefix: true, allow_nil: true
 
