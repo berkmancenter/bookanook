@@ -8,8 +8,6 @@ class Reservation < ActiveRecord::Base
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
-
-    Hash = Hash[Status.constants.map{|s| [s, Status.const_get(s)] }]
   end
 
   STATUSES = Status.constants.map{|s| Status.const_get(s)}

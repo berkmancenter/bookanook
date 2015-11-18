@@ -2,6 +2,10 @@ $(function() {
   /**
    * Reservation form
    */
+  $('.reservations').DataTable({
+    paging: false,
+    order: [4, 'desc']
+  });
 
   $(document).on('click', '.reservation-form-toggle', function () {
     var elem = $(this);
@@ -41,11 +45,13 @@ $(function() {
 
     var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.open.selected');
     var startTime = selectedTimes.first().find('button').val();
-    var endTime = selectedTimes.last().find('button').val();
+    var endTime = selectedTimes.last().next().find('button').val();
     startDate.setHours(parseInt(startTime.slice(0, 2)));
     startDate.setMinutes(parseInt(startTime.slice(2)));
+    startDate.setSeconds(0, 0);
     endDate.setHours(parseInt(endTime.slice(0, 2)));
     endDate.setMinutes(parseInt(endTime.slice(2)));
+    endDate.setSeconds(0, 0);
 
     $form.find('#reservation_start').val(startDate.toISOString());
     $form.find('#reservation_end').val(endDate.toISOString());
