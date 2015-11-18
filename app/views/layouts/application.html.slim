@@ -1,6 +1,3 @@
-- content_for(:main_menu) do
-  = yield
-
 doctype html
 html
   head
@@ -11,16 +8,21 @@ html
     = csrf_meta_tags
   body class="#{content_for(:body_classes)}"
     div.container-fluid
+
       - flash.each do |name, msg|
         div class="alert #{alert_class(name)} alert-dismissable"
           button type="button" class="close" data-dismiss="alert" aria-label="Close"
             span aria-hidden="true" &times;
           = msg
-      div.left-menu.col-sm-4.col-md-3.col-lg-3 class="#{content_for(:left_menu_classes)}"
-        = content_for(:left_menu) || '<div></div>'.html_safe
+      - if content_for?(:left_menu)
+        div.left-menu.col-sm-4.col-md-3.col-lg-2 class="#{content_for(:left_menu_classes)}"
+          = content_for(:left_menu) || '<div></div>'.html_safe
 
-      div.main-menu.col-sm-8.col-md-9.col-lg-9 class="#{content_for(:main_menu_classes)}"
-        = content_for(:main_menu)
+      div.main-menu class="#{"col-sm-8 col-md-9 col-lg-10" if content_for?(:left_menu)} #{content_for(:main_menu_classes)}"
+        div.row#toolbar
+          div.col-xs-12
+            = render 'shared/nav_links'
+        = yield
 
     div#modal.modal.fade.container tabindex="-1" role="dialog"
       div.modal-dialog.row role="document"

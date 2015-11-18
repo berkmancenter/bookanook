@@ -5,46 +5,13 @@ body {
     .container-fluid {
       > * {
         &.main-menu {
-          .nav-pills {
-            &.navbar-left {
-              padding: 0;
-
-              li { margin-right: 10px; }
-            }
-
-            &.navbar-right {
-              .row {
-                margin: 0;
-              }
-
-              li { cursor: pointer; }
-            }
-
-            li > a {
-              box-shadow: none;
-            }
-          }
-
-          #user-pill {
-            width: 240px;
-
-            span.caret,
-            span.glyphicon-menu-hamburger { color: #7b7979; }
-
-            #user-pill-username {
-              color: #7b7979;
-              line-height: 40px;
-              font-weight: normal;
-            }
-          }
-
           .nooks {
             padding: 0;
           }
 
           .nook {
             background-color: #fafafa;
-            margin: 10px 0 0px 0;
+            margin: 0 0 10px 0;
             padding: 10px;
 
             img {
@@ -96,8 +63,8 @@ body {
           }
 
           .nook-item {
-            padding-right: 0;
-            padding-left: 10px;
+            padding-right: 10px;
+            padding-left: 0px;
           }
 
           @media (max-width: 768px) {

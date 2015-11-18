@@ -36,8 +36,9 @@ class ReservationDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :nook,
     :requester,
-    :id,
-    :user_id,
+    :start,
+    :end,
+    :status,
   ]
 
   # SHOW_PAGE_ATTRIBUTES
@@ -50,7 +51,6 @@ class ReservationDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :nook,
     :requester,
-    :user_id,
     :public,
     :name,
     :url,
@@ -61,7 +61,6 @@ class ReservationDashboard < Administrate::BaseDashboard
     :end,
     :description,
     :notes,
-    :repeats_every,
   ]
 
   # Overwrite this method to customize how reservations are displayed

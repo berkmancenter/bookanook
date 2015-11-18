@@ -34,6 +34,7 @@ gem 'slim'
 gem 'remotipart', '~> 1.2'
 
 gem "administrate", "~> 0.1.1"
+gem 'jquery-datatables-rails', '~> 3.3.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
