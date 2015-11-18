@@ -16,8 +16,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     name: Field::String,
     url: Field::String,
     stream_url: Field::String,
-    status: Field::StatusField.with_options(
-      statuses: Reservation::Status::Hash.invert),
+    status: Field::StatusField.with_options(statuses: Reservation::STATUSES),
     priority: Field::Number,
     start: Field::DateTime,
     end: Field::DateTime,
@@ -34,10 +33,12 @@ class ReservationDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
+    :name,
     :nook,
     :requester,
     :start,
     :end,
+    :created_at,
     :status,
   ]
 

@@ -1,11 +1,13 @@
 <div class="wrapper">
   <h1>My Reservations</h1>
-  <table class="table datatable">
+  <table class="table reservations">
     <thead>
       <tr>
+        <th>Name</th>
         <th>Nook</th>
         <th>Start</th>
         <th>End</th>
+        <th>Created</th>
         <th>Status</th>
       </tr>
     </thead>
@@ -13,9 +15,11 @@
     <tbody>
       <% @reservations.each do |reservation| %>
         <tr>
+          <td><%= reservation.name %></td>
           <td><%= reservation.nook.name %></td>
           <td><%= reservation.start.in_time_zone %></td>
           <td><%= reservation.end %></td>
+          <td><%= reservation.created_at %></td>
           <td><%= reservation.status %></td>
         </tr>
       <% end %>
