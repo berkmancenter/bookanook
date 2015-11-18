@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   end
 
   resources :nooks, except: [:new, :edit, :create, :update, :destroy] do
+    member do
+      get :reserve
+    end
     collection do
       get :search
       post :search

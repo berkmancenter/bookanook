@@ -24,4 +24,10 @@ $(function() {
     $(this).removeClass('open');
     $(this).find('.dropdown-toggle').data('clicked', false);
   });
+
+  $(document).ajaxError(function(event, jqxhr, settings, thrownError) {
+    if (jqxhr.status === 401) {
+      window.location.href = '/users/sign_up';
+    }
+  });
 });
