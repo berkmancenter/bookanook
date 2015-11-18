@@ -24,4 +24,6 @@ $(function() {
     $(this).removeClass('open');
     $(this).find('.dropdown-toggle').data('clicked', false);
   });
+
+  $('.datatable').DataTable();
 });
