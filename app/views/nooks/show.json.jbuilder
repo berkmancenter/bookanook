@@ -1,5 +1,5 @@
 json.extract! @nook, :id, :name, :description, :type, :place, :amenities, 
-  :use_policy, :bookable, :requires_approval, :hours, :created_at, :updated_at
+  :use_policy, :bookable, :requires_approval, :created_at, :updated_at
 
 json.location do
   json.id @nook.location_id

@@ -4,7 +4,14 @@ class ReservationsController < ApplicationController
   # GET /reservations
   # GET /reservations.json
   def index
+    @reservations = Reservation.is_public.confirmed.order(updated_at: :desc).limit(500)
+  end
+
+  def mine
     @reservations = current_user.reservations
+    respond_to do |format|
+      format.html { render :index }
+    end
   end
 
   # GET /reservations/1
