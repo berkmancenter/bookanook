@@ -5,6 +5,9 @@ class Reservation < ActiveRecord::Base
 
   delegate :email, to: :requester
 
+  scope :is_public, -> { where(public: true) }
+  scope :confirmed, -> { where(status: Reservation::Status::CONFIRMED) }
+
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
