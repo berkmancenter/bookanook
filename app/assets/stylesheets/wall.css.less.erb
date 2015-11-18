@@ -9,10 +9,20 @@ body {
             padding: 0;
           }
 
+          .book-this-nook {
+            &:hover, &:focus {
+              text-decoration: none;
+            }
+          }
+
           .nook {
             background-color: #fafafa;
             margin: 0 0 10px 0;
             padding: 10px;
+
+            &:hover {
+              box-shadow: 0px 0px 10px gray;
+            }
 
             img {
               width: 100%;
@@ -28,20 +38,6 @@ body {
                 .nook-icon {
                   &.availability { background-image: url(<%= asset_path('nook_availability_blue.gif') %>) }
                 }
-              }
-            }
-
-            .book-this-nook {
-              width: 100%;
-              background-color: #ffffff;
-              color: #4099d0;
-              border: 1px solid #4099d0;
-              margin-top: 10px;
-
-              &:hover {
-                background-color: #4099d0;
-                border: 0;
-                color: #ffffff;
               }
             }
           }
