@@ -2,6 +2,9 @@
 
 body {
   padding: 2%;
+  background-image: url(<%= asset_path('tiled-background.svg') %>);
+  background-color: @gray-background;
+  overflow-y: scroll;
 
   div.empty-separator {
     height: 10px;
@@ -9,64 +12,51 @@ body {
     clear: both;
   }
 
-  &.booking {
-    background-image: url(<%= asset_path('tiled-background.svg') %>);
-    background-color: @gray-background;
+  h1,h2,h3,h4,h5,h6 {
+    margin: 0px;
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
 
-    h1,h2,h3,h4,h5,h6 {
-      margin: 0px;
-      padding-top: 20px;
-      padding-bottom: 10px;
-    }
+  label { font-weight: normal; }
 
-    label { font-weight: normal; }
+  .panel { overflow: hidden; }
 
-    .container-fluid {
-      padding: 0;
+  hr.better-hr {
+    margin: 15px -20px;
+    border: 0;
+    border-top: 1px solid #dddddd;
+    clear: both;
+  }
 
-      > .left-menu, > .main-menu {
-        padding: 0;
-      }
-    }
+  * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
 
-    .panel { overflow: hidden; }
+  .btn:focus,
+  .btn:active:focus,
+  .btn.active:focus,
+  .btn.focus,
+  .btn:active.focus,
+  .btn.active.focus {
+    outline: 0;
+    border: none;
+  }
 
-    hr.better-hr {
-      margin: 15px -20px;
-      border: 0;
-      border-top: 1px solid #dddddd;
-      clear: both;
-    }
+  .site-title {
+    color: #ec137c;
 
-    * {
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
+    &:hover,
+    &:focus { text-decoration: none; }
+  }
 
-    .btn:focus,
-    .btn:active:focus,
-    .btn.active:focus,
-    .btn.focus,
-    .btn:active.focus,
-    .btn.active.focus {
-      outline: 0;
-      border: none;
-    }
-
-    .site-title {
-      color: #ec137c;
-
-      &:hover,
-      &:focus { text-decoration: none; }
-    }
-
-    input[type=checkbox] {
-      margin: 0 0.5em 0 1.4em;
-    }
+  input[type=checkbox] {
+    margin: 0 0.5em 0 1.4em;
   }
 }
 
@@ -85,10 +75,7 @@ input.hash {
   }
 
   &:not(.booking) {
-    border-style: solid;
-    border-radius: 8px;
-    border-width: @border-radius-small;
-    border-color: @gray-lightish;
+    background: white;
   }
 
   .dropdown {
@@ -148,4 +135,13 @@ span.unchecked {
   &:before {
     visibility: hidden;
   }
+}
+
+.wrapper {
+  background: white;
+  padding: 10px 20px;
+}
+
+#toolbar {
+  margin-bottom: 1em;
 }

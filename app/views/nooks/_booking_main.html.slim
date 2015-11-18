@@ -1,30 +1,27 @@
-= render 'booking_filters'
+- content_for(:left_menu)
+  = render 'booking_filters'
 
-- content_for(:main_menu) do
-  div.col-xs-12.col-sm-12.col-md-12.col-lg-12#toolbar
-    = render 'shared/nav_links'
-
-  div.nooks.col-xs-12.col-sm-12.col-md-12.col-lg-12
-    - @nooks.each.with_index do |nook, i|
-      div.nook-item
-        div.nook
-          = image_tag nook.photos.first ? nook.photos.first : 'placeholder.jpg'
-          div.nook-property
-            span.nook-icon.name
-            = nook.name
-          div.nook-property
-            span.nook-icon.location
-            = nook.location_name
-          div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
-            span.nook-icon.availability
-            = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
-          div.nook-property
-            span.nook-icon.amenities
-            = nook.amenities.join(', ')
-          div.nook-property
-            span.nook-icon.maxcapacity
-            = nook.max_capacity
-            = ' '
-            = "people".pluralize(nook.max_capacity)
-          div
-            = link_to t('nooks.book_this_nook'), nook, class: 'btn btn-primary remote-modal book-this-nook', data: { modal: '#modal', callback: 'bookModalLoaded' }
+div.nooks.col-xs-12
+  - @nooks.each.with_index do |nook, i|
+    div.nook-item
+      div.nook
+        = image_tag nook.photos.first ? nook.photos.first : 'placeholder.jpg'
+        div.nook-property
+          span.nook-icon.name
+          = nook.name
+        div.nook-property
+          span.nook-icon.location
+          = nook.location_name
+        div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
+          span.nook-icon.availability
+          = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
+        div.nook-property
+          span.nook-icon.amenities
+          = nook.amenities.join(', ')
+        div.nook-property
+          span.nook-icon.maxcapacity
+          = nook.max_capacity
+          = ' '
+          = "people".pluralize(nook.max_capacity)
+        div
+          = link_to t('nooks.book_this_nook'), nook, class: 'btn btn-primary remote-modal book-this-nook', data: { modal: '#modal', callback: 'bookModalLoaded' }
