@@ -60,12 +60,12 @@ class Reservation < ActiveRecord::Base
   end
 
   def self.happening_within(time_range)
-    confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' + 
+    confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
   def self.overlapping_with(time_range)
-    confirmed.where('tsrange("reservations"."start", "reservations"."end") && ' + 
+    confirmed.where('tsrange("reservations"."start", "reservations"."end") && ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
@@ -85,36 +85,36 @@ class Reservation < ActiveRecord::Base
   def minimum_length
     if nook && nook.min_reservation_length &&
       duration < nook.min_reservation_length.seconds
-      errors.add(:end, "can't be less than " + 
+      errors.add(:end, "can't be less than " +
                  "#{humanize_seconds(nook.min_reservation_length)} after start")
     end
   end
 
   def maximum_length
-    if nook && nook.max_reservation_length && 
+    if nook && nook.max_reservation_length &&
       duration > nook.max_reservation_length.seconds
-      errors.add(:end, "can't be more than " + 
+      errors.add(:end, "can't be more than " +
                  "#{humanize_seconds(nook.max_reservation_length)} after start")
     end
   end
 
   def minimum_start
-    if nook && nook.min_schedulable && 
+    if nook && nook.min_schedulable &&
       self.start < Time.now + nook.min_schedulable.seconds
-      errors.add(:start, "can't start less than " + 
+      errors.add(:start, "can't start less than " +
                  "#{humanize_seconds(nook.min_schedulable)} from now")
     end
   end
 
   def maximum_start
-    if nook && nook.max_schedulable && 
+    if nook && nook.max_schedulable &&
       self.start > Time.now + nook.max_schedulable.seconds
-      errors.add(:start, "can't start more than " + 
+      errors.add(:start, "can't start more than " +
                  "#{humanize_seconds(nook.max_schedulable)} from now")
     end
   end
 
-  def humanize_seconds
+  def humanize_seconds(secs)
     [[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map{ |count, name|
       if secs > 0
         secs, n = secs.divmod(count)
