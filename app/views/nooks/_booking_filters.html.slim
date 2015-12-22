@@ -30,10 +30,10 @@
       div.filter-title 5. #{t('nooks.filters.choose_amenities')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
         div.amenity
-          = check_box_tag amenity.name, amenity.id
+          = check_box_tag amenity.name, amenity.name
           = label_tag amenity do
             span
-            = amenity.name.titleize
+            = amenity.name.downcase
     div.transparent-separator
     div#filtered-results.filter
       div.filter-title #{t('nooks.filters.filtered_results')}
