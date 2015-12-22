@@ -3,7 +3,6 @@ class CreateLocations < ActiveRecord::Migration
     create_table :locations do |t|
       t.string :name
       t.text :description
-      t.string :amenities, array: true, default: []
 
       t.references :open_schedule, index: true, foreign_key: true
 

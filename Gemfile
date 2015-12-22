@@ -34,10 +34,12 @@ gem 'slim'
 
 gem 'remotipart', '~> 1.2'
 
-gem "administrate", "~> 0.1.1"
+gem "administrate", git: 'https://github.com/thoughtbot/administrate.git'
 gem 'jquery-datatables-rails', '~> 3.3.0'
 
 gem "mini_magick"
+
+gem 'acts-as-taggable-on', '~> 3.4'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

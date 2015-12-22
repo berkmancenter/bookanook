@@ -19,6 +19,23 @@ GIT
       sprockets (> 2, < 4)
       tilt
 
+GIT
+  remote: https://github.com/thoughtbot/administrate.git
+  revision: 4eede3b15df668e3913e7edd3a018eb97dc28aa8
+  specs:
+    administrate (0.1.2)
+      autoprefixer-rails (~> 6.0)
+      datetime_picker_rails (~> 0.0.6)
+      inline_svg (~> 0.6)
+      jquery-rails (~> 4.0)
+      kaminari (~> 0.16)
+      momentjs-rails (~> 2.8)
+      neat (~> 1.1)
+      normalize-rails (~> 3.0)
+      rails (~> 4.2)
+      sass-rails (~> 5.0)
+      selectize-rails (~> 0.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -57,18 +74,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    administrate (0.1.2)
-      autoprefixer-rails (~> 6.0)
-      datetime_picker_rails (~> 0.0.6)
-      inline_svg (~> 0.6)
-      jquery-rails (~> 4.0)
-      kaminari (~> 0.16)
-      momentjs-rails (~> 2.8)
-      neat (~> 1.1)
-      normalize-rails (~> 3.0)
-      rails (~> 4.2)
-      sass-rails (~> 5.0)
-      selectize-rails (~> 0.6)
+    acts-as-taggable-on (3.5.0)
+      activerecord (>= 3.2, < 5)
     arel (6.0.3)
     autoprefixer-rails (6.2.1)
       execjs
@@ -267,7 +274,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  administrate (~> 0.1.1)
+  acts-as-taggable-on (~> 3.4)
+  administrate!
   byebug
   carrierwave!
   coffee-rails (~> 4.1.0)

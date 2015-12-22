@@ -43,7 +43,7 @@ $(function() {
       endDate = $('.datepicker-element').first().datepicker('getDate');
     }
 
-    var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.open.selected');
+    var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.selected');
     var startTime = selectedTimes.first().find('button').val();
     var endTime = selectedTimes.last().next().find('button').val();
     startDate.setHours(parseInt(startTime.slice(0, 2)));
@@ -126,6 +126,7 @@ $(function() {
 
       if (makeActive === true) {
         elem.addClass('selected');
+        elem.removeClass('open');
       }
     });
   };

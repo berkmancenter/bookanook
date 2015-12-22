@@ -41,7 +41,7 @@ class NookSearch
     scope = scope.where(type: nook_types) unless nook_types.empty?
 
     unless amenities.empty?
-      scope = scope.where('"nooks"."amenities"::text[] @> ARRAY[?]', amenities)
+      scope = scope.tagged_with(amenities)
     end
 
     # Make sure each nook is available

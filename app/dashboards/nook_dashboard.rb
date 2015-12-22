@@ -23,7 +23,7 @@ class NookDashboard < Administrate::BaseDashboard
     max_schedulable: Field::Number,
     min_reservation_length: Field::Number,
     max_reservation_length: Field::Number,
-    amenities: Field::String,
+    amenities: SelectizeField,
     attrs: Field::Text,
     hidden_attrs: Field::Text,
     use_policy: Field::Text,

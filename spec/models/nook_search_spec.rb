@@ -44,7 +44,7 @@ RSpec.describe NookSearch, type: :model do
       end
 
       it 'filters by amenities' do
-        nook = create(:nook, amenities: ['snorlax'])
+        nook = create(:nook, amenity_list: ['snorlax'])
         search = NookSearch.new(amenities: ['snorlax'])
         expect(search.results.count).to eq(1)
         expect(search.results.first).to eq(nook)
@@ -89,13 +89,13 @@ RSpec.describe NookSearch, type: :model do
       end
 
       it 'only finds bookable nooks' do
-        create(:nook, amenities: ['snorlax'], bookable: false)
+        create(:nook, amenity_list: ['snorlax'], bookable: false)
         search = NookSearch.new(amenities: ['snorlax'])
         expect(search.results.count).to eq(0)
       end
 
       it 'only finds open nooks' do
-        nook = create(:nook, amenities: ['snorlax'])
+        nook = create(:nook, amenity_list: ['snorlax'])
         nook.open_schedule = OpenSchedule.new # default is always closed
         nook.save
         search = NookSearch.new(amenities: ['snorlax'])
