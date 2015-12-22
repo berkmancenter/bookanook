@@ -23,10 +23,10 @@
     div.panel-body
       - amenities.each do |amenity|
         div.amenity
-          = check_box_tag '', '', amenity.in?(nook.amenities)
+          = check_box_tag '', '', amenity.in?(nook.amenities), disabled: true
           = label_tag '' do
             span.blue
-            = amenity.titleize
+            = amenity.name.downcase
         div
       div.empty-separator
       span #{t('nooks.capacity')}:
