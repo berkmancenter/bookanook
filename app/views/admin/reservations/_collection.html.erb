@@ -47,7 +47,7 @@ to display a collection of resources in an HTML table.
       <tr class="table__row"
           role="link"
           tabindex="0"
-          data-url="<%= polymorphic_path([Administrate::NAMESPACE, resource], action: :edit) -%>"
+          data-url="<%= polymorphic_path([namespace, resource], action: :edit) -%>"
           >
         <% collection_presenter.attributes_for(resource).each do |attribute| %>
           <td class="cell-data cell-data--<%= attribute.html_class %>">

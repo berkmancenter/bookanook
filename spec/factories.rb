@@ -3,7 +3,7 @@ FactoryGirl.define do
     sequence(:name, 'Nook 1')
     description "It's a nice nook."
     location
-    amenities ['movable furniture', 'projector']
+    amenity_list ['movable furniture', 'projector']
     bookable true
     manager
   end
@@ -24,7 +24,7 @@ FactoryGirl.define do
     password_confirmation 'password'
 
     factory :confirmed_user do
-      after(:create) { |user| user.confirm! }
+      after(:create) { |user| user.confirm }
 
       factory :manager
     end
@@ -37,7 +37,7 @@ FactoryGirl.define do
     add_attribute('public', true)
     start Time.now
     add_attribute('end', 1.hour.from_now)
-    
+
     factory :confirmed_reservation do
       status Reservation::Status::CONFIRMED
     end

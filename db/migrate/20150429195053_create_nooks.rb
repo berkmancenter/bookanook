@@ -18,7 +18,6 @@ class CreateNooks < ActiveRecord::Migration
       t.integer :min_reservation_length
       t.integer :max_reservation_length
 
-      t.string :amenities, array: true, default: []
       t.text :attrs
       t.text :hidden_attrs
 

@@ -10,6 +10,8 @@ class Nook < ActiveRecord::Base
 
   delegate :name, :attrs, to: :location, prefix: true, allow_nil: true
 
+  acts_as_taggable_on :amenities
+
   validates_presence_of :name, :location_id
   # schedulable and reservation_length are both in seconds
   validates_numericality_of :min_capacity, :min_schedulable,
