@@ -16,7 +16,7 @@ class NookDashboard < Administrate::BaseDashboard
     description: Field::Text,
     type: Field::String,
     place: Field::Text,
-    photos: Field::String,
+    photos: CarrierwaveField,
     min_capacity: Field::Number,
     max_capacity: Field::Number,
     min_schedulable: Field::Number,

@@ -5,7 +5,7 @@ div.nooks.col-xs-12
   - @nooks.each.with_index do |nook, i|
     div.nook-item
       div.nook
-        = image_tag nook.photos.first ? nook.photos.first : 'placeholder.jpg'
+        = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg'
         div.nook-property
           span.nook-icon.name
           = nook.name
