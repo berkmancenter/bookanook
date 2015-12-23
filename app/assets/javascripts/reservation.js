@@ -10,12 +10,13 @@ $(function() {
   $(document).on('click', '.reservation-form-toggle', function () {
     var elem = $(this);
     var formBody = $('.reservation-form-body').first();
+    var arrowElem;
 
     if (formBody.is(':visible')) {
       formBody.hide();
       elem.html('Fill out a reservation form to book ');
 
-      var arrowElem = $('<span/>', {
+      arrowElem = $('<span/>', {
         class: 'glyphicon glyphicon-chevron-down'
       });
     } else {
@@ -23,7 +24,7 @@ $(function() {
 
       elem.html('Hide reservation form ');
 
-      var arrowElem = $('<span/>', {
+      arrowElem = $('<span/>', {
         class: 'glyphicon glyphicon-chevron-up'
       });
     }
@@ -31,8 +32,7 @@ $(function() {
     arrowElem.appendTo(elem);
   });
 
-  $(document).on('ajax:before', '#new_reservation', function(e) {
-    var $form = $(this);
+  function updateTimeRange($form) {
     var activeWhen = $('#when button.active').first().val();
 
     var startDate = new Date();
@@ -42,7 +42,6 @@ $(function() {
       startDate = $('.datepicker-element').first().datepicker('getDate');
       endDate = $('.datepicker-element').first().datepicker('getDate');
     }
-
     var selectedTimes = $('.reservation-when-time').find('.reservation-when-time-item.selected');
     var startTime = selectedTimes.first().find('button').val();
     var endTime = selectedTimes.last().next().find('button').val();
@@ -53,8 +52,17 @@ $(function() {
     endDate.setMinutes(parseInt(endTime.slice(2)));
     endDate.setSeconds(0, 0);
 
+    $('.time-range').find('.start').text(startDate.toLocaleTimeString());
+    $('.time-range').find('.end').text(endDate.toLocaleTimeString());
+
     $form.find('#reservation_start').val(startDate.toISOString());
     $form.find('#reservation_end').val(endDate.toISOString());
+  }
+
+  $(document).on('ajax:before', '#new_reservation', function(e) {
+    var $form = $(this);
+
+    updateTimeRange($form);
 
     $form.on('ajax:success', function(e, data, status, xhr) {
       window.location.assign(data);
@@ -129,18 +137,122 @@ $(function() {
         elem.removeClass('open');
       }
     });
+
+    updateTimeRange($('#new_reservation'));
   };
 
-  $(document).on('click', '.reservation-when-time-item', function () {
-    var elem = $(this);
+  function previousCol($time) {
+    return $time.parent().prev('.col-sm-6');
+  }
 
-    if (elem.hasClass('open')) {
-      elem.removeClass('open');
-      elem.addClass('selected');
-    } else if (elem.hasClass('selected')) {
-      elem.removeClass('selected');
-      elem.addClass('open');
+  function nextCol($time) {
+    return $time.parent().next('.col-sm-6');
+  }
+
+  function isInFirstCol($time) {
+    if (previousCol($time).length === 0) { return true; }
+    return false;
+  }
+
+  function isInSecondCol($time) {
+    return !isInFirstCol($time);
+  }
+
+  function getPreviousSelected($time) {
+    var selector = '.selected';
+
+    // Next selected in same column
+    var notSelectedSiblings = $time.prevUntil(selector);
+    var prev = $time.prev();
+    // Prev sibling is selected
+    if (notSelectedSiblings.length === 0 && prev.length === 1) { return prev; }
+    // There's a selected sibling in column after gap of non-selected
+    if (notSelectedSiblings.length < $time.prevAll().length) {
+      return notSelectedSiblings.last().prev();
     }
+
+    if (isInFirstCol($time)) { return false; }
+
+    var selectedInPrevCol = previousCol($time).find(selector);
+    if (selectedInPrevCol.length === 0) { return false; }
+    return selectedInPrevCol.last();
+  }
+
+  function getNextSelected($time) {
+    var selector = '.selected';
+
+    // Next selected in same column
+    var notSelectedSiblings = $time.nextUntil(selector);
+    var next = $time.next();
+    // Next sibling is selected
+    if (notSelectedSiblings.length === 0 && next.length === 1) { return next; }
+    // There's a selected sibling in column after gap of non-selected
+    if (notSelectedSiblings.length < $time.nextAll().length) {
+      return notSelectedSiblings.last().next();
+    }
+
+    if (isInSecondCol($time)) { return false; }
+
+    var selectedInNextCol = nextCol($time).find(selector);
+    if (selectedInNextCol.length === 0) { return false; }
+    return selectedInNextCol.first();
+  }
+
+  function toSelectAfter($time) {
+    var $nextSelected = getNextSelected($time);
+    if ($nextSelected === false) { return []; }
+
+    var inSameCol = isInSecondCol($time) ||
+      (isInFirstCol($time) && isInFirstCol($nextSelected));
+
+    if (inSameCol) { return $time.nextUntil($nextSelected); }
+
+    return $time.nextAll().add($nextSelected.prevAll());
+  }
+
+  function toSelectBefore($time) {
+    var $prevSelected = getPreviousSelected($time);
+    if ($prevSelected === false) { return []; }
+
+    var inSameCol = isInFirstCol($time) ||
+      (isInSecondCol($time) && isInSecondCol($prevSelected));
+
+    if (inSameCol) { return $time.prevUntil($prevSelected); }
+
+    return $time.prevAll().add($prevSelected.nextAll());
+  }
+
+  function toUnselectAfter($time) {
+    var selector = '.selected';
+    $nextSelected = getNextSelected($time);
+    if ($nextSelected === false) { return []; }
+    var selectedInCol = $time.nextAll(selector);
+    if (isInSecondCol($time)) { return selectedInCol; }
+    return selectedInCol.add(nextCol($time).find(selector));
+  }
+
+  function toUnselectBefore($time) {
+    var selector = '.selected';
+    $prevSelected = getPreviousSelected($time);
+    if ($prevSelected === false) { return []; }
+    var selectedInCol = $time.prevAll(selector);
+    if (isInFirstCol($time)) { return selectedInCol; }
+    return selectedInCol.add(previousCol($time).find(selector));
+  }
+
+  $(document).on('click', '.reservation-when-time-item', function () {
+    var $time = $(this);
+
+    if ($time.hasClass('open')) {
+      var toSelect = $time.add(toSelectAfter($time)).add(toSelectBefore($time));
+      toSelect.removeClass('open').addClass('selected');
+    } else if ($time.hasClass('selected')) {
+      var before = toUnselectBefore($time);
+      var after = toUnselectAfter($time);
+      toUnselect = before.length < after.length ? before : after;
+      $time.add(toUnselect).removeClass('selected').addClass('open');
+    }
+    updateTimeRange($('#new_reservation'));
   });
 });
 
