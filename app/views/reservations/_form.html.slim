@@ -1,6 +1,11 @@
 div.reservation-form
   div.reservation-when-time
-    div.row-title #{t('reservations.time_range')}
+    div.row-title
+      | #{t('reservations.time_range')} 
+      span.time-range
+        span.start
+        |&nbsp;&ndash;&nbsp;
+        span.end
 
     div.empty-separator
 
