@@ -16,7 +16,9 @@
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require jquery.remotipart
 //= require jquery.iframe-transport
+//= require underscore
 //= require underscore.string.min
+//= require moment
 //= require selectize
 //= require twitter/bootstrap
 //= require bootstrap-datepicker.min

@@ -10,18 +10,7 @@ div.reservation-form
     div.empty-separator
 
     div.reservation-when-times
-      div.col-sm-6
-        - (0..11).each do |hour|
-          div.reservation-when-time-item.col-sm-1.open
-            button.btn type="button" value="#{hour.to_s.rjust(2, '0')}00"
-            - if hour.even?
-              span.small = "#{hour == 0 ? 12 : hour}:00AM"
-      div.col-sm-6
-        - (12..23).each do |hour|
-          div.reservation-when-time-item.col-sm-1.open
-            button.btn.col-sm-1 type="button" value="#{hour.to_s.rjust(2, '0')}00"
-            - if hour.even?
-              span.small = "#{hour == 12 ? hour : hour - 12}:00PM"
+      = render 'shared/time_select'
 
     div.empty-separator
   div.empty-separator
