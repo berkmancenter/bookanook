@@ -26,4 +26,5 @@
 //= require masonry.min
 //= require imagesloaded.pkgd.min
 //= require nprogress
+//= require time_select
 //= require_tree .
