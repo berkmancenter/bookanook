@@ -26,6 +26,12 @@
         background-color: #ec137c;
         border: none;
       }
+
+      span.small {
+        &:before {
+          border-color: #ec137c;
+        }
+      }
     }
 
     &.taken {
@@ -36,6 +42,17 @@
       }
     }
 
-    span.small { font-size: 10px; }
+    span.small {
+      font-size: 10px;
+
+      &:before {
+        content: " ";
+        position: absolute;
+        bottom: 13px;
+        left: 0px;
+        border-left: 1px solid #C1C1C1;
+        height: 5px;
+      }
+    }
   }
 }
