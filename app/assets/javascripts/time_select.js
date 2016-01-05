@@ -1,63 +1,200 @@
 var TimeSelect = function(parent, options) {
-  this.parent = parent;
-  this.options = _.defaults(options, {
+  var self = this;
+  self.parent = parent;
+  self.format = 'HHmm';
+  self.selected = []; // Stored as start moments like 100 and 1300
+
+  self.options = _.defaults(options, {
     continuous: true,
-    selected: [],
     slots: 24,
-    slotDuration: moment.duration(1, 'hour').asMilliseconds()
+    slotDuration: moment.duration(1, 'hour'),
   });
-  $(function() {
-    this.syncDom();
-  });
-};
 
-TimeSelect.prototype.getSelected = function() {
-  return this.selected;
-};
-
-TimeSelect.prototype.getSelectedRanges = function() {
-  var ranges = [];
-  var duration = this.options.slotDuration;
-  if (_.isEmpty(this.selected)) { return ranges; }
-
-  var start = moment(this.selected[0]);
-  var end = start.add(duration);
-  for (var i = 0; i < this.selected.length - 1; i++) {
-    var nextStart = moment(this.selected[i + 1]);
-    if (!end.isSame(nextStart)) {
-      ranges.push([start, end]);
-      start = nextStart;
-    }
-    end = nextStart.add(duration);
+  self.allSlots = []; // Stored as start integers
+  var start = self.toMoment('0000'), slot;
+  for (var i = 0; i < self.options.slots; i++) {
+    self.allSlots.push(self.fromMoment(start));
+    start.add(moment.duration(1, 'hours'));
   }
-  ranges.push([start, end]);
-  return ranges;
-};
 
-TimeSelect.prototype.isSelected = function(time) {
-  return _.any(this.getSelectedRanges(), function(range) {
-    return moment(time).isBetween(moment(range[0]), moment(range[1]));
+  $(self.parent + ' .time-slot').on('click', function() {
+    var $time = $(this);
+    var time = $time.find('button').val();
+    self.toggleSelect(time);
+    self.syncDom();
   });
+
+  self.syncDom();
 };
 
-TimeSelect.prototype.syncDom = function() {
-  var makeActive = false;
-
-  $(this.parent + ' .time-slot').each(function () {
-    var elem = $(this);
-    var buttElem = elem.find('button').first();
-
-    if (makeActive === false && buttElem.val() == from) {
-      makeActive = true;
+_.extend(TimeSelect.prototype, {
+  toMoment: function(time) {
+    if (moment.isMoment(time)) { return time; }
+    if (_.isNumber(time) && time < 1000) {
+      time = '0' + String(time);
     }
+    return moment(String(time), this.format);
+  },
 
-    if (makeActive === true && buttElem.val() == to) {
-      makeActive = false;
-    }
+  fromMoment: function(mmnt) {
+    return mmnt.hours() * 100 + mmnt.minutes();
+  },
 
-    if (makeActive === true) {
-      elem.addClass('selected');
-      elem.removeClass('open');
+  getSelected: function() {
+    return _.map(this.selected, this.fromMoment);
+  },
+
+  getNotSelected: function() {
+    return _.difference(this.allSlots, this.getSelected());
+  },
+
+  _getPrevious: function(collection, time) {
+    collection.reverse();
+    var result = _.find(collection, function(selTime) { return selTime < time; });
+    collection.reverse();
+    return result;
+  },
+
+  _getNext: function(collection, time) {
+    return _.find(collection, function(selTime) { return selTime > time; });
+  },
+
+  _getClosest: function(collection, time) {
+    var previous = this._getPrevious(collection, time);
+    var next = this._getNext(collection, time);
+    if (_.isUndefined(previous) && _.isUndefined(next)) { return time; }
+    if (_.isUndefined(previous)) { return next; }
+    if (_.isUndefined(next)) { return previous; }
+    return Math.abs(previous - time) < Math.abs(next - time) ? previous : next;
+  },
+
+  getPreviousSelected: function(time) {
+    return this._getPrevious(this.getSelected(), time);
+  },
+
+  getNextSelected: function(time) {
+    return this._getNext(this.getSelected(), time);
+  },
+
+  getPreviousNotSelected: function(time) {
+    return this._getPrevious(this.getNotSelected(), time);
+  },
+
+  getNextNotSelected: function(time) {
+    return this._getNext(this.getNotSelected(), time);
+  },
+
+  getClosestSelected: function(time) {
+    return this._getClosest(this.getSelected(), time);
+  },
+
+  getClosestNotSelected: function(time) {
+    return this._getClosest(this.getNotSelected(), time);
+  },
+
+  _pushSelected: function(time) {
+    if (this.isSelected(time)) { return; }
+    this.selected.push(this.toMoment(time));
+    this.selected = _.sortBy(this.selected, this.fromMoment);
+  },
+
+  _dropSelected: function(time) {
+    var self = this;
+    time = parseInt(time);
+    if (!self.isSelected(time)) { return; }
+    self.selected = _.reject(self.selected, function(mmnt) {
+      return time === self.fromMoment(mmnt);
+    });
+  },
+
+  select: function(time) {
+    time = parseInt(time);
+    if (this.isSelected(time)) { return; }
+
+    if (this.options.continuous) {
+      var closest = this.getClosestSelected(time);
+      this.selectRange([closest, time]);
+    } else {
+      this._pushSelected(time);
     }
-  });
-};
+  },
+
+  deselect: function(time) {
+    time = parseInt(time);
+    if (!this.isSelected(time)) { return; }
+
+    if (this.options.continuous) {
+      var closest = this.getClosestNotSelected(time);
+      this.deselectRange([closest, time]);
+    } else {
+      this._dropSelected(time);
+    }
+  },
+
+  toggleSelect: function(time) {
+    if (this.isSelected(time)) {
+      this.deselect(time);
+    } else {
+      this.select(time);
+    }
+  },
+
+  isSelected: function(time) {
+    time = parseInt(time);
+    return _.any(this.getSelected(), function(selTime) {
+      return time === selTime;
+    });
+  },
+
+  selectRange: function(range) {
+    range.sort(function(a, b) { return a - b; });
+    var current = this.toMoment(range[0]);
+    var end = this.toMoment(range[1]);
+    do {
+      this._pushSelected(this.fromMoment(current));
+      current = current.add(this.options.slotDuration);
+    } while (current.isSameOrBefore(end));
+  },
+
+  deselectRange: function(range) {
+    range.sort(function(a, b) { return a - b; });
+    var current = this.toMoment(range[0]);
+    var end = this.toMoment(range[1]);
+    while (current.isSameOrBefore(end)) {
+      this._dropSelected(this.fromMoment(current));
+      current = current.add(this.options.slotDuration);
+    }
+  },
+
+  getSelectedRanges: function() {
+    var ranges = [];
+    if (_.isEmpty(this.selected)) { return ranges; }
+    var duration = this.options.slotDuration;
+
+    var start = this.selected[0];
+    var end = start.add(duration);
+    for (var i = 0; i < this.selected.length - 1; i++) {
+      var nextStart = this.selected[i + 1];
+      if (!end.isSame(nextStart)) {
+        ranges.push([this.fromMoment(start), this.fromMoment(end)]);
+        start = nextStart;
+      }
+      end = nextStart.add(duration);
+    }
+    ranges.push([this.fromMoment(start), this.fromMoment(end)]);
+    return ranges;
+  },
+
+  syncDom: function() {
+    var self = this;
+    $(self.parent + ' .time-slot').removeClass('selected').addClass('open');
+
+    self.getSelected().forEach(function(selTime) {
+      var selector = self.parent +
+        ' .time-slot button[value="' + s.lpad(String(selTime), 4, '0') + '"]';
+      $button = $(selector);
+      $slot = $button.parent();
+      $slot.removeClass('open').addClass('selected');
+    });
+  },
+});
