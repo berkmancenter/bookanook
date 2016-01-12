@@ -46,13 +46,6 @@ RSpec.describe Nook, type: :model do
     end
   end
 
-  describe '#amenity_list' do
-    it 'can be an array' do
-      nook = Nook.new amenity_list: [ 'projector', 'conference phone' ]
-      expect( nook.amenity_list.count ).to eq( 2 )
-    end
-  end
-
   describe '#location' do
     FactoryGirl.create :nook
     nook = Nook.last

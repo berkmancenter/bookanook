@@ -1,0 +1,19 @@
+.table__row {
+  background-color: $white;
+  border-left: 2px solid transparent;
+  transition: $base-transition;
+
+  &:hover {
+    background-color: $base-background-color;
+    border-left-color: $blue;
+    cursor: pointer;
+  }
+
+  img {
+    max-height: $table-image-height;
+  }
+}
+
+.table__action--destroy {
+  color: $light-red;
+}

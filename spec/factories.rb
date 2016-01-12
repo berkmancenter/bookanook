@@ -3,7 +3,6 @@ FactoryGirl.define do
     sequence(:name, 'Nook 1')
     description "It's a nice nook."
     location
-    amenity_list ['movable furniture', 'projector']
     bookable true
     manager
   end
@@ -11,7 +10,6 @@ FactoryGirl.define do
   factory :location do
     sequence(:name, 'Library 1')
     description "It's a library"
-    amenities ['movable furniture', 'projector', 'conference phone']
 
     factory :location_with_hours do
       after(:build) { |location| location.build_open_schedule.add_9_to_5 }
@@ -45,5 +43,13 @@ FactoryGirl.define do
 
   factory :nook_search do
     skip_create
+  end
+
+  factory :open_schedule do
+    sequence(:name) { |n| "Test Schedule #{n}" }
+    start Date.today.at_beginning_of_day
+    duration 4.hours
+    seconds_per_block 60 * 15
+    blocks_per_span 8
   end
 end

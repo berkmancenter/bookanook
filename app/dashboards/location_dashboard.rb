@@ -13,9 +13,10 @@ class LocationDashboard < Administrate::BaseDashboard
     id: Field::Number,
     name: Field::String,
     description: Field::Text,
-    amenities: Field::String,
+    amenities: SelectizeField,
     attrs: Field::Text,
     hidden_attrs: Field::Text,
+    open_schedule: OpenAtField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }
@@ -44,6 +45,7 @@ class LocationDashboard < Administrate::BaseDashboard
     :amenities,
     :attrs,
     :hidden_attrs,
+    :open_schedule
   ]
 
   # Overwrite this method to customize how locations are displayed
