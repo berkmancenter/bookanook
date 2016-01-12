@@ -1,0 +1,8 @@
+<%= f.label field.attribute %>
+<% field.days.each_with_index do |day, i| %>
+  <div class="open-at" id="open-at-day-<%= i %>">
+    <%= render 'shared/time_select' %>
+  </div>
+<% end %>
+<%= f.hidden_field field.attribute %>
+

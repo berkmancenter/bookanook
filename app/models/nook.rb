@@ -21,7 +21,7 @@ class Nook < ActiveRecord::Base
   validates_inclusion_of :bookable, :repeatable, :requires_approval,
     in: [true, false]
 
-  after_initialize :set_defaults
+  before_validation :set_defaults
 
   mount_uploaders :photos, PhotoUploader
 
@@ -60,7 +60,7 @@ class Nook < ActiveRecord::Base
     self.bookable ||= true if bookable.nil?
     self.requires_approval ||= true if requires_approval.nil?
     self.repeatable ||= false if repeatable.nil?
-    self.open_schedule ||= location.open_schedule if location
+    self.open_schedule ||= location.open_schedule.dup if location
   end
 
   def self.inheritance_column

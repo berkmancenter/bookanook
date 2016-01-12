@@ -3,8 +3,9 @@ var TimeSelect = function(parent, options) {
   self.parent = parent;
   self.format = 'HHmm';
   self.selected = []; // Stored as start moments like 100 and 1300
+  self.options = options || {};
 
-  self.options = _.defaults(options, {
+  self.options = _.defaults(self.options, {
     continuous: true,
     slots: 24,
     slotDuration: moment.duration(1, 'hour'),
@@ -96,6 +97,7 @@ _.extend(TimeSelect.prototype, {
     if (this.isSelected(time)) { return; }
     this.selected.push(this.toMoment(time));
     this.selected = _.sortBy(this.selected, this.fromMoment);
+    $(this.parent).trigger('timeSelector:change', [this]);
   },
 
   _dropSelected: function(time) {
@@ -105,6 +107,7 @@ _.extend(TimeSelect.prototype, {
     self.selected = _.reject(self.selected, function(mmnt) {
       return time === self.fromMoment(mmnt);
     });
+    $(this.parent).trigger('timeSelector:change', [this]);
   },
 
   select: function(time) {
@@ -156,6 +159,25 @@ _.extend(TimeSelect.prototype, {
     } while (current.isSameOrBefore(end));
   },
 
+  selectWithMask: function(mask) {
+    // We allow the bitmask to be of a finer granularity because it makes
+    // things easier.
+    if (mask.length % this.allSlots.length > 0) {
+      throw new Error('Bitmask not multiple of number of slots.');
+    }
+    var chunkWidth = mask.length / this.allSlots.length, chunk;
+    for (var i = 0; i < mask.length; i += chunkWidth) {
+      chunk = mask.slice(i, i + chunkWidth);
+      time = this.allSlots[i / chunkWidth];
+      // Nothing fancy - first bit dictates full slot
+      if (chunk[0] === '1') {
+        this.select(time);
+      } else {
+        this.deselect(time);
+      }
+    }
+  },
+
   deselectRange: function(range) {
     range.sort(function(a, b) { return a - b; });
     var current = this.toMoment(range[0]);
@@ -183,6 +205,13 @@ _.extend(TimeSelect.prototype, {
     }
     ranges.push([this.fromMoment(start), this.fromMoment(end)]);
     return ranges;
+  },
+
+  getSelectedMask: function() {
+    var self = this;
+    return self.allSlots.map(function(time) {
+      return self.isSelected(time) ? '1' : '0';
+    }).join('');
   },
 
   syncDom: function() {

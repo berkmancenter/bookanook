@@ -3,4 +3,7 @@
 //= require selectize
 //= require moment
 //= require datetime_picker
+//= require underscore
+//= require underscore.string.min
+//= require moment
 //= require_tree .

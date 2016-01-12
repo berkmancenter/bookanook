@@ -1,9 +1,22 @@
 .time-select {
-  .col-sm-6 { padding: 0; }
+
+  .col-sm-6 {
+    padding: 0;
+    width: 50%;
+    line-height: 1em;
+    margin-bottom: 0.5em;
+  }
+  .col-sm-1 {
+    width: 8.33333333%;
+  }
+  .col-sm-1, .col-sm-6 {
+    float: left;
+  }
 
   .time-slot {
     padding-left: 0;
     padding-right: 1px;
+    position: relative;
 
     button {
       height: 40px;
@@ -54,5 +67,11 @@
         height: 5px;
       }
     }
+  }
+}
+
+.form-field--open-at-field {
+  label {
+    float: none;
   }
 }

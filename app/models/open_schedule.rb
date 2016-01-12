@@ -14,6 +14,7 @@ class OpenSchedule < ActiveRecord::Base
   attr_accessor :spans
 
   A_SUNDAY_AT_LOCAL_MIDNIGHT = Time.new(2015, 6, 7)
+  RLE_SEPARATOR = '|'
 
   def add_open_range(range)
     add_range(range, true)
@@ -80,7 +81,7 @@ class OpenSchedule < ActiveRecord::Base
   end
 
   def respond_to?(method, include_private = false)
-    return true if method == span_name.pluralize.to_sym
+    return true if span_name && method == span_name.pluralize.to_sym
     super
   end
 
@@ -93,9 +94,39 @@ class OpenSchedule < ActiveRecord::Base
     (duration / 1.day).times do |i|
       date = (start + i.days).to_time
       next if date.saturday? || date.sunday?
-      add_open_range(date.change(hour: 9)..date.change(hour: 17))
+      add_open_range(date.change(hour: 9)..date.change(hour: 16, min: 59, sec: 59))
     end
     self
+  end
+
+  def blocks_to_s
+    blocks
+      .map{|b| b ? '1' : '0' }
+      .chunk{|i| i}
+      .map{|value, instances| "#{value}#{instances.count}"}
+      .join(RLE_SEPARATOR)
+  end
+
+  def blocks_from_s(string)
+    if string.include? RLE_SEPARATOR
+      string = string
+        .split(RLE_SEPARATOR)
+        .map{ |run| [run[0]] * run[1..-1].to_i }
+        .flatten
+        .join('')
+    end
+    string.chars.map{|s| s == '1' ? true : false }
+  end
+
+  def blocks=(new_blocks)
+    if new_blocks.is_a? String
+      new_blocks = blocks_from_s(new_blocks)
+    end
+    super(new_blocks)
+  end
+
+  def to_s
+    blocks_to_s
   end
 
   private
@@ -145,7 +176,7 @@ class OpenSchedule < ActiveRecord::Base
   end
 
   def init_spans
-    self.spans = blocks.each_slice(blocks_per_span)
+    self.spans = blocks.each_slice(blocks_per_span) unless blocks.empty?
   end
 
   def blocks_divide_duration_evenly
@@ -155,7 +186,7 @@ class OpenSchedule < ActiveRecord::Base
   end
 
   def num_spans_divides_num_blocks_evenly
-    if blocks.count % blocks_per_span != 0
+    if blocks.any? && blocks.count % blocks_per_span != 0
       errors.add(:blocks_per_span, "must divide evenly the number of blocks evenly")
     end
   end

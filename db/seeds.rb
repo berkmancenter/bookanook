@@ -5,7 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Location.create([
+Location.create!([
   {
     name: 'Library 1',
     description: 'Coolest library ever'
@@ -20,7 +20,7 @@ Location.create([
   },
 ])
 
-Nook.create([
+Nook.create!([
   {
     name: 'Nice office 1',
     location: Location.find(1),

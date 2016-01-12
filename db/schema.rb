@@ -19,12 +19,11 @@ ActiveRecord::Schema.define(version: 20151222200245) do
   create_table "locations", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
-    t.string   "amenities",        default: [],              array: true
     t.integer  "open_schedule_id"
     t.text     "attrs"
     t.text     "hidden_attrs"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   add_index "locations", ["open_schedule_id"], name: "index_locations_on_open_schedule_id", using: :btree
@@ -43,7 +42,6 @@ ActiveRecord::Schema.define(version: 20151222200245) do
     t.integer  "max_schedulable"
     t.integer  "min_reservation_length"
     t.integer  "max_reservation_length"
-    t.string   "amenities",              default: [],              array: true
     t.text     "attrs"
     t.text     "hidden_attrs"
     t.text     "use_policy"

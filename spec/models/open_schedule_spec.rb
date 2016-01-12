@@ -25,6 +25,31 @@ describe OpenSchedule do
     end
   end
 
+  describe '#blocks_to_s' do
+    it 'run length encodes a string of zeroes and ones' do
+      schedule = build(:open_schedule,
+                       blocks: [false, false, true, true, true, false, true, true])
+      expect(schedule.blocks_to_s).to eq('02|13|01|12')
+    end
+  end
+
+  describe '#blocks_from_s' do
+    it 'changes a binary string into an array of booleans' do
+      schedule = build(:open_schedule)
+      expect(schedule.blocks_from_s('0011010')).to eq([false, false, true,
+                                                       true, false, true, false])
+
+    end
+
+    it 'changes an rle string of zeroes and ones into array of booleans' do
+      schedule = build(:open_schedule)
+      expect(schedule.blocks_from_s('02|12|01|11|01')).to eq([false, false,
+                                                              true, true,
+                                                              false, true,
+                                                              false])
+    end
+  end
+
   describe '#add_9_to_5' do
     it 'marks all weekday blocks between 9am and 5pm local time as open' do
       schedule = OpenSchedule.new
