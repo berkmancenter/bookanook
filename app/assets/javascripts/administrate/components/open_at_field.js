@@ -1,8 +1,10 @@
 $(function() {
-  var timeSelectors = [], timeSelector;
-  if ($('#location_open_schedule').length > 0) {
-    var selectedMask = decodeRle($('#location_open_schedule').val());
-    $('.open-at').each(function(i) {
+  $('.open-at-input').each(function() {
+    var input = this;
+    var timeSelectors = [], timeSelector;
+    var nodeSelector = $(this).data('time-selector');
+    var selectedMask = decodeRle($(input).val());
+    $(nodeSelector).each(function(i) {
       var dayWidth = selectedMask.length / 7;
       var maskStartI = dayWidth * i;
       var mask = selectedMask.slice(maskStartI, maskStartI + dayWidth);
@@ -11,10 +13,10 @@ $(function() {
       timeSelector.syncDom();
       timeSelectors.push(timeSelector);
       $(this).on('timeSelector:change', function(e, selector) {
-        updateSchedule(timeSelectors, $('#location_open_schedule'));
+        updateSchedule(timeSelectors, $(input));
       });
     });
-  }
+  });
 });
 
 function expandMask(mask, chunkWidth) {
