@@ -1,8 +1,12 @@
 <%= f.label field.attribute %>
+<% selector_ids = [] %>
 <% field.days.each_with_index do |day, i| %>
-  <div class="open-at" id="open-at-day-<%= i %>">
+  <% id = "open-at-day-#{i}" %>
+  <% selector_ids << id %>
+  <div class="open-at" id="<%= id %>">
     <%= render 'shared/time_select' %>
   </div>
 <% end %>
-<%= f.hidden_field field.attribute %>
+<%= f.hidden_field field.attribute, class: 'open-at-input',
+  'data-time-selector' => selector_ids.map{|id| '#' + id}.join(',') %>
 

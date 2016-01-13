@@ -25,6 +25,7 @@ class NookDashboard < Administrate::BaseDashboard
     max_reservation_length: Field::Number,
     amenities: SelectizeField,
     attrs: Field::Text,
+    open_schedule: OpenAtField,
     hidden_attrs: Field::Text,
     use_policy: Field::Text,
     bookable: Field::Boolean,
@@ -57,7 +58,6 @@ class NookDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :location,
     :manager,
-    :reservations,
     :name,
     :description,
     :type,
@@ -75,8 +75,7 @@ class NookDashboard < Administrate::BaseDashboard
     :use_policy,
     :bookable,
     :requires_approval,
-    :repeatable,
-    :user_id,
+    :open_schedule
   ]
 
   # Overwrite this method to customize how nooks are displayed

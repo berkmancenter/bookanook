@@ -18,8 +18,11 @@ module Admin
     def update
       update_params = resource_params
       update_params.delete(:amenities)
+      update_params.delete(:open_schedule)
       if requested_resource.update(update_params)
         requested_resource.amenity_list = params[:nook][:amenities]
+        requested_resource.open_schedule.blocks = params[:nook][:open_schedule]
+        requested_resource.open_schedule.save
         requested_resource.save
         redirect_to(
           [namespace, requested_resource],
