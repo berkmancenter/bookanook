@@ -4,7 +4,13 @@ body {
   #nook-carousel {
     .carousel-control { color: #4099D0; }
 
-    .item { max-height: 400px; }
+    .item {
+      max-height: 400px;
+      > img {
+        max-height: 400px;
+        margin: 0 auto;
+      }
+    }
   }
 
   .carousel-thumbnails {
