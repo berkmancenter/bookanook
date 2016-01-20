@@ -11,36 +11,24 @@
 
       hr.better-hr
 
-      table.col-sm-12.reservation-part2
-        tr
-          td
-            = t('reservations.this_info_hidden')
-          td
-            table.col-sm-12
-              tr
-                td
-                  input type="checkbox" id="reservation-speakers" name="reservation-speakers"
-                  label for="reservation-speakers"
-                    span
-                      = t('reservations.speakers')
-                  input type="checkbox" id="reservation-food" name="reservation-food"
-                  label for="reservation-food"
-                    span
-                      = t('reservations.food_drinks')
-                  input type="checkbox" id="reservation-projector" name="reservation-projector"
-                  label for="reservation-projector"
-                    span
-                      = t('reservations.projector')
-              tr
-                td
-                  textarea.form-control placeholder="#{t('reservations.library_notes')}" name="notes" id="reservation-noteslibrary"
-              tr
-                td
-                  textarea.form-control placeholder="#{t('reservations.ideas')}" name="reservation-ideas" id="reservation-ideas"
-              tr
-                td
-                  textarea.form-control placeholder="#{t('reservations.other_spaces')}" name="reservation-otherspaces" id="reservation-otherspaces"
-              tr
-                td
-                  = f.button :submit, 'Book!', id: 'book-reservation'
+      div.row.reservation-part2
+        div.col-sm-3
+          = t('reservations.this_info_hidden')
+        div.col-sm-9
+          div.form-group
+            label for="reservation-speakers"
+              input.checkbox-inline type="checkbox" id="reservation-speakers" name="reservation-speakers"
+              = t('reservations.speakers')
+            label for="reservation-food"
+              input.checkbox-inline type="checkbox" id="reservation-food" name="reservation-food"
+              = t('reservations.food_drinks')
+            label for="reservation-projector"
+              input.checkbox-inline type="checkbox" id="reservation-projector" name="reservation-projector"
+                = t('reservations.projector')
+          div
+            textarea.form-control placeholder="#{t('reservations.library_notes')}" name="notes" id="reservation-noteslibrary"
+            textarea.form-control placeholder="#{t('reservations.ideas')}" name="reservation-ideas" id="reservation-ideas"
+            textarea.form-control placeholder="#{t('reservations.other_spaces')}" name="reservation-otherspaces" id="reservation-otherspaces"
+        div.row.text-center
+          = f.button :submit, 'Book!', id: 'book-reservation', class: 'btn btn-primary'
 

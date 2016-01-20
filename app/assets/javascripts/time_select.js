@@ -25,6 +25,13 @@ var TimeSelect = function(parent, options) {
     self.syncDom();
   });
 
+  var selectedStart = $(self.parent).data('start'),
+      selectedEnd = $(self.parent).data('end');
+
+  if (selectedStart && selectedEnd) {
+    self.selectRange([selectedStart, selectedEnd]);
+  }
+
   self.syncDom();
 };
 
@@ -120,6 +127,7 @@ _.extend(TimeSelect.prototype, {
     } else {
       this._pushSelected(time);
     }
+    return this;
   },
 
   deselect: function(time) {
@@ -132,6 +140,7 @@ _.extend(TimeSelect.prototype, {
     } else {
       this._dropSelected(time);
     }
+    return this;
   },
 
   toggleSelect: function(time) {
@@ -140,6 +149,7 @@ _.extend(TimeSelect.prototype, {
     } else {
       this.select(time);
     }
+    return this;
   },
 
   isSelected: function(time) {

@@ -9,6 +9,8 @@
         <th>End</th>
         <th>Created</th>
         <th>Status</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
 
@@ -21,8 +23,38 @@
           <td><%= reservation.end %></td>
           <td><%= reservation.created_at %></td>
           <td><%= reservation.status %></td>
+          <td>
+            <% if Reservation::Status::MODIFIABLE.include? reservation.status %>
+              <button type="button" class="btn btn-info modify-reservation"
+                data-toggle="modal" data-target="#reservation-modal"
+                data-content="<%= edit_reservation_path(reservation) %>">Modify</button>
+            <% end %>
+          </td>
+          <td>
+            <% if Reservation::Status::CANCELABLE.include? reservation.status %>
+              <%= link_to 'Cancel', cancel_reservation_path(reservation),
+              method: :patch,
+              class: 'btn btn-danger',
+              data: { confirm: t('reservations.confirm_cancel') } %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
+</div>
+
+<div id="reservation-modal" class="modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title">Edit reservation</h2>
+      </div>
+      <div class="modal-body">
+      </div>
+    </div>
+  </div>
 </div>

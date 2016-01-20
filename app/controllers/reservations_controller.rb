@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: [:show, :destroy]
+  before_action :set_reservation, only: [:edit, :update, :show, :destroy, :cancel]
 
   # GET /reservations
   # GET /reservations.json
@@ -18,6 +18,33 @@ class ReservationsController < ApplicationController
   # GET /reservations/1.json
   def show
     redirect_to :root unless @reservation.requester == current_user
+  end
+
+  def edit
+    render layout: false if request.xhr?
+  end
+
+  def update
+    if @reservation.update(reservation_params)
+      flash[:notice] = t('reservations.updated')
+      if request.xhr?
+        render text: true
+      else
+        redirect_to reservation_path(@reservation)
+      end
+    else
+      render :edit, status: :unprocessable_entity, layout: false if request.xhr?
+    end
+  end
+
+  def cancel
+    @reservation.cancel
+    if @reservation.save
+      flash[:notice] = t('reservations.canceled')
+    else
+      flash[:alert] = t('reservations.not_canceled')
+    end
+    redirect_to :back
   end
 
   # GET /reservations/new

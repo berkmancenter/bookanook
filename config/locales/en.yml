@@ -110,6 +110,10 @@ en:
     contact: 'Contact'
     notes: 'Notes'
     submitted: 'Your reservation has been submitted for review'
+    updated: 'Your reservation has been updated'
+    canceled: 'Your reservation has been canceled'
+    not_canceled: 'Your reservation could not be canceled'
+    confirm_cancel: 'Are you sure you want to cancel this reservation?'
   users:
     filters:
       keyword: 'Keyword'

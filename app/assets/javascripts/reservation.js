@@ -1,4 +1,44 @@
+function getDateTimeRange(timeSelector, startDate, endDate) {
+  startDate = startDate || new Date();
+  endDate = endDate || new Date();
+
+  var selectedTimes = timeSelector.getSelected();
+  var startTime = _.first(selectedTimes);
+  var endTime = _.last(selectedTimes);
+  var startHours = Math.floor(startTime / 100);
+  var endHours = Math.floor(endTime / 100);
+  startDate.setHours(startHours);
+  startDate.setMinutes(startTime - startHours * 100);
+  startDate.setSeconds(0, 0);
+  endDate.setHours(endHours + 1);
+  endDate.setMinutes(endTime - endHours * 100);
+  endDate.setSeconds(0, 0);
+  return [startDate, endDate];
+}
+
+function updateTimeRangeLabel(timeSelector, $rangeLabel) {
+  var dateRange = getDateTimeRange(timeSelector);
+
+  $rangeLabel.find('.start').text(dateRange[0].toLocaleTimeString());
+  $rangeLabel.find('.end').text(dateRange[1].toLocaleTimeString());
+}
+
 $(function() {
+  $('.modify-reservation').on('click', function() {
+    NProgress.start();
+    $($(this).data('target'))
+      .find('.modal-body')
+      .load($(this).data('content'), function(e, data) {
+        $(this).find('form').on('ajax:success', function(e, data, status, xhr) {
+          $(this).closest('#reservation-modal').modal('hide');
+          document.location.reload(true);
+        }).on('ajax:error', function(e, data, status, xhr) {
+          $(this).closest('.reservation-form').replaceWith(data.responseText);
+        });
+        NProgress.done();
+      });
+  });
+
   /**
    * Reservation form
    */
@@ -42,24 +82,14 @@ $(function() {
       startDate = $('.datepicker-element').first().datepicker('getDate');
       endDate = $('.datepicker-element').first().datepicker('getDate');
     }
+
     timeSelector.syncDom();
-    var selectedTimes = timeSelector.getSelected();
-    var startTime = _.first(selectedTimes);
-    var endTime = _.last(selectedTimes);
-    var startHours = Math.floor(startTime / 100);
-    var endHours = Math.floor(endTime / 100);
-    startDate.setHours(startHours);
-    startDate.setMinutes(startTime - startHours * 100);
-    startDate.setSeconds(0, 0);
-    endDate.setHours(endHours + 1);
-    endDate.setMinutes(endTime - endHours * 100);
-    endDate.setSeconds(0, 0);
+    updateTimeRangeLabel(timeSelector, $('.time-range'));
 
-    $('.time-range').find('.start').text(startDate.toLocaleTimeString());
-    $('.time-range').find('.end').text(endDate.toLocaleTimeString());
+    var dateTimeRange = getDateTimeRange(timeSelector, startDate, endDate);
 
-    $form.find('#reservation_start').val(startDate.toISOString());
-    $form.find('#reservation_end').val(endDate.toISOString());
+    $form.find('#reservation_start').val(dateTimeRange[0].toISOString());
+    $form.find('#reservation_end').val(dateTimeRange[1].toISOString());
   }
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {
@@ -67,10 +97,6 @@ $(function() {
   });
 
   bookModalLoaded = function () {
-    var timeSelector = new TimeSelect('.reservation-when-times', {
-      continuous: true
-    });
-
     var activeWhen = $('#when button.active').first().val();
 
     $('#new_reservation').on('ajax:before', function(e) {

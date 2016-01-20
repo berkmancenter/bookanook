@@ -10,6 +10,9 @@ Rails.application.routes.draw do
     collection do
       get :mine
     end
+    member do
+      patch :cancel
+    end
   end
 
   resources :nooks, except: [:new, :edit, :create, :update, :destroy] do

@@ -11,6 +11,8 @@ class Reservation < ActiveRecord::Base
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
+    CANCELABLE = [PENDING, CONFIRMED]
+    MODIFIABLE = [PENDING]
   end
 
   STATUSES = Status.constants.map{|s| Status.const_get(s)}
@@ -36,6 +38,12 @@ class Reservation < ActiveRecord::Base
 
   after_initialize :set_defaults
 
+  def time_range
+    if start && self.end
+      (start.hour * 100 + start.min)...(self.end.hour * 100 + self.end.min)
+    end
+  end
+
   def requester_id
     user_id
   end
@@ -44,6 +52,10 @@ class Reservation < ActiveRecord::Base
     self.end - self.start
   end
   alias :duration :length
+
+  def cancel
+    self.status = Status::CANCELED
+  end
 
   def self.confirmed
     where(status: Status::CONFIRMED)
