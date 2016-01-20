@@ -58,6 +58,8 @@ textarea {
 
 input[type="search"] {
   appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
 input[type="checkbox"],
@@ -75,4 +77,6 @@ select {
   appearance: none;
   background: image-url("administrate/dropdown.svg") no-repeat 97% 50% / 10px;
   margin-bottom: $base-spacing;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }

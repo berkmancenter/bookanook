@@ -34,7 +34,14 @@ class LocationDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = ATTRIBUTE_TYPES.keys
+  SHOW_PAGE_ATTRIBUTES = [
+    :nooks,
+    :name,
+    :description,
+    :amenities,
+    :open_schedule
+  ]
+
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
@@ -43,8 +50,6 @@ class LocationDashboard < Administrate::BaseDashboard
     :name,
     :description,
     :amenities,
-    :attrs,
-    :hidden_attrs,
     :open_schedule
   ]
 
