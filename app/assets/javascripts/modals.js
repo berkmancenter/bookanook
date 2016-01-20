@@ -2,7 +2,6 @@ $(function() {
   /**
    * General modal related
    */
-
   // cancel modal
   $(document).on('click', '.close-modal', function () {
     modal.modal('hide');

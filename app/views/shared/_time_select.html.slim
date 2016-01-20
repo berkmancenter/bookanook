@@ -8,6 +8,6 @@ div.time-select
   div.col-sm-6
     - (12..23).each do |hour|
       div.time-slot.col-sm-1.open
-        button.btn.col-sm-1 type="button" value="#{hour.to_s.rjust(2, '0')}00"
+        button.btn type="button" value="#{hour.to_s.rjust(2, '0')}00"
         - if hour.even?
           span.small = "#{hour == 12 ? hour : hour - 12}:00PM"

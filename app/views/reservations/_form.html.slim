@@ -9,8 +9,27 @@ div.reservation-form
 
     div.empty-separator
 
-    div.reservation-when-times
-      = render 'shared/time_select'
+    - if @reservation && @reservation.start && @reservation.end
+      div.reservation-when-times data-start=@reservation.time_range.begin data-end=@reservation.time_range.end
+        = render 'shared/time_select'
+    - else
+      div.reservation-when-times
+        = render 'shared/time_select'
+
+    javascript:
+      var timeSelector = new TimeSelect('.reservation-when-times', {
+        continuous: true
+      });
+      updateTimeRangeLabel(timeSelector, $('.time-range'));
+      $('.reservation-when-times').on('timeSelector:change', function(e, selector) {
+        if ($('#reservation_start').val() && $('#reservation_end').val()) {
+          var startDate = new Date($('#reservation_start').val());
+          var endDate = new Date($('#reservation_end').val());
+          var dateTimeRange = getDateTimeRange(selector, startDate, endDate);
+          $('#reservation_start').val(dateTimeRange[0]);
+          $('#reservation_end').val(dateTimeRange[1]);
+        }
+      });
 
     div.empty-separator
   div.empty-separator
