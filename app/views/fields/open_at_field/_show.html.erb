@@ -1,1 +1,6 @@
-<%= field.to_s %>
+<ol class="list-unstyled">
+<% field.days_text.each do |day| %>
+  <li><%= day %></li>
+<% end %>
+</ol>
+
