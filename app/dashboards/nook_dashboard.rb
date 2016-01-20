@@ -50,19 +50,17 @@ class NookDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = ATTRIBUTE_TYPES.keys
-
-  # FORM_ATTRIBUTES
-  # an array of attributes that will be displayed
-  # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
+  SHOW_PAGE_ATTRIBUTES = [
+    :name,
     :location,
     :manager,
-    :name,
+    :reservations,
     :description,
     :type,
     :place,
     :photos,
+    :use_policy,
+    :open_schedule,
     :min_capacity,
     :max_capacity,
     :min_schedulable,
@@ -70,9 +68,29 @@ class NookDashboard < Administrate::BaseDashboard
     :min_reservation_length,
     :max_reservation_length,
     :amenities,
-    :attrs,
-    :hidden_attrs,
+    :bookable,
+    :requires_approval,
+  ]
+
+  # FORM_ATTRIBUTES
+  # an array of attributes that will be displayed
+  # on the model's form (`new` and `edit`) pages.
+  FORM_ATTRIBUTES = [
+    :name,
+    :location,
+    :manager,
+    :description,
+    :type,
+    :place,
+    :photos,
     :use_policy,
+    :amenities,
+    :min_capacity,
+    :max_capacity,
+    :min_schedulable,
+    :max_schedulable,
+    :min_reservation_length,
+    :max_reservation_length,
     :bookable,
     :requires_approval,
     :open_schedule
