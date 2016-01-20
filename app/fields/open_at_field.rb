@@ -6,6 +6,15 @@ class OpenAtField < Administrate::Field::Base
     data.spans
   end
 
+  def days_text
+    data.open_ranges.reject(&:empty?).map do |spans|
+      in_day_spans = spans.map do |range|
+        range.begin.strftime('%l:%M %P - ') + range.end.strftime('%l:%M %P')
+      end
+      spans.first.begin.strftime('%a: ') + in_day_spans.join(', ')
+    end
+  end
+
   def to_s
     data
   end

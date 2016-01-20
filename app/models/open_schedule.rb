@@ -67,7 +67,7 @@ class OpenSchedule < ActiveRecord::Base
       shift = span_i * blocks_per_span
       open_indices.map do |open, indices|
         (time_from_block_index(indices.first + shift) + time_shift)..
-          (time_from_block_index(indices.last + shift) + time_shift)
+          (time_from_block_index(indices.last + shift + 1) + time_shift)
       end
     end
   end

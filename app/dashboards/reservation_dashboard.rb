@@ -50,18 +50,21 @@ class ReservationDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :nook,
-    :requester,
+    :status,
     :public,
     :name,
     :url,
     :stream_url,
-    :status,
     :priority,
     :start,
     :end,
     :description,
     :notes,
+  ]
+
+  FIXED_ATTRIBUTES = [
+    :nook,
+    :requester
   ]
 
   # Overwrite this method to customize how reservations are displayed

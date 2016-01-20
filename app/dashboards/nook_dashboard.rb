@@ -81,7 +81,7 @@ class NookDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how nooks are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(nook)
-  #   "Nook ##{nook.id}"
-  # end
+  def display_resource(nook)
+    nook.name
+  end
 end
