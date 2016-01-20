@@ -7,6 +7,7 @@ class OpenAtField < Administrate::Field::Base
   end
 
   def days_text
+    return [] if data.nil?
     data.open_ranges.reject(&:empty?).map do |spans|
       in_day_spans = spans.map do |range|
         range.begin.strftime('%l:%M %P - ') + range.end.strftime('%l:%M %P')
