@@ -9,7 +9,10 @@ class Admin::ApplicationController < Administrate::ApplicationController
 
   def authenticate_admin
     authenticate_user!
-    # TODO Add authentication logic here.
+    unless current_user.is_admin
+      flash[:alert] = 'You are not authorized to view that page.'
+      redirect_to :root
+    end
   end
 
   # Override this value to specify the number of elements to display at a time
