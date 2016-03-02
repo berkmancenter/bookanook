@@ -1,0 +1,16 @@
+   ul.nav.nav-pills.navbar-right
+      li.dropdown
+        a#user-pill.dropdown-toggle.row data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+          div.col-md-2
+            span.glyphicon.glyphicon-certificate
+          div.col-md-7
+            div.col-md-12 = current_user.try(:full_name) || 'User'
+            div.col-md-12 #{current_user.try(:admin?) ? 'Admin' : '' }
+          div.col-md-3
+            span.glyphicon.glyphicon-menu-hamburger
+            span.caret
+        ul.dropdown-menu aria-labelledby="user-pill"
+          - if user_signed_in?
+            li = link_to('Logout', destroy_user_session_path, :method => :delete)
+          - else
+            li = link_to('Login', new_user_session_path)

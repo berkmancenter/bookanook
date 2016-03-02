@@ -7,21 +7,3 @@ ul.nav.nav-pills.navbar-left
     = link_to '#' do
       span.glyphicon.glyphicon-time
     end
-
-ul.nav.nav-pills.navbar-right
-  li.dropdown
-    a#user-pill.dropdown-toggle.row data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-      div.col-xs-2.col-sm-2.col-md-2.col-lg-2
-        span.glyphicon.glyphicon-certificate
-      div.col-xs-7.col-sm-7.col-md-7.col-lg-7#user-pill-username
-        div.col-md-12 = current_user.try(:full_name) || ''
-      div.col-xs-3.col-sm-3.col-md-3.col-lg-3
-        span.glyphicon.glyphicon-menu-hamburger
-        span.caret
-    ul.dropdown-menu aria-labelledby="user-pill"
-      - if user_signed_in?
-        li = link_to('My Reservations', mine_reservations_path)
-        li.divider role="separator"
-        li = link_to('Logout', destroy_user_session_path, :method => :delete)
-      - else
-        li = link_to('Login', new_user_session_path)
