@@ -92,3 +92,12 @@ Nook.create!([
     type: 'office'
   }
 ])
+
+user = User.new(
+                email: 'admin@example.com',
+                password: '1234567890',
+                password_confirmation: '1234567890',
+                is_admin: true
+  )
+user.skip_confirmation!
+user.save!
