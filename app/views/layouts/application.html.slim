@@ -17,6 +17,13 @@ html
         div.row#toolbar
           div.col-xs-12
             = render 'shared/nav_links'
+            - if user_signed_in?
+              - if current_user.is_admin?
+                = render 'shared/nav_admin_pill'
+              - else
+                = render 'shared/nav_pill'
+            - else
+              =render 'shared/nav_pill'
 
         - flash.each do |name, msg|
           div class="alert #{alert_class(name)} alert-dismissable"

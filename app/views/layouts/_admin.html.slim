@@ -1,28 +1,12 @@
 - content_for(:body_classes) {'admin'}
-
-ul.nav.nav-pills.navbar-left
-  li role="presentation" class="#{'active' if active_page?('admin/nooks')}"
-    = link_to 'Nooks', admin_nooks_path
-  li role="presentation" class="#{'active' if active_page?('admin/users')}"
-    = link_to 'Users', admin_users_path
-  li role="presentation" class="#{'active' if active_page?('admin/reservations')}"
-    = link_to 'Reservations', admin_reservations_path
-  li role="presentation" class="#{'active' if active_page?('admin/locations')}"
-    = link_to 'Locations', admin_locations_path
-
-ul.nav.nav-pills.navbar-right
-  li.dropdown
-    a#user-pill.dropdown-toggle.row data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
-      div.col-md-2
-        span.glyphicon.glyphicon-certificate
-      div.col-md-7
-        div.col-md-12 = current_user.try(:full_name) || 'User'
-        div.col-md-12 #{current_user.try(:admin?) ? 'Admin' : '' }
-      div.col-md-3
-        span.glyphicon.glyphicon-menu-hamburger
-        span.caret
-    ul.dropdown-menu aria-labelledby="user-pill"
-      - if user_signed_in?
-        li = link_to('Logout', destroy_user_session_path, :method => :delete)
-      - else
-        li = link_to('Login', new_user_session_path)
+- if user_signed_in?
+  - if current_user.is_admin?    
+    ul.nav.nav-pills.navbar-left
+      li role="presentation" class="#{'active' if active_page?('admin/nooks')}"
+        = link_to 'Nooks', admin_nooks_path
+      li role="presentation" class="#{'active' if active_page?('admin/users')}"
+        = link_to 'Users', admin_users_path
+      li role="presentation" class="#{'active' if active_page?('admin/reservations')}"
+        = link_to 'Reservations', admin_reservations_path
+      li role="presentation" class="#{'active' if active_page?('admin/locations')}"
+        = link_to 'Locations', admin_locations_path
