@@ -17,5 +17,5 @@ as a localized date & time string.
 %>
 
 <% if field.data %>
-  <%= l field.data %>
+  <%= field.data.to_formatted_s(:short) %>
 <% end %>
