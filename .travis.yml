@@ -1,0 +1,13 @@
+language: ruby
+cache: bundler
+sudo: false
+
+rvm:
+  - 2.2.1
+
+addons:
+  postgresql: "9.4"
+
+before_script:
+  - psql -c "create database bookanook_test;" -U postgres
+  - RAILS_ENV=test bundle exec rake --trace db:migrate
