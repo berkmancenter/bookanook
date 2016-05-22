@@ -21,7 +21,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
-gem "less-rails", git: 'https://github.com/suzan2go/less-rails.git', branch: 'fix-nomethoderror-for-sprockets3'
+gem "less-rails", '~> 2.7'
 gem 'less-rails-bootstrap'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 gem 'simple_form'
