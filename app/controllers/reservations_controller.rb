@@ -23,7 +23,7 @@ class ReservationsController < ApplicationController
   def edit
     render layout: false if request.xhr? 
     if @reservation.status=="Confirmed"
-      flash[:notice] = "This reservation has already been confirmed"
+      flash[:notice] = t('reservations.already_confirmed')
       redirect_to reservation_path(@reservation) 
     end
   end
