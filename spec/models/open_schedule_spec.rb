@@ -56,7 +56,7 @@ describe OpenSchedule do
       schedule.add_9_to_5
       (1..5).each do |i|
         opening = OpenSchedule::A_SUNDAY_AT_LOCAL_MIDNIGHT + i.day + 9.hours
-        closing = opening + 8.hours
+        closing = opening + 8.hours - 1.seconds
         expect(schedule.open_for_range?(opening..closing)).to be_truthy
       end
     end

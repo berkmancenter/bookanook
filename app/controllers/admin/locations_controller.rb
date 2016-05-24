@@ -16,6 +16,38 @@ module Admin
     # See https://administrate-docs.herokuapp.com/customizing_controller_actions
     # for more information
 
+    def new
+      resource = resource_class.new
+      resource.open_schedule = OpenSchedule.new
+      resource.open_schedule.add_9_to_5
+
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, resource),
+      }
+    end
+
+    def create
+      create_params = resource_params
+      create_params.delete(:amenities)
+      create_params.delete(:open_schedule)
+      resource = resource_class.new(create_params)
+
+      if resource.save
+        resource.amenity_list = params[:location][:amenities]
+        resource.open_schedule.blocks = params[:location][:open_schedule]
+        resource.open_schedule.save
+        resource.save
+        redirect_to(
+          [namespace, resource],
+          notice: translate_with_resource("create.success"),
+        )
+      else
+        render :new, locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+        }
+      end
+    end
+
     def update
       update_params = resource_params
       update_params.delete(:amenities)

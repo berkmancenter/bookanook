@@ -22,6 +22,7 @@ class Nook < ActiveRecord::Base
     in: [true, false]
 
   before_validation :set_defaults
+  after_initialize :set_defaults
 
   mount_uploaders :photos, PhotoUploader
 
