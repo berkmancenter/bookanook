@@ -10,6 +10,7 @@ FactoryGirl.define do
   factory :location do
     sequence(:name, 'Library 1')
     description "It's a library"
+    amenity_list [ 'Projector', 'Conference Phone' ]
 
     factory :location_with_hours do
       after(:build) { |location| location.build_open_schedule.add_9_to_5 }
