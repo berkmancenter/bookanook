@@ -3,7 +3,7 @@ class Location < ActiveRecord::Base
   include OpenAtHours
   resourcify
 
-  has_many :nooks
+  has_many :nooks, dependent: :destroy
   has_many :reservations, through: :nooks
 
   after_initialize :set_defaults
