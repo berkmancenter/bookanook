@@ -1,6 +1,7 @@
 class Location < ActiveRecord::Base
   include ExtensibleAttrs
   include OpenAtHours
+  resourcify
 
   has_many :nooks
   has_many :reservations, through: :nooks

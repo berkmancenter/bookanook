@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  rolify
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable,
@@ -9,8 +10,11 @@ class User < ActiveRecord::Base
   has_many :reservations
 
   def admin?
-    #TODO: Replace this placeholder.
-    true
+    return has_role? :admin, :any
+  end
+
+  def superadmin?
+    return has_role? :superadmin
   end
 
   def first_name
