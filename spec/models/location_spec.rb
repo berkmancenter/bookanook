@@ -31,15 +31,16 @@ RSpec.describe Location, type: :model do
 
   describe '#amenities' do
     it 'can be an array' do
-      location = Location.new amenities: [ 'projector', 'conference phone' ]
+      location = Location.new
+      location.amenity_list = [ 'Projector', 'Conference Phone' ]
+      location.save
       expect( location.amenities.count ).to eq( 2 )
     end
 
     it 'saves and refreshes as an array' do
       FactoryGirl.create :location
-      #Location.create amenities: [ 'Projector', 'Conference Phone' ]
       location = Location.last
-      expect( location.amenities.count ).to eq( FactoryGirl.attributes_for( :location )[ :amenities ].count )
+      expect( location.amenities.count ).to eq( FactoryGirl.attributes_for( :location )[ :amenity_list ].count )
     end
   end
 
