@@ -21,14 +21,6 @@ RSpec.describe Ability, type: :model do
         expect( ability.can? :manage, location1).to be_truthy
         expect( ability.can? :manage, location2).to be_falsey
       end
-
-      it 'cannot destroy any location' do
-        user = create(:user)
-        location1 = create(:location)
-        user.add_role :admin, location1
-        ability = Ability.new(user)
-        expect( ability.can? :destroy, location1).to be_falsey
-      end
     end
 
     context 'on Nook' do

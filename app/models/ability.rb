@@ -14,10 +14,10 @@ class Ability
       nooks = Nook.where( location_id: location_ids )
       nook_ids = nooks.ids
       can :manage, Location, id: location_ids
-      cannot :destroy, Location
       can :manage, Nook, id: nook_ids
       can :manage, Reservation, nook_id: nook_ids
       can :manage, Role
+      cannot :manage, User
 
     else #Patron
       can :read, [ Location, Nook ]

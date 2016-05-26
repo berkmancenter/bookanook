@@ -15,5 +15,12 @@ module Admin
 
     # See https://administrate-docs.herokuapp.com/customizing_controller_actions
     # for more information
+
+    before_filter :authorize_index_access, only: :index
+
+    private
+    def authorize_index_access
+      authorize! :read, User
+    end
   end
 end
