@@ -29,10 +29,6 @@ RSpec.describe Nook, type: :model do
       expect(@nook).to respond_to :location
     end
 
-    it 'has a manager' do
-      expect(@nook).to respond_to :manager
-    end
-
     it 'has reservations' do
       expect(@nook).to respond_to :reservations
     end
@@ -52,13 +48,6 @@ RSpec.describe Nook, type: :model do
 
     it 'has a location' do
       expect( nook.location ).to be_present
-    end
-  end
-
-  describe '#manager' do
-    it 'has a manager' do
-      nook = create(:nook)
-      expect( nook.manager ).to be_present
     end
   end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160527035610) do
+ActiveRecord::Schema.define(version: 20160528045001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,14 +48,12 @@ ActiveRecord::Schema.define(version: 20160527035610) do
     t.boolean  "bookable"
     t.boolean  "requires_approval"
     t.boolean  "repeatable"
-    t.integer  "user_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end
 
   add_index "nooks", ["location_id"], name: "index_nooks_on_location_id", using: :btree
   add_index "nooks", ["open_schedule_id"], name: "index_nooks_on_open_schedule_id", using: :btree
-  add_index "nooks", ["user_id"], name: "index_nooks_on_user_id", using: :btree
 
   create_table "open_schedules", force: :cascade do |t|
     t.string   "name"
@@ -154,7 +152,6 @@ ActiveRecord::Schema.define(version: 20160527035610) do
   add_foreign_key "locations", "open_schedules"
   add_foreign_key "nooks", "locations"
   add_foreign_key "nooks", "open_schedules"
-  add_foreign_key "nooks", "users"
   add_foreign_key "reservations", "nooks"
   add_foreign_key "reservations", "users"
 end

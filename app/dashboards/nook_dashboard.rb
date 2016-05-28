@@ -9,7 +9,6 @@ class NookDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     location: Field::BelongsTo,
-    manager: Field::BelongsTo.with_options(class_name: "User"),
     reservations: Field::HasMany,
     id: Field::Number,
     name: Field::String,
@@ -44,7 +43,6 @@ class NookDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :name,
     :location,
-    :manager,
     :reservations,
   ]
 
@@ -53,7 +51,6 @@ class NookDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :name,
     :location,
-    :manager,
     :reservations,
     :description,
     :type,
@@ -78,7 +75,6 @@ class NookDashboard < Administrate::BaseDashboard
   FORM_ATTRIBUTES = [
     :name,
     :location,
-    :manager,
     :description,
     :type,
     :place,
