@@ -1,3 +1,14 @@
 <%= f.label field.attribute %>
-<%= f.text_field field.attribute, class: 'selectize', value: field.to_s,
-  'data-options': ActsAsTaggableOn::Tag.pluck(:name).join(',') %>
+<% if field.name == 'amenities' %>
+  <%= f.text_field field.attribute, class: 'selectize', value: field.to_s,
+    'data-options': ActsAsTaggableOn::Tag.pluck(:name).join(',') %>
+<% elsif field.name == 'admins' %>
+  <% if resource.new_record? %>
+    <% admins = [ current_user ] %>
+  <% else %>
+    <% admins = resource.admins %>
+  <% end %>
+  <%= f.text_field field.attribute, class: 'selectize-admin',
+      'data-default': User.strip_user_data( admins ) ,
+      'data-options': User.strip_user_data( User.all ) %>
+<% end %>

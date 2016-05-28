@@ -19,6 +19,7 @@ class LocationDashboard < Administrate::BaseDashboard
     open_schedule: OpenAtField,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    admins: SelectizeField,
   }
 
   # COLLECTION_ATTRIBUTES
@@ -37,6 +38,7 @@ class LocationDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :nooks,
     :name,
+    :admins,
     :description,
     :amenities,
     :open_schedule
@@ -48,6 +50,7 @@ class LocationDashboard < Administrate::BaseDashboard
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
     :name,
+    :admins,
     :description,
     :amenities,
     :open_schedule

@@ -11,6 +11,10 @@ class Location < ActiveRecord::Base
 
   acts_as_taggable_on :amenities
 
+  def admins
+    User.with_role(:admin, self)
+  end
+
   private
 
   def set_defaults

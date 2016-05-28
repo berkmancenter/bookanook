@@ -34,4 +34,11 @@ class User < ActiveRecord::Base
   def status
     'active'
   end
+
+  def self.strip_user_data(users)
+    users = users.map do |user|
+      [ user.id, user.full_name ].join(':')
+    end
+    users.join(',')
+  end
 end
