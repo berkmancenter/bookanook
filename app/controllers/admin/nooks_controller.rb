@@ -15,6 +15,25 @@ module Admin
 
     # See https://administrate-docs.herokuapp.com/customizing_controller_actions
     # for more information
+
+    def index
+      search_term = params[:search].to_s.strip
+      resources = Administrate::Search.new(resource_resolver, search_term).run
+      unless current_user.superadmin?
+        locations = Location.with_roles(:admin, current_user)
+        resources = resources.where(location_id: locations.ids)
+      end
+      resources = order.apply(resources)
+      resources = resources.page(params[:page]).per(records_per_page)
+      page = Administrate::Page::Collection.new(dashboard, order: order)
+
+      render locals: {
+        resources: resources,
+        search_term: search_term,
+        page: page,
+      }
+    end
+
     def update
       update_params = resource_params
       update_params.delete(:amenities)

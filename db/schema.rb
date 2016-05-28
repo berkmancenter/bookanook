@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160217160839) do
+ActiveRecord::Schema.define(version: 20160528045001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,14 +48,12 @@ ActiveRecord::Schema.define(version: 20160217160839) do
     t.boolean  "bookable"
     t.boolean  "requires_approval"
     t.boolean  "repeatable"
-    t.integer  "user_id"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
   end
 
   add_index "nooks", ["location_id"], name: "index_nooks_on_location_id", using: :btree
   add_index "nooks", ["open_schedule_id"], name: "index_nooks_on_open_schedule_id", using: :btree
-  add_index "nooks", ["user_id"], name: "index_nooks_on_user_id", using: :btree
 
   create_table "open_schedules", force: :cascade do |t|
     t.string   "name"
@@ -89,6 +87,17 @@ ActiveRecord::Schema.define(version: 20160217160839) do
 
   add_index "reservations", ["nook_id"], name: "index_reservations_on_nook_id", using: :btree
   add_index "reservations", ["user_id"], name: "index_reservations_on_user_id", using: :btree
+
+  create_table "roles", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
@@ -127,17 +136,22 @@ ActiveRecord::Schema.define(version: 20160217160839) do
     t.string   "unconfirmed_email"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_admin"
   end
 
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  create_table "users_roles", id: false, force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
+
   add_foreign_key "locations", "open_schedules"
   add_foreign_key "nooks", "locations"
   add_foreign_key "nooks", "open_schedules"
-  add_foreign_key "nooks", "users"
   add_foreign_key "reservations", "nooks"
   add_foreign_key "reservations", "users"
 end

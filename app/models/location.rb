@@ -1,14 +1,19 @@
 class Location < ActiveRecord::Base
   include ExtensibleAttrs
   include OpenAtHours
+  resourcify
 
-  has_many :nooks
+  has_many :nooks, dependent: :destroy
   has_many :reservations, through: :nooks
 
   after_initialize :set_defaults
   before_create :set_open_schedule
 
   acts_as_taggable_on :amenities
+
+  def admins
+    User.with_role(:admin, self)
+  end
 
   private
 

@@ -5,7 +5,6 @@ class Nook < ActiveRecord::Base
   include OpenAtHours
 
   belongs_to :location
-  belongs_to :manager, class_name: 'User', foreign_key: 'user_id'
   has_many :reservations, dependent: :destroy
 
   delegate :name, :attrs, to: :location, prefix: true, allow_nil: true
@@ -30,10 +29,6 @@ class Nook < ActiveRecord::Base
 
   # CarrierWave is throwing errors without it
   skip_callback :commit, :after, :remove_previously_stored_photos
-
-  def manager_id
-    user_id
-  end
 
   def available_now?
     available_at? Time.now

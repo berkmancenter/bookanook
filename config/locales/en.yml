@@ -124,6 +124,8 @@ en:
       status:
         active: 'Active'
         banned: 'Banned'
+  admins:
+    unauthorized: 'You are not authorized to perform this action.'
   filters:
     search: 'Search'
   edit: 'Edit'
