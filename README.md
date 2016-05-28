@@ -17,9 +17,9 @@ Check full features and entities involved on the [wiki home page](https://github
 4. Use the gemset: `rvm gemset use bookanook`
 5. Install gems from Gemfile: `bundle install`
 6. Make necessary changes (postgresql username and password) in config/database.yml
-7. Create database: `rake db:create`
-8. Run migrations: `rake db:migrate`
-9. Seed database with initial data: `rake db:seed`
-10. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add key and secret for Google authentication.
+7. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add key and secret for Google authentication.
+8. Create database: `rake db:create`
+9. Run migrations: `rake db:migrate`
+10. Seed database with initial data: `rake db:seed`
 11. Start the server: `rails s`
 12. Visit the application at localhost:3000

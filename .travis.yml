@@ -10,4 +10,5 @@ addons:
 
 before_script:
   - psql -c "create database bookanook_test;" -U postgres
+  - cp config/social_keys.yml.sample config/social_keys.yml
   - RAILS_ENV=test bundle exec rake --trace db:migrate
