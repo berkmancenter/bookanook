@@ -20,7 +20,6 @@ one:
   max_reservation_length: 1
   requires_approval: false
   repeatable: false
-  manager_id: 
   location: MyText
 
 two:
@@ -43,5 +42,4 @@ two:
   max_reservation_length: 1
   requires_approval: false
   repeatable: false
-  manager_id: 
   location: MyText

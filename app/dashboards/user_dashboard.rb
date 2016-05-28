@@ -12,7 +12,6 @@ class UserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     email: Field::String,
     sign_in_count: Field::Number,
-    is_admin: Field::Boolean,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }
@@ -35,8 +34,7 @@ class UserDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :email,
-    :is_admin
+    :email
   ]
 
   # Overwrite this method to customize how users are displayed

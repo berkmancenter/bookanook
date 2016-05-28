@@ -1,1 +1,5 @@
-<%= field.to_s %>
+<% if field.name == 'admins' %>
+  <%= resource.admins.map(&:full_name).join(', ') %>
+<% else %>
+  <%= field.to_s %>
+<% end %>

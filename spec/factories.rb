@@ -4,7 +4,6 @@ FactoryGirl.define do
     description "It's a nice nook."
     location
     bookable true
-    manager
   end
 
   factory :location do
@@ -24,8 +23,6 @@ FactoryGirl.define do
 
     factory :confirmed_user do
       after(:create) { |user| user.confirm }
-
-      factory :manager
     end
   end
 

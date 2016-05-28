@@ -36,6 +36,10 @@ and renders all form fields for a resource's editable attributes.
         <%= render_field attribute, f: f %>
       </div>
     <% end -%>
+    <div class="form-field form-field--boolean">
+      <%= f.label :is_superadmin %>
+      <%= check_box_tag :is_superadmin, true, @is_superadmin %>
+    </div>
   </div>
 
   <div class="form-actions">
