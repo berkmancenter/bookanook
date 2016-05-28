@@ -20,5 +20,6 @@ Check full features and entities involved on the [wiki home page](https://github
 7. Create database: `rake db:create`
 8. Run migrations: `rake db:migrate`
 9. Seed database with initial data: `rake db:seed`
-10. Start the server: `rails s`
-11. Visit the application at localhost:3000
+10. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add key and secret for Google authentication.
+11. Start the server: `rails s`
+12. Visit the application at localhost:3000

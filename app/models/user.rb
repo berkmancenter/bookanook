@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  devise :omniauthable, omniauth_providers: [ :google_oauth2 ]
+
   STATUSES = [ :active, :banned ]
 
   has_many :reservations
