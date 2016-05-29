@@ -92,3 +92,19 @@ Nook.create!([
     type: 'office'
   }
 ])
+
+users = [ "superadmin", "admin1", "admin2", "admin3", "patron" ]
+
+users.each do |role|
+  user = User.new( :email => "#{role}@bookanook.com",
+                   :password => '12345678',
+                   :password_confirmation => '12345678' )
+  user.skip_confirmation!
+  user.save!
+end
+
+User.find(1).add_role :superadmin
+User.find(2).add_role :admin, Location.find(1)
+User.find(2).add_role :admin, Location.find(2)
+User.find(3).add_role :admin, Location.find(3)
+User.find(4).add_role :admin, Location.find(1)
