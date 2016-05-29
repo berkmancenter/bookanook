@@ -1,5 +1,9 @@
 class GoogleUser < User
 
+  def self.model_name
+    User.model_name
+  end
+
   def self.find_or_create(auth)
     where(auth.slice(:authid)).first_or_create do |user|
       user.type = 'GoogleUser'
