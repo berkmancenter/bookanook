@@ -17,6 +17,11 @@ $(function() {
       });
     });
   });
+  if ($('#copy_location_schedule')) {
+    $('#copy_location_schedule').change( function() {
+      $('.form-field--open-at-field').toggle();
+    });
+  }
 });
 
 function expandMask(mask, chunkWidth) {
