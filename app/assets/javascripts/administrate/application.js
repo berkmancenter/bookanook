@@ -6,4 +6,6 @@
 //= require underscore
 //= require underscore.string.min
 //= require moment
+//= require fullcalendar.min
+//= require administrate/admin_calendar
 //= require_tree .

@@ -25,14 +25,16 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'select_locations' => 'locations#select'
+  get 'select_locations', to: 'locations#select'
 
   namespace :admin do
     DashboardManifest::DASHBOARDS.each do |dashboard_resource|
       resources dashboard_resource
     end
 
-    root controller: DashboardManifest::ROOT_DASHBOARD, action: :index
+    get 'calendar', to: 'calendar#index'
+
+    root controller: :calendar, action: :index
   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
