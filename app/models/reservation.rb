@@ -57,6 +57,22 @@ class Reservation < ActiveRecord::Base
     self.status = Status::CANCELED
   end
 
+  def confirm
+    self.status = Status::CONFIRMED
+  end
+
+  def reject
+    self.status = Status::REJECTED
+  end
+
+  def pending_review?
+    status == Status::PENDING
+  end
+
+  def modifiable?
+    Status::MODIFIABLE.include? status
+  end
+
   def self.confirmed
     where(status: Status::CONFIRMED)
   end

@@ -39,5 +39,25 @@ module Admin
       end
     end
 
+    def approve
+      id = params[:id]
+      @reservation = Reservation.where(id: id).first
+      if not @reservation.nil? and @reservation.modifiable?
+        @reservation.confirm
+        @reservation.save
+      end
+      render :js, template: 'admin/reservations/status_update'
+    end
+
+    def reject
+      id = params[:id]
+      @reservation = Reservation.where(id: id).first
+      if not @reservation.nil? and @reservation.modifiable?
+        @reservation.reject
+        @reservation.save
+      end
+      render :js, template: 'admin/reservations/status_update'
+    end
+
   end
 end

@@ -33,6 +33,8 @@ Rails.application.routes.draw do
     end
 
     get 'calendar', to: 'calendar#index'
+    get 'reservation/:id/approve', to: 'reservations#approve', as: :reservation_approve
+    get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject
 
     root controller: :calendar, action: :index
   end
