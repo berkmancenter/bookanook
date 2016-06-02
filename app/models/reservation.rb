@@ -15,7 +15,7 @@ class Reservation < ActiveRecord::Base
     MODIFIABLE = [PENDING]
   end
 
-  STATUSES = Status.constants.map{|s| Status.const_get(s)}
+  STATUSES = Status.constants.map{|s| Status.const_get(s)}.flatten.uniq
 
   # From active_support/core_ext/numeric/time.rb
   REPEATABLE_UNITS = [
