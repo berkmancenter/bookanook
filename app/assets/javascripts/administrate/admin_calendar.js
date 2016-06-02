@@ -1,5 +1,4 @@
 if ( $('.admin-calendar').length ) {
-  console.log('erer');
 
   $.ajax({
     url: "/admin/reservations.json",
@@ -20,6 +19,7 @@ if ( $('.admin-calendar').length ) {
     }
   }
 
+  // Not camel cased to keep it similar with routes helper
   function edit_reservation_path(reservation_id) {
     return "/admin/reservations/" + reservation_id + '/edit';
   }
