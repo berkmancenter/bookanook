@@ -5,7 +5,7 @@ class GoogleUser < User
   end
 
   def self.find_or_create(auth)
-    where(auth.slice(:authid)).first_or_create do |user|
+    where(authid: auth[:uid]).first_or_create do |user|
       user.type = 'GoogleUser'
       user.authid = auth.uid
       user.email = auth.info.email
