@@ -114,6 +114,7 @@ en:
     canceled: 'Your reservation has been canceled'
     not_canceled: 'Your reservation could not be canceled'
     confirm_cancel: 'Are you sure you want to cancel this reservation?'
+    already_confirmed: 'This reservation has already been confirmed'
   users:
     filters:
       keyword: 'Keyword'
