@@ -16,6 +16,19 @@ module Admin
     # See https://administrate-docs.herokuapp.com/customizing_controller_actions
     # for more information
 
+    def new
+      resource = resource_class.new
+      start_time = params[:start]
+      unless start_time.nil?
+        resource.start = start_time.to_datetime
+        resource.end = start_time.to_datetime + 2.hours - 1.seconds
+      end
+
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, resource),
+      }
+    end
+
     def index
       search_term = params[:search].to_s.strip
       resources = Administrate::Search.new(resource_resolver, search_term).run

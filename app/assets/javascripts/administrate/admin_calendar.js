@@ -60,8 +60,9 @@ if ( $('.admin-calendar').length ) {
         if (view.name === 'month' || view.name === 'agendaWeek' ) {
           $('.admin-calendar').fullCalendar('gotoDate', date);
           $('.admin-calendar').fullCalendar('changeView', 'agendaDay');
-        } else if (view.name == 'day') {
-          // create reservation with pre-filled time
+        } else if (view.name == 'agendaDay') {
+            var new_reservation_url = '/admin/reservations/new';
+            window.location = new_reservation_url + "?start=" + date.toString();
         }
       }
     });
