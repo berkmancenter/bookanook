@@ -45,7 +45,6 @@ if ( $('.admin-calendar').length ) {
         center: 'title',
         right: 'month,agendaWeek,agendaDay'
       },
-      defaultDate: '2016-05-12',
       editable: false,
       eventLimit: true, // allow "more" link when too many events,
       fixedWeekCount: false,
@@ -57,10 +56,10 @@ if ( $('.admin-calendar').length ) {
         }
       },
       dayClick: function(date, jsEvent, view) {
-        if (view.name === 'month' || view.name === 'agendaWeek' ) {
+        if (view.name === 'month') {
           $('.admin-calendar').fullCalendar('gotoDate', date);
           $('.admin-calendar').fullCalendar('changeView', 'agendaDay');
-        } else if (view.name == 'agendaDay') {
+        } else if (view.name == 'agendaDay' || view.name === 'agendaWeek') {
             var new_reservation_url = '/admin/reservations/new';
             window.location = new_reservation_url + "?start=" + date.toString();
         }
