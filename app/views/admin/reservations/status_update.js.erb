@@ -1,0 +1,4 @@
+var status_element = $('.cell-data--<%= @reservation.id %>-status-update');
+if ($(status_element).length) {
+	$(status_element).html('<%= escape_javascript render "status_update", reservation: @reservation %>');
+}

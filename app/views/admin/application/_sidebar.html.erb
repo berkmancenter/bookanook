@@ -1,0 +1,27 @@
+<%#
+# Sidebar
+
+This partial is used to display the sidebar in Administrate.
+By default, the sidebar contains navigation links
+for all resources in the admin dashboard,
+as defined by the DashboardManifest.
+%>
+
+<ul class="sidebar__list">
+  <li>
+    <%= link_to(
+      'Calendar',
+      [namespace, 'calendar'],
+      class: "sidebar__link sidebar__link--#{nav_link_state('calendar')}"
+    ) %>
+  </li>
+  <% DashboardManifest::DASHBOARDS.each do |resource| %>
+    <li>
+      <%= link_to(
+        display_resource_name(resource),
+        [namespace, resource],
+        class: "sidebar__link sidebar__link--#{nav_link_state(resource)}"
+      ) %>
+    </li>
+  <% end %>
+</ul>

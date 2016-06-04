@@ -6,4 +6,8 @@
 //= require underscore
 //= require underscore.string.min
 //= require moment
+//= require nprogress
+//= require administrate/progress_bar
+//= require fullcalendar.min
+//= require administrate/admin_calendar
 //= require_tree .

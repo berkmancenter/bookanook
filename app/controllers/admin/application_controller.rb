@@ -32,6 +32,16 @@ class Admin::ApplicationController < Administrate::ApplicationController
     redirect_to :back
   end
 
+  helper_method :nav_link_state
+  def nav_link_state(resource)
+    if resource_name.to_s.pluralize == resource.to_s or
+        resource_name.to_s == resource.to_s
+      :active
+    else
+      :inactive
+    end
+  end
+
   # Override this value to specify the number of elements to display at a time
   # on index pages. Defaults to 20.
   # def records_per_page

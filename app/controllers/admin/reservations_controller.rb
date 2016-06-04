@@ -16,6 +16,19 @@ module Admin
     # See https://administrate-docs.herokuapp.com/customizing_controller_actions
     # for more information
 
+    def new
+      resource = resource_class.new
+      start_time = params[:start]
+      unless start_time.nil?
+        resource.start = start_time.to_datetime
+        resource.end = start_time.to_datetime + 2.hours - 1.seconds
+      end
+
+      render locals: {
+        page: Administrate::Page::Form.new(dashboard, resource),
+      }
+    end
+
     def index
       search_term = params[:search].to_s.strip
       resources = Administrate::Search.new(resource_resolver, search_term).run
@@ -27,11 +40,37 @@ module Admin
       resources = resources.page(params[:page]).per(records_per_page)
       page = Administrate::Page::Collection.new(dashboard, order: order)
 
-      render locals: {
-        resources: resources,
-        search_term: search_term,
-        page: page,
-      }
+      respond_to do |format|
+        format.html do
+          render locals: {
+            resources: resources,
+            search_term: search_term,
+            page: page,
+          }
+        end
+        format.json { render json: resources }
+      end
     end
+
+    def approve
+      id = params[:id]
+      @reservation = Reservation.where(id: id).first
+      if not @reservation.nil? and @reservation.modifiable?
+        @reservation.confirm
+        @reservation.save
+      end
+      render :js, template: 'admin/reservations/status_update'
+    end
+
+    def reject
+      id = params[:id]
+      @reservation = Reservation.where(id: id).first
+      if not @reservation.nil? and @reservation.modifiable?
+        @reservation.reject
+        @reservation.save
+      end
+      render :js, template: 'admin/reservations/status_update'
+    end
+
   end
 end

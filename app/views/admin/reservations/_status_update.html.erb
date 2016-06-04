@@ -1,0 +1,16 @@
+<% if reservation.pending_review? %>
+  <%= link_to(
+      "Approve",
+      admin_reservation_approve_path(id: reservation.id),
+      remote: true,
+      class: "button",
+    ) %>
+  <%= link_to(
+      "Reject",
+      admin_reservation_reject_path(id: reservation.id),
+      remote: true,
+      class: "button",
+    ) %>
+<% else %>
+  <%= reservation.status %>
+<% end %>

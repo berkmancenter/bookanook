@@ -54,6 +54,9 @@ to display a collection of resources in an HTML table.
             <%= render_field attribute %>
           </td>
         <% end %>
+        <td class="cell-data cell-data--<%= resource.id %>-status-update">
+          <%= render 'status_update', reservation: resource %>
+        </td>
       </tr>
     <% end %>
   </tbody>

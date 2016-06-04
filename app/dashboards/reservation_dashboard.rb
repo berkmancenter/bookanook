@@ -39,7 +39,6 @@ class ReservationDashboard < Administrate::BaseDashboard
     :start,
     :end,
     :created_at,
-    :status,
   ]
 
   # SHOW_PAGE_ATTRIBUTES

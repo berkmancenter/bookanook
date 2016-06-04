@@ -15,7 +15,7 @@ class Reservation < ActiveRecord::Base
     MODIFIABLE = [PENDING]
   end
 
-  STATUSES = Status.constants.map{|s| Status.const_get(s)}
+  STATUSES = Status.constants.map{|s| Status.const_get(s)}.flatten.uniq
 
   # From active_support/core_ext/numeric/time.rb
   REPEATABLE_UNITS = [
@@ -55,6 +55,22 @@ class Reservation < ActiveRecord::Base
 
   def cancel
     self.status = Status::CANCELED
+  end
+
+  def confirm
+    self.status = Status::CONFIRMED
+  end
+
+  def reject
+    self.status = Status::REJECTED
+  end
+
+  def pending_review?
+    status == Status::PENDING
+  end
+
+  def modifiable?
+    Status::MODIFIABLE.include? status
   end
 
   def self.confirmed
