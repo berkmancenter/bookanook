@@ -10,6 +10,13 @@ as defined by the DashboardManifest.
 <ul class="sidebar__list">
   <li>
     <%= link_to(
+      'Welcome',
+      [namespace, 'welcome'],
+      class: "sidebar__link sidebar__link--#{nav_link_state('welcome')}"
+    ) %>
+  </li>
+  <li>
+    <%= link_to(
       'Calendar',
       [namespace, 'calendar'],
       class: "sidebar__link sidebar__link--#{nav_link_state('calendar')}"

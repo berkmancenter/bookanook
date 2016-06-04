@@ -33,10 +33,12 @@ Rails.application.routes.draw do
     end
 
     get 'calendar', to: 'calendar#index'
+    get 'welcome', to: 'welcome#index'
+
     get 'reservation/:id/approve', to: 'reservations#approve', as: :reservation_approve
     get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject
 
-    root controller: :calendar, action: :index
+    root controller: :welcome, action: :index
   end
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
