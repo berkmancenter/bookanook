@@ -124,6 +124,8 @@ en:
       status:
         active: 'Active'
         banned: 'Banned'
+    authentication:
+      simple_registration: 'It seems you are not registered through Google. Please login using your password.'
   admins:
     unauthorized: 'You are not authorized to perform this action.'
   filters:
