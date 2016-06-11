@@ -14,10 +14,6 @@ $(function() {
     });
     searchParams.location_ids = selected;
 
-    // when filter selection
-    var activeWhen = $('#when button.active').first();
-    searchParams.when = activeWhen.val();
-
     // time filter selection
     var time = $('#hour-range-slider').slider('getValue');
 
@@ -29,18 +25,12 @@ $(function() {
     // date filter selection
     var selected = [];
 
-    var activeWhen = $('#when button.active').first().val();
+    var selectedDate = $('.datepicker-element').first().datepicker('getFormattedDate');
+    var dateArr = selectedDate.split('/');
 
-    if (activeWhen === 'today') {
-      selected.push(new Date().toISOString().replace(/T.*$/, ''));
-    } else if (activeWhen === 'future') {
-      var selectedDate = $('.datepicker-element').first().datepicker('getFormattedDate');
-      var dateArr = selectedDate.split('/');
+    var date = dateArr[2] + '-' + dateArr[0] + '-' + dateArr[1];
 
-      var date = dateArr[2] + '-' + dateArr[0] + '-' + dateArr[1];
-
-      selected.push(date);
-    }
+    selected.push(date);
     searchParams.days = selected;
 
     // amentities filter selection
@@ -75,9 +65,7 @@ $(function() {
    * Date filter
    */
 
-  $('.datepicker-element').datepicker({
-    startDate: new Date(),
-  });
+  $('.datepicker-element').datepicker('setDate', 'today');
 
   $(".datepicker-element").on("changeDate", function (event) {
     NProgress.start();

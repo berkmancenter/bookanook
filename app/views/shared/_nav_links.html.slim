@@ -1,12 +1,18 @@
 ul.nav.nav-pills.navbar-left
-  li role="presentation" class="#{'active' if active_page?('nooks')}"
-    = link_to nooks_path do
-      span.glyphicon.glyphicon-globe
-    end
-  li role="presentation" class="#{'active' if active_page?('reservations')}"
-    = link_to '#' do
-      span.glyphicon.glyphicon-time
-    end
+  - if active_page?('reservations')
+    li role="presentation"
+      = link_to nooks_path do
+        span.glyphicon.glyphicon-globe
+      end
+  - else
+    li role="presentation" data-view="masonry" class="active"
+      = link_to '#' do
+        span.glyphicon.glyphicon-globe
+      end
+    li role="presentation" data-view="expanded"
+      = link_to '#' do
+        span.glyphicon.glyphicon-time
+      end
 
 ul.nav.nav-pills.navbar-right
   li.dropdown

@@ -1,0 +1,24 @@
+div.nooks-masonry
+- nooks.flatten.each.with_index do |nook, i|
+  div.nook-item
+    = link_to reserve_nook_path(nook),
+      class: 'remote-modal book-this-nook', data: {modal: '#modal', callback: 'bookModalLoaded'}
+      div.nook
+        = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg'
+        div.nook-property
+          span.nook-icon.name
+          = nook.name
+        div.nook-property
+          span.nook-icon.location
+          = nook.location_name
+        div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
+          span.nook-icon.availability
+          = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
+        div.nook-property
+          span.nook-icon.amenities
+          = nook.amenities.join(', ')
+        div.nook-property
+          span.nook-icon.maxcapacity
+          = nook.max_capacity
+          = ' '
+          = "people".pluralize(nook.max_capacity)

@@ -1,0 +1,51 @@
+input id="nook-reservation-date" type="text" hidden="true"
+input id="nook-reservation-start" type="text" hidden="true"
+input id="nook-reservation-end" type="text" hidden="true"
+
+- nooks.flatten.each.with_index do |nook, i|
+  div.nook-item-expanded.col-md-9
+    div.nook-expanded
+      div.row
+        div.col-md-4
+          = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg'
+        div.col-md-4
+          div.nook-property
+            span.nook-icon.name
+            = nook.name
+          div.nook-property
+            span.nook-icon.location
+            = nook.location_name
+          div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
+            span.nook-icon.availability
+            = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
+          div.nook-property
+            span.nook-icon.amenities
+            = nook.amenities.join(', ')
+          div.nook-property
+            span.nook-icon.maxcapacity
+            = nook.max_capacity
+            = ' '
+            = "people".pluralize(nook.max_capacity)
+    div.nook-weekly-schedule
+      - @date_range.each_with_index do |date, index|
+          div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
+            div.row.date data-date="#{date}"
+              = date.strftime("%a, %B %d")
+              span.local-time
+                span.start
+                span.end
+            div.row
+              = render 'shared/time_select', show_hours: false,
+                       schedule: nook.open_schedule.open_ranges(only_hours: true)[index]
+      div.row
+        = link_to reserve_nook_path(nook),
+          class: 'remote-modal book-this-nook', data: { modal: '#modal',
+                                                        callback: 'bookModalLoaded' }
+          button.btn.pull-right Reserve
+
+javascript:
+  var timeSelectors = []
+  var lastSelectedDay = -1;
+
+  initializeTimeSelectors();
+  bindTimeSelectorTriggers();

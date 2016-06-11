@@ -6,28 +6,21 @@
       img.logo src="#{asset_path('logo.png')}" alt="Bookanook logo"
   form#left_menu.booking
     div#location-filter.btn-group-sm.filter
-      div.filter-title 1. #{t('nooks.filters.libraries')}
+      div.filter-title 1. #{t('nooks.filters.where')}
       div#add-location-button.btn
         = link_to 'select_locations', class: 'btn btn-primary remote-modal', data: { modal: '#modal', callback: 'locationsModalLoaded' } do
           span = t('nooks.filters.library.add')
           span#add-location-sign +
-    div.filter.when
-      div.filter-title 2. #{t('nooks.filters.when')}
-      div#when.btn-group.btn-group-sm
-        button#today.btn.active value="today" type="button" #{t('nooks.filters.times.today')}
-        button#future.btn value="future" type="button" #{t('nooks.filters.times.future')}
     div.filter.date.this-week
-      div.filter-title 3. #{t('nooks.filters.days')}
+      div.filter-title 2. #{t('nooks.filters.when')}
       div.date-future
         div#days.datepicker-element
-    div.filter
-      div.filter-title 4. #{t('nooks.filters.range')}
       <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="6" data-slider-max="22" data-slider-step="1" data-slider-value="[10.0,14.0]"/>
       div.clearfix
         div.slider-min 10:00AM
         div.slider-max 2:00PM
     div.amenities.filter
-      div.filter-title 5. #{t('nooks.filters.choose_amenities')}
+      div.filter-title 3. #{t('nooks.filters.what')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
         div.amenity
           = check_box_tag amenity.name, amenity.name

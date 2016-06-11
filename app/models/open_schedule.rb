@@ -56,7 +56,7 @@ class OpenSchedule < ActiveRecord::Base
     blocks.all?
   end
 
-  def open_ranges_containing(time)
+  def open_ranges_containing(time, only_hours=false)
     time_shift = ((time - start) / duration).floor * duration
     # Walk through each span
     spans.map.with_index do |span, span_i|
@@ -66,14 +66,19 @@ class OpenSchedule < ActiveRecord::Base
       # For each group of indices, return a time range
       shift = span_i * blocks_per_span
       open_indices.map do |open, indices|
-        (time_from_block_index(indices.first + shift) + time_shift)..
-          (time_from_block_index(indices.last + shift + 1) + time_shift)
+        range_start = time_from_block_index(indices.first + shift) + time_shift
+        range_end = time_from_block_index(indices.last + shift + 1) + time_shift
+        if only_hours
+          range_start = range_start.strftime('%H').to_i
+          range_end = range_end.strftime('%H').to_i
+        end
+        range_start..range_end
       end
     end
   end
 
-  def open_ranges
-    open_ranges_containing(Time.now)
+  def open_ranges(only_hours=false)
+    open_ranges_containing(Time.now, only_hours)
   end
 
   def span_duration
