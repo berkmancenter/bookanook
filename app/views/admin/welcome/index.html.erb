@@ -1,0 +1,62 @@
+<% content_for(:title) { "Welcome" } %>
+
+<div class="welcome-tiles">
+  <div class="tile-wrapper inactive">
+    <a href="#" class="tile-link todays-reservations">
+      <div class="tile-header-wrapper">
+      <h3 class="tile-header">
+        <%= t('welcome.tiles.todays') %>
+      </h3>
+    </div>
+    <div class="tile-body-wrapper">
+      <h1 class="tile-body">
+        <%= todays_reservations.count %>
+      </h1>
+    </div>
+    </a>
+  </div>
+  <div class="tile-wrapper inactive">
+    <a href="#" class="tile-link pending-reservations">
+      <div class="tile-header-wrapper">
+      <h3 class="tile-header">
+        <%= t('welcome.tiles.pending') %>
+      </h3>
+    </div>
+    <div class="tile-body-wrapper">
+      <h1 class="tile-body">
+        <%= pending_reservations.count %>
+      </h1>
+    </div>
+    </a>
+  </div>
+  <div class="tile-wrapper inactive">
+    <a href="#" class="tile-link canceled-reservations">
+      <div class="tile-header-wrapper">
+      <h3 class="tile-header">
+        <%= t('welcome.tiles.canceled') %>
+      </h3>
+    </div>
+    <div class="tile-body-wrapper">
+      <h1 class="tile-body">
+        <%= canceled_reservations.count %>
+      </h1>
+    </div>
+    </a>
+  </div>
+</div>
+
+<div class="welcome-content todays-reservations">
+  <%= render "admin/reservations/collection",
+              collection_presenter: page,
+              resources: todays_reservations %>
+</div>
+<div class="welcome-content pending-reservations">
+  <%= render "admin/reservations/collection",
+              collection_presenter: page,
+              resources: pending_reservations %>
+</div>
+<div class="welcome-content canceled-reservations">
+  <%= render "admin/reservations/collection",
+              collection_presenter: page,
+              resources: canceled_reservations %>
+</div>

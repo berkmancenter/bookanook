@@ -135,3 +135,8 @@ en:
   are_you_sure: 'Are you sure?'
   back: 'Back'
   save: 'Save'
+  welcome:
+    tiles:
+      todays: "Today's Reservations"
+      pending: 'Awaiting Review'
+      canceled: 'Canceled Reservations'

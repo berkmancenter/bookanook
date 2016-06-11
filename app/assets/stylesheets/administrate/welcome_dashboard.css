@@ -1,0 +1,60 @@
+.welcome-tiles {
+  padding-left: 4%;
+  height: 150px;
+  margin-top: 20px;
+  margin-bottom: 34px;
+}
+
+.tile-wrapper {
+  height: 150px;
+  text-align: center;
+  width: 227.5px;
+  margin: 0px 0px 30px;
+  float: left;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.tile-wrapper.inactive {
+  background: rgb(246, 247, 247);
+}
+
+.tile-wrapper.active {
+  background: rgb(241, 248, 251);
+}
+
+.tile-header-wrapper {
+  box-sizing: border-box;
+  color: rgb(255, 255, 255);
+  height: 38px;
+  width: 227.5px;
+  background: rgb(59, 175, 218) none repeat scroll 0% 0% / auto padding-box border-box;
+  font: normal normal normal normal 15px / 21.4286px Lato, Calibri, Arial, sans-serif;
+  outline: rgb(255, 255, 255) none 0px;
+  padding: 10px 15px;
+}
+
+.tile-header {
+  text-align: center;
+  font: normal normal 500 normal 16px / 17.6px Lato, Calibri, Arial, sans-serif;
+  margin: 0px;
+}
+
+.tile-body-wrapper {
+  height: 112px;
+  width: 227.5px;
+  padding: 15px;
+}
+
+.tile-body {
+  color: rgb(59, 175, 218);
+  height: 67px;
+  width: 197.5px;
+  font: normal normal 600 normal 50px / 47.5px Lato, Calibri, Arial, sans-serif;
+  margin: 0px 0px 15px;
+  padding: 10px 0px;
+}
+
+.tile-wrapper a {
+text-decoration: none;
+}

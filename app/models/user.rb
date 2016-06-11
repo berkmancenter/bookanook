@@ -19,6 +19,24 @@ class User < ActiveRecord::Base
     return has_role? :superadmin
   end
 
+  def locations_in_charge(locations=nil)
+    return Location.all if superadmin?
+    return locations.with_roles( :admin, self ) unless locations.nil?
+    Location.with_roles( :admin, self )
+  end
+
+  def nooks_in_charge(nooks=nil)
+    return Nook.all if superadmin?
+    return nooks.where(location_id: locations_in_charge.ids) unless nooks.nil?
+    Nook.where(location_id: locations_in_charge.ids)
+  end
+
+  def reservations_in_charge(reservations=nil)
+    return Reservation.all if superadmin?
+    return reservations.where(nook_id: nooks_in_charge.ids) unless reservations.nil?
+    Reservation.where(nook_id: nooks_in_charge.ids)
+  end
+
   def first_name
     #TODO: Replace this placeholder.
     email.split('@').first.split(/[._-]/).first
