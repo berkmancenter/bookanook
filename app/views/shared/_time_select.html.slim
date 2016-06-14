@@ -3,6 +3,7 @@ div.time-select
   div.col-sm-6
     - (0..11).each do |hour|
       - disabled = !schedule.any? { |h| h.include? hour } unless schedule.nil?
+      - disabled = disabled or reserved_slots.any? { |h| h.include? hour } unless reserved_slots.nil?
       - if disabled
         div.time-slot.col-sm-1.close
           button.btn type="button" disabled='true' value="#{hour.to_s.rjust(2, '0')}00"
@@ -16,6 +17,7 @@ div.time-select
   div.col-sm-6
     - (12..23).each do |hour|
       - disabled = !schedule.any? { |h| h.include? hour } unless schedule.nil?
+      - disabled = disabled or reserved_slots.any? { |h| h.include? hour } unless reserved_slots.nil?
       - if disabled
         div.time-slot.col-sm-1.close
           button.btn type="button" disabled='true' value="#{hour.to_s.rjust(2, '0')}00"

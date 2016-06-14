@@ -48,6 +48,14 @@ class Nook < ActiveRecord::Base
     available # I don't think this line is necessary, but not sure yet.
   end
 
+  def reserved_slots(time)
+    Reservation.confirmed.where(start: (time.beginning_of_day..time.end_of_day))
+                          .map do |r|
+                            r.start.beginning_of_hour.strftime('%H').to_i..
+                            r.end.end_of_hour.strftime('%H').to_i
+                          end
+  end
+
   private
 
   def set_defaults

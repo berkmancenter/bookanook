@@ -27,6 +27,7 @@ input id="nook-reservation-end" type="text" hidden="true"
             = ' '
             = "people".pluralize(nook.max_capacity)
     div.nook-weekly-schedule
+      - open_ranges = nook.open_schedule.open_ranges(only_hours: true)
       - @date_range.each_with_index do |date, index|
           div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
             div.row.date data-date="#{date}"
@@ -36,7 +37,8 @@ input id="nook-reservation-end" type="text" hidden="true"
                 span.end
             div.row
               = render 'shared/time_select', show_hours: false,
-                       schedule: nook.open_schedule.open_ranges(only_hours: true)[index]
+                       schedule: open_ranges[index],
+                       reserved_slots: nook.reserved_slots(date)
       div.row
         = link_to reserve_nook_path(nook),
           class: 'remote-modal book-this-nook', data: { modal: '#modal',

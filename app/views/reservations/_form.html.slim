@@ -10,10 +10,12 @@ div.reservation-form
 
     - if @reservation && @reservation.start && @reservation.end
       div.reservation-when-times data-start=@reservation.time_range.begin data-end=@reservation.time_range.end
-        = render 'shared/time_select', show_hours: true, schedule: nook.open_ranges_containing(@reservation.start, only_hours: true)
+        = render 'shared/time_select', show_hours: true,
+                  schedule: nook.open_ranges_containing(@reservation.start, only_hours: true,
+                  reserved_slots: nook.reserved_slots(@reservation.start))
     - else
       div.reservation-when-times
-        = render 'shared/time_select', show_hours: true, schedule: nil
+        = render 'shared/time_select', show_hours: true, schedule: nil, reserved_slots: nil
 
     javascript:
       var timeSelector = new TimeSelect('.reservation-when-times', {
