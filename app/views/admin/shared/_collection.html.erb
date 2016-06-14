@@ -38,7 +38,7 @@ to display a collection of resources in an HTML table.
           <% end %>
         </th>
       <% end %>
-      <th class="cell-label">Status</th>
+      <th colspan="2"></th>
     </tr>
   </thead>
 
@@ -47,16 +47,13 @@ to display a collection of resources in an HTML table.
       <tr class="table__row"
           role="link"
           tabindex="0"
-          data-url="<%= polymorphic_path([namespace, resource], action: :edit) -%>"
+          data-url="<%= polymorphic_path([namespace, resource]) -%>"
           >
         <% collection_presenter.attributes_for(resource).each do |attribute| %>
           <td class="cell-data cell-data--<%= attribute.html_class %>">
             <%= render_field attribute %>
           </td>
         <% end %>
-        <td class="cell-data cell-data--<%= resource.id %>-status-update">
-          <%= render '/admin/reservations/status_update', reservation: resource %>
-        </td>
 
         <td class="resource__actions">
           <%= link_to( [:edit, namespace, resource], class: "action-edit") do %>
