@@ -1,0 +1,17 @@
+<% content_for(:search) do %>
+  <form class="search">
+    <span class="search__icon">
+      <%= inline_svg "administrate/search.svg" %>
+    </span>
+    <input
+      type="text"
+      name="search"
+      class="search__input"
+      placeholder="Search"
+      value="<%= search_term %>"
+    />
+    <span class="search__hint">
+      Press enter to search
+    </span>
+  </form>
+<% end %>

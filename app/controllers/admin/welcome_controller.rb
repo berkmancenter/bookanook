@@ -10,7 +10,7 @@ module Admin
 
       todays_reservations = resources.where( 'start BETWEEN ? AND ?',
                                               DateTime.now.beginning_of_day,
-                                              DateTime.now.end_of_day ).all
+                                              DateTime.now.end_of_day ).confirmed
 
       pending_reservations = resources.where(status: Reservation::Status::PENDING)
 
