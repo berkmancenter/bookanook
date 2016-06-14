@@ -25,6 +25,10 @@ class NooksController < ApplicationController
     @search = NookSearch.new(params)
     @nooks = @search.results.sort_by(&:id)
 
+    date = params[:days][0].to_date
+    day = date.wday
+    @date_range = ( (date - day)..(date + (6 - day)) )
+
     respond_to do |format|
       format.json
       format.html { render 'search', layout: false if request.xhr? }

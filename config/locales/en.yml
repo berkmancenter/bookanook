@@ -53,7 +53,9 @@ en:
       libraries: 'Choose libraries'
       library:
           add: 'Add a library'
-      when: 'Choose when'
+      where: 'Where'
+      when: 'When'
+      what: 'What'
       times:
           today: 'today'
           future: 'future'
@@ -87,6 +89,7 @@ en:
     week_day: 'Week day'
     time_range: 'Time range'
     fill_form: 'Fill out a reservation form to book'
+    hide_form: 'Hide reservation form'
     event_name: 'Event name'
     description: 'Description'
     event_description: 'Event Description'

@@ -16,11 +16,18 @@ function getDateTimeRange(timeSelector, startDate, endDate) {
   return [startDate, endDate];
 }
 
-function updateTimeRangeLabel(timeSelector, $rangeLabel) {
-  var dateRange = getDateTimeRange(timeSelector);
+function updateTimeRangeLabel(dateRange, $rangeLabel) {
 
-  $rangeLabel.find('.start').text(dateRange[0].toLocaleTimeString());
-  $rangeLabel.find('.end').text(dateRange[1].toLocaleTimeString());
+  var startTime = ''
+  var endTime = ''
+
+  if(dateRange[0] != 'Invalid Date') {
+    startTime = ', ' + dateRange[0].toLocaleTimeString().replace(/:\d{2}\s/,' ');
+    endTime = ' - ' + dateRange[1].toLocaleTimeString().replace(/:\d{2}\s/,' ');
+  }
+
+  $rangeLabel.find('.start').text(startTime);
+  $rangeLabel.find('.end').text(endTime);
 }
 
 $(function() {
@@ -73,20 +80,14 @@ $(function() {
   });
 
   function updateTimeRange($form, timeSelector) {
-    var activeWhen = $('#when button.active').first().val();
 
-    var startDate = new Date();
-    var endDate = new Date();
-
-    if (activeWhen === 'future') {
-      startDate = $('.datepicker-element').first().datepicker('getDate');
-      endDate = $('.datepicker-element').first().datepicker('getDate');
-    }
+    var startDate = $('.datepicker-element').first().datepicker('getDate');
+    var endDate = $('.datepicker-element').first().datepicker('getDate');
 
     timeSelector.syncDom();
-    updateTimeRangeLabel(timeSelector, $('.time-range'));
-
     var dateTimeRange = getDateTimeRange(timeSelector, startDate, endDate);
+
+    updateTimeRangeLabel(dateTimeRange, $('.time-range'));
 
     $form.find('#reservation_start').val(dateTimeRange[0].toISOString());
     $form.find('#reservation_end').val(dateTimeRange[1].toISOString());
@@ -140,14 +141,25 @@ $(function() {
     }
 
     // make times active based on selected filter
-    var timeSliderValues = $('#hour-range-slider').slider('getValue');
 
-    var hour = Math.floor(timeSliderValues[0]);
-    var minutes = '00';
-    var from = parseInt(hour + '' + minutes);
+    var from = 0;
+    var to = 0;
 
-    hour = Math.floor(timeSliderValues[1] - 1);
-    var to = parseInt(hour + '' + minutes);
+    if ($('.nook-item-expanded') && lastSelectedDay >= 0 &&
+        timeSelectors[lastSelectedDay].selected.length > 0) {
+      var selected = timeSelectors[lastSelectedDay].selected
+      from = parseInt(selected[0]._i)
+      to = parseInt(selected[selected.length - 1]._i)
+    } else {
+      var timeSliderValues = $('#hour-range-slider').slider('getValue');
+
+      var hour = Math.floor(timeSliderValues[0]);
+      var minutes = '00';
+      from = parseInt(hour + '' + minutes);
+
+      hour = Math.floor(timeSliderValues[1] - 1);
+      to = parseInt(hour + '' + minutes);
+    }
 
     timeSelector.selectRange([from, to]);
     updateTimeRange($('#new_reservation'), timeSelector);

@@ -4,7 +4,7 @@
   <% id = "open-at-day-#{i}" %>
   <% selector_ids << id %>
   <div class="open-at" id="<%= id %>">
-    <%= render 'shared/time_select' %>
+    <%= render 'shared/time_select', show_hours: true, schedule: nil, reserved_slots: nil %>
   </div>
 <% end %>
 <%= f.hidden_field field.attribute, class: 'open-at-input',
