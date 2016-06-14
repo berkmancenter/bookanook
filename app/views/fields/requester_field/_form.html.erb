@@ -1,0 +1,2 @@
+<%= f.label field.attribute %>
+<%= f.collection_select :user_id, User.all, :id, :full_name, include_blank: false %>

@@ -29,7 +29,7 @@ class Reservation < ActiveRecord::Base
 
   serialize :repeats_every
 
-  validates_presence_of :name, :start, :end
+  validates_presence_of :name, :start, :end, :nook, :requester
   validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
@@ -73,8 +73,9 @@ class Reservation < ActiveRecord::Base
     Status::MODIFIABLE.include? status
   end
 
-  def self.confirmed
-    where(status: Status::CONFIRMED)
+  def self.confirmed(reservations=nil)
+    return where(status: Status::CONFIRMED) if reservations.nil?
+    reservations.where(status: Status::CONFIRMED)
   end
 
   def self.happening_now

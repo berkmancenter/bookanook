@@ -1,0 +1,2 @@
+<%= f.label field.attribute %>
+<%= f.collection_select :nook_id, current_user.nooks_in_charge, :id, :name, include_blank: false %>

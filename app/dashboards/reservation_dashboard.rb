@@ -8,8 +8,8 @@ class ReservationDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    nook: Field::BelongsTo,
-    requester: Field::BelongsTo.with_options(class_name: "User"),
+    nook: NookField,
+    requester: RequesterField,
     id: Field::Number,
     user_id: Field::Number,
     public: Field::Boolean,
@@ -49,6 +49,8 @@ class ReservationDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
+    :nook,
+    :requester,
     :status,
     :public,
     :name,
@@ -62,8 +64,6 @@ class ReservationDashboard < Administrate::BaseDashboard
   ]
 
   FIXED_ATTRIBUTES = [
-    :nook,
-    :requester
   ]
 
   # Overwrite this method to customize how reservations are displayed
