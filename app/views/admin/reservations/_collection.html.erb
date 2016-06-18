@@ -38,6 +38,7 @@ to display a collection of resources in an HTML table.
           <% end %>
         </th>
       <% end %>
+      <th class="cell-label">Nook availabilty</th>
       <th class="cell-label">Status</th>
     </tr>
   </thead>
@@ -54,6 +55,13 @@ to display a collection of resources in an HTML table.
             <%= render_field attribute %>
           </td>
         <% end %>
+
+        <td class="cell-data cell-data--<%= resource.id %>--nook-availability">
+          <% unless resource.confirmed? %>
+            <%= render '/admin/nooks/availability', reservation_id: resource.id, available: nil %>
+          <% end %>
+        </td>
+
         <td class="cell-data cell-data--<%= resource.id %>-status-update">
           <%= render '/admin/reservations/status_update', reservation: resource %>
         </td>

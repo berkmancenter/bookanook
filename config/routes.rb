@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     get 'reservation/:id/approve', to: 'reservations#approve', as: :reservation_approve
     get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject
 
+    get 'nook/check_availability/:reservation_id', to: 'nooks#check_availability', as: :check_availability
+
     root controller: :welcome, action: :index
   end
   # Example of regular route:

@@ -90,5 +90,15 @@ module Admin
         }
       end
     end
+
+    def check_availability
+      reservation_id = params[:reservation_id]
+      @reservation = Reservation.where(id: reservation_id).first
+      @available = nil
+      unless @reservation.nil?
+        @available = @reservation.nook.available_for?(@reservation.start..@reservation.end)
+      end
+      render :js, template: 'admin/nooks/availability'
+    end
   end
 end

@@ -1,0 +1,4 @@
+var availability_element = $('.cell-data--<%= @reservation.id %>--nook-availability');
+if ($(availability_element).length) {
+  $(availability_element).html('<%= escape_javascript render "availability", reservation_id: @reservation.id, available: @available %>');
+}

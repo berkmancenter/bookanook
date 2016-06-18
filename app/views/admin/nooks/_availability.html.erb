@@ -1,0 +1,14 @@
+<% unless available.nil? %>
+  <% if available %>
+    <span class="success-msg">Available</span>
+  <% else %>
+    <span class="error-msg">Unvailable</span>
+  <% end %>
+<% else %>
+  <%= link_to(
+    "Check Availability",
+    admin_check_availability_path(reservation_id: reservation_id),
+    remote: true,
+    class: "button",
+  ) %>
+<% end %>

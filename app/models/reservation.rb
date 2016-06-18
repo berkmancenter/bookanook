@@ -69,6 +69,10 @@ class Reservation < ActiveRecord::Base
     status == Status::PENDING
   end
 
+  def confirmed?
+    status == Status::CONFIRMED
+  end
+
   def modifiable?
     Status::MODIFIABLE.include? status
   end
