@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:edit, :update, :show, :destroy, :cancel]
+  before_action :before_modify, only: [:update, :cancel]
 
   # GET /reservations
   # GET /reservations.json
@@ -38,11 +39,15 @@ class ReservationsController < ApplicationController
   end
 
   def cancel
-    @reservation.cancel
-    if @reservation.save
-      flash[:notice] = t('reservations.canceled')
+    if @can_modify
+      @reservation.cancel
+      if @reservation.save
+        flash[:notice] = t('reservations.canceled')
+      else
+        flash[:alert] = t('reservations.not_canceled')
+      end
     else
-      flash[:alert] = t('reservations.not_canceled')
+      flash[:alert]=t('reservations.past_cancelation_time' , x: Nook.find(@reservation.nook_id).cancel_before)
     end
     redirect_to :back
   end
@@ -102,5 +107,9 @@ class ReservationsController < ApplicationController
     def reservation_params
       params.require(:reservation).permit(:name, :start, :end, :description,
                                           :url, :stream_url, :notes)
+    end
+
+    def before_modify
+      @can_modify=(@reservation.start.to_i-Time.now.to_i) > Nook.find(@reservation.nook_id).cancel_before*3600
     end
 end

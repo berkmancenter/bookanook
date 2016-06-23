@@ -117,6 +117,7 @@ en:
     canceled: 'Your reservation has been canceled'
     not_canceled: 'Your reservation could not be canceled'
     confirm_cancel: 'Are you sure you want to cancel this reservation?'
+    past_cancelation_time: 'Reservation can only be modified/cancelled upto %{x} hours prior to the start of the event'
   users:
     filters:
       keyword: 'Keyword'
