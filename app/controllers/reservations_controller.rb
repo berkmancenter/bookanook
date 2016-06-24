@@ -47,7 +47,7 @@ class ReservationsController < ApplicationController
         flash[:alert] = t('reservations.not_canceled')
       end
     else
-      flash[:alert]=t('reservations.past_cancelation_time' , x: Nook.find(@reservation.nook_id).cancel_before)
+      flash[:alert]=t('reservations.past_modification_time' , x: Nook.find(@reservation.nook_id).modifiable_before)
     end
     redirect_to :back
   end
@@ -110,6 +110,6 @@ class ReservationsController < ApplicationController
     end
 
     def before_modify
-      @can_modify=(@reservation.start.to_i-Time.now.to_i) > Nook.find(@reservation.nook_id).cancel_before*3600
+      @can_modify=(@reservation.start.to_i-Time.now.to_i) > Nook.find(@reservation.nook_id).modifiable_before*3600
     end
 end

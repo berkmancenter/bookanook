@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20160621004355) do
     t.boolean  "repeatable"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "cancel_before"
+    t.integer  "modifiable_before",      default: 0
   end
 
   add_index "nooks", ["location_id"], name: "index_nooks_on_location_id", using: :btree

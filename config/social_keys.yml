@@ -1,0 +1,11 @@
+development:
+  google_key: 'google_key'
+  google_secret: 'google_secret'
+
+test:
+  google_key: 'google_key'
+  google_secret: 'google_secret'
+
+production:
+  google_key: 'google_key'
+  google_secret: 'google_secret'
