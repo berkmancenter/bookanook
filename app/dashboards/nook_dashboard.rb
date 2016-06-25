@@ -30,6 +30,7 @@ class NookDashboard < Administrate::BaseDashboard
     bookable: Field::Boolean,
     requires_approval: Field::Boolean,
     repeatable: Field::Boolean,
+    modifiable_before: Field::Number,
     user_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -64,6 +65,7 @@ class NookDashboard < Administrate::BaseDashboard
     :max_schedulable,
     :min_reservation_length,
     :max_reservation_length,
+    :modifiable_before,
     :amenities,
     :bookable,
     :requires_approval,
@@ -88,6 +90,7 @@ class NookDashboard < Administrate::BaseDashboard
     :min_reservation_length,
     :max_reservation_length,
     :bookable,
+    :modifiable_before,
     :requires_approval,
     :open_schedule
   ]

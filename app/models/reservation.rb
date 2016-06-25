@@ -73,8 +73,12 @@ class Reservation < ActiveRecord::Base
     status == Status::CONFIRMED
   end
 
+  def cancelable?
+    (Status::CANCELABLE.include? status) && ((self.start.to_i-Time.now.to_i) > (self.nook.modifiable_before*3600))
+  end
+
   def modifiable?
-    Status::MODIFIABLE.include? status
+    (Status::MODIFIABLE.include? status) && ((self.start.to_i-Time.now.to_i) > (self.nook.modifiable_before*3600))
   end
 
   def self.confirmed(reservations=nil)
