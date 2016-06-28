@@ -52,6 +52,7 @@ module Admin
         resource.amenity_list = params[:location][:amenities]
         resource.open_schedule.blocks = params[:location][:open_schedule]
         resource.open_schedule.save
+        resource.set_geolocation(params[:location][:latitude], params[:location][:longitude])
         resource.save
 
         new_admin_ids = params[:location][:admins].split(',')
@@ -81,6 +82,7 @@ module Admin
         requested_resource.amenity_list = params[:location][:amenities]
         requested_resource.open_schedule.blocks = params[:location][:open_schedule]
         requested_resource.open_schedule.save
+        requested_resource.set_geolocation(params[:location][:latitude], params[:location][:longitude])
         requested_resource.save
 
         new_admin_ids = params[:location][:admins].split(',').map(&:to_i)
@@ -106,5 +108,6 @@ module Admin
         }
       end
     end
+
   end
 end

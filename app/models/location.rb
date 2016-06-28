@@ -11,8 +11,16 @@ class Location < ActiveRecord::Base
 
   acts_as_taggable_on :amenities
 
+  alias_attribute :lat, :latitude
+  alias_attribute :lng, :longitude
+
   def admins
     User.with_role(:admin, self)
+  end
+
+  def set_geolocation(lat, lng)
+    self.lat = lat.to_f
+    self.lng = lng.to_f
   end
 
   private

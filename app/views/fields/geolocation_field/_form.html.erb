@@ -1,0 +1,9 @@
+<%= f.label field.attribute %>
+
+<div id="location_form_map" class="map form-map" 
+	data-latitude="<%= resource.latitude %>"
+	data-longitude="<%= resource.longitude %>">
+</div>
+
+<%= hidden_field_tag 'location[latitude]', resource.latitude, class: 'latitude_field' %>
+<%= hidden_field_tag 'location[longitude]', resource.longitude, class: 'longitude_field' %>
