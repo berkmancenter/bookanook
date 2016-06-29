@@ -39,4 +39,36 @@ $(function() {
       $('#modal').modal('toggle');
     }
   });
+
+
+  $(document).on('click', '.nook-map-toggle', function () {
+    var elem = $(this);
+    var mapBody = $('.nook-map');
+    var arrowElem;
+
+    if (mapBody.is(':visible')) {
+      mapBody.hide();
+      elem.html('Show map ');
+
+      arrowElem = $('<span/>', {
+        class: 'glyphicon glyphicon-chevron-down'
+      });
+
+    } else {
+      mapBody.show();
+      google.maps.event.trigger(handler.getMap(), 'resize');
+      handler.map.centerOn(marker);
+      handler.getMap().setZoom(17);
+
+      elem.html('Hide map ');
+
+      arrowElem = $('<span/>', {
+        class: 'glyphicon glyphicon-chevron-up'
+      });
+
+    }
+
+    arrowElem.appendTo(elem);
+  });
+
 });
