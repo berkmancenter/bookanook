@@ -10,4 +10,6 @@
 //= require administrate/progress_bar
 //= require fullcalendar.min
 //= require administrate/admin_calendar
+//= require gmaps/google
+//= require administrate/geolocation
 //= require_tree .

@@ -20,6 +20,7 @@ class LocationDashboard < Administrate::BaseDashboard
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
     admins: SelectizeField,
+    geolocation: GeolocationField
   }
 
   # COLLECTION_ATTRIBUTES
@@ -41,7 +42,8 @@ class LocationDashboard < Administrate::BaseDashboard
     :admins,
     :description,
     :amenities,
-    :open_schedule
+    :open_schedule,
+    :geolocation
   ]
 
 
@@ -53,7 +55,8 @@ class LocationDashboard < Administrate::BaseDashboard
     :admins,
     :description,
     :amenities,
-    :open_schedule
+    :open_schedule,
+    :geolocation
   ]
 
   # Overwrite this method to customize how locations are displayed

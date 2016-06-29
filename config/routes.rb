@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'select_locations', to: 'locations#select'
+  get 'select_locations', to: 'locations#select', as: :select_locations
 
   namespace :admin do
     DashboardManifest::DASHBOARDS.each do |dashboard_resource|

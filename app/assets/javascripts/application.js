@@ -27,4 +27,5 @@
 //= require imagesloaded.pkgd.min
 //= require nprogress
 //= require time_select
+//= require gmaps/google
 //= require_tree .

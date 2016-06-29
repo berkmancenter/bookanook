@@ -138,6 +138,7 @@ en:
   are_you_sure: 'Are you sure?'
   back: 'Back'
   save: 'Save'
+  away: 'away'
   welcome:
     tiles:
       todays: "Today's Reservations"

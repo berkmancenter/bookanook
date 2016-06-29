@@ -7,8 +7,11 @@
 
 - content_for(:modal_content) do
   ul#locations-select.list-group
-    - Location.all.each do |location|
-      li.list-group-item data = {'item' => location.to_json} = location.name
+    - @locations.each do |location|
+      li.list-group-item data = {'item' => location.to_json}
+        = location.name
+        span.pull-right
+          = "#{ location.distance.ceil } km #{ t('away')}" if location.has_attribute? :distance
 
 - content_for(:modal_footer) do
   button.btn.btn-success#process-locations-select Select

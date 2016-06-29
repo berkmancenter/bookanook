@@ -15,6 +15,33 @@
       div.empty-separator
       div #{t('nooks.location')}: #{nook.location_name}
       div #{t('nooks.room_type')}: #{nook.type}
+      div
+        div.nook-map id="nook-#{nook.id}-map" data-latitude='#{nook.location.lat}' data-longitude='#{nook.location.lng}'
+        a.nook-map-toggle.toggle-link.pull-right
+          = 'Show map '
+          span.glyphicon.glyphicon-chevron-down
+
+        javascript:
+          // handler and marker both used as global variables
+          // they are used in resizing the map after toggling
+          handler = Gmaps.build('Google');
+          var mapBody = $('#nook-#{nook.id}-map');
+          handler.buildMap({
+            provider: {},
+            internal: { id: 'nook-#{nook.id}-map' }
+          }, function() {
+            var lat =  mapBody.attr('data-latitude');
+            var lng =  mapBody.attr('data-longitude');
+
+            marker = handler.addMarker({
+              "lat": lat,
+              "lng": lng
+            });
+
+            google.maps.event.trigger(handler.getMap(), 'resize');
+            handler.map.centerOn(marker);
+            handler.getMap().setZoom(17);
+          });
 
 - content_for(:modal_right) do
   div class="panel panel-default"

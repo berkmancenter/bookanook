@@ -45,6 +45,8 @@ gem 'rolify'
 gem 'cancancan', '~> 1.10'
 
 gem 'omniauth-google-oauth2', '~> 0.4.1'
+gem 'gmaps4rails'
+gem 'geocoder'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
