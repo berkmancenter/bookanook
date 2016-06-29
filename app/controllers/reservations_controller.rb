@@ -38,9 +38,13 @@ class ReservationsController < ApplicationController
   end
 
   def cancel
-    @reservation.cancel
-    if @reservation.save
-      flash[:notice] = t('reservations.canceled')
+    if @reservation.cancelable?
+      @reservation.cancel
+      if @reservation.save
+        flash[:notice] = t('reservations.canceled')
+      else
+        flash[:alert] = t('reservations.not_canceled')
+      end
     else
       flash[:alert] = t('reservations.not_canceled')
     end

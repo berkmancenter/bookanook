@@ -31,8 +31,8 @@ FactoryGirl.define do
     sequence(:name) { |n| "Test Reservation #{n}" }
     association :requester, factory: :confirmed_user
     add_attribute('public', true)
-    start Time.now
-    add_attribute('end', 1.hour.from_now)
+    start 49.hour.from_now
+    add_attribute('end', 50.hour.from_now)
 
     factory :confirmed_reservation do
       status Reservation::Status::CONFIRMED
