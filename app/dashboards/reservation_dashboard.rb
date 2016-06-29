@@ -25,6 +25,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     repeats_every: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    remarks: SelectizeField,
   }
 
   # COLLECTION_ATTRIBUTES
@@ -61,6 +62,7 @@ class ReservationDashboard < Administrate::BaseDashboard
     :end,
     :description,
     :notes,
+    :remarks,
   ]
 
   FIXED_ATTRIBUTES = [

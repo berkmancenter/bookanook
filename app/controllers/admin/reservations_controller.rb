@@ -29,6 +29,26 @@ module Admin
       }
     end
 
+    def create
+      create_params = resource_params
+      create_params.delete(:remarks)
+      resource = resource_class.new(create_params)
+
+      if resource.save
+        resource.remark_list = params[:reservation][:remarks]
+        resource.save
+
+        redirect_to(
+          [namespace, resource],
+          notice: translate_with_resource("create.success"),
+        )
+      else
+        render :new, locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+        }
+      end
+    end
+
     def index
       search_term = params[:search].to_s.strip
       resources = Administrate::Search.new(resource_resolver, search_term).run
@@ -49,6 +69,25 @@ module Admin
           }
         end
         format.json { render json: resources }
+      end
+    end
+
+    def update
+      update_params = resource_params
+      update_params.delete(:remarks)
+
+      if requested_resource.update(update_params)
+        requested_resource.remark_list = params[:reservation][:remarks]
+        requested_resource.save
+
+        redirect_to(
+          [namespace, requested_resource],
+          notice: translate_with_resource("update.success"),
+        )
+      else
+        render :edit, locals: {
+          page: Administrate::Page::Form.new(dashboard, requested_resource),
+        }
       end
     end
 

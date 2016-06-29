@@ -8,6 +8,8 @@ class Reservation < ActiveRecord::Base
   scope :is_public, -> { where(public: true) }
   scope :confirmed, -> { where(status: Reservation::Status::CONFIRMED) }
 
+  acts_as_taggable_on :remarks
+
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
