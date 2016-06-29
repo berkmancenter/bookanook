@@ -124,7 +124,34 @@ $(function() {
    * Location filter
    */
 
-    // selecting location items
+  // get client geolocation to show distance to each location
+  $(document).ready(function () {
+    if ( $('#select-locations-link').length ) {
+      var href = $('#select-locations-link').attr('href');
+      $('#add-location-button').toggle();
+
+      if( navigator.geolocation ) {
+        // Call getCurrentPosition with success and failure callbacks
+        navigator.geolocation.getCurrentPosition( function(position) {
+          var clientLocation = [position.coords.latitude, position.coords.longitude];
+          href = href + '?client_location=' + clientLocation
+          $('#select-locations-link').attr('href', href);
+          showSelectLocationButton();
+        }, function() {
+          showSelectLocationButton();
+        } );
+      } else {
+        showSelectLocationButton();
+      }
+    }
+
+    function showSelectLocationButton() {
+      $('.loading').remove();
+      $('#add-location-button').toggle();
+    }
+  });
+
+  // selecting location items
   $(document).on('click', '#locations-select li', function (e) {
     $(this).toggleClass('active');
   });

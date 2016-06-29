@@ -24,7 +24,12 @@ class LocationsController < ApplicationController
 
   # GET /select_locations
   def select
-    @locations = Location.all
+    if params[:client_location].nil?
+      @locations = Location.all
+    else
+      coordinates = params[:client_location].split(',').map(&:to_f)
+      @locations = Location.near(coordinates, 1000, units: :km, order: 'distance')
+    end
     respond_to do |format|
       format.json
       format.html { render @select, layout: false if request.xhr? }

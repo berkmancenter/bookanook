@@ -16,8 +16,8 @@ if ( $('#location_form_map').length ) {
 
   function initGeolocation() {
     if( navigator.geolocation ) {
-       // Call getCurrentPosition with success and failure callbacks
-       navigator.geolocation.getCurrentPosition( success, fail );
+      // Call getCurrentPosition with success and failure callbacks
+      navigator.geolocation.getCurrentPosition( success, fail );
     }
   }
 

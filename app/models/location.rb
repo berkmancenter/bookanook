@@ -11,6 +11,7 @@ class Location < ActiveRecord::Base
 
   acts_as_taggable_on :amenities
 
+  reverse_geocoded_by :latitude, :longitude
   alias_attribute :lat, :latitude
   alias_attribute :lng, :longitude
 

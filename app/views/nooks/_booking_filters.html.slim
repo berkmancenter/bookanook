@@ -7,8 +7,9 @@
   form#left_menu.booking
     div#location-filter.btn-group-sm.filter
       div.filter-title 1. #{t('nooks.filters.where')}
+      img.loading src="#{asset_path('loading.gif')}" width="20" alt="loading.."
       div#add-location-button.btn
-        = link_to 'select_locations', class: 'btn btn-primary remote-modal', data: { modal: '#modal', callback: 'locationsModalLoaded' } do
+        = link_to select_locations_path, class: 'btn btn-primary remote-modal', id: 'select-locations-link', data: { modal: '#modal', callback: 'locationsModalLoaded' } do
           span = t('nooks.filters.library.add')
           span#add-location-sign +
     div.filter.date.this-week
