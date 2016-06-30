@@ -48,7 +48,10 @@ module Admin
     def update
       update_params = resource_params
       update_params.delete(:is_superadmin)
-
+      if update_params[:password].blank?
+        update_params.delete(:password) 
+        update_params.delete(:password_confirmation)
+      end
       if requested_resource.update(update_params)
         if params[:is_superadmin]
           requested_resource.add_role :superadmin

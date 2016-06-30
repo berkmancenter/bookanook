@@ -14,6 +14,8 @@ class UserDashboard < Administrate::BaseDashboard
     sign_in_count: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    password: PasswordField,
+    password_confirmation: PasswordField,
   }
 
   # COLLECTION_ATTRIBUTES
@@ -28,13 +30,22 @@ class UserDashboard < Administrate::BaseDashboard
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  SHOW_PAGE_ATTRIBUTES = ATTRIBUTE_TYPES.keys
+  SHOW_PAGE_ATTRIBUTES = [
+    :reservations,
+    :id,
+    :email,
+    :sign_in_count,
+    :created_at,
+    :updated_at,
+  ]
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :email
+    :email,
+    :password,
+    :password_confirmation,
   ]
 
   # Overwrite this method to customize how users are displayed
