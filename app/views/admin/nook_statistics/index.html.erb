@@ -1,0 +1,23 @@
+<%= form_tag(:admin_nook_stats_filter, remote: true, id: 'nooks-stats-filter') do %>
+  <div class="row">
+    <div class="col-md-7">
+      <%= text_field_tag :nooks, nil, placeholder: 'Nooks', class: 'selectize-nook',
+        'data-options': Nook.strip_nook_data( current_user.nooks_in_charge ) %>
+    </div>
+    <div class="col-md-2">
+      <%= text_field_tag :start_date, nil,  placeholder: 'Start date', class: 'datepicker' %>
+    </div>
+    <div class="col-md-2">
+      <%= text_field_tag :end_date, nil,  placeholder: 'End date (inclusive)', class: 'datepicker' %>
+    </div>
+    <div class="col-md-1">
+      <%= submit_tag 'Go' %>
+    </div>
+  </div>
+<% end %>
+<div class="row">
+  <div class="col-md-6">
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+  </div>
+  <div class="col-md-6"></div>
+</div>

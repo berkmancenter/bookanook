@@ -56,6 +56,13 @@ class Nook < ActiveRecord::Base
                           end
   end
 
+  def self.strip_nook_data(nooks)
+    nooks = nooks.map do |nook|
+      [ nook.id, nook.name ].join(':')
+    end
+    nooks.join(',')
+  end
+
   private
 
   def set_defaults

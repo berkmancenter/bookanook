@@ -35,6 +35,9 @@ Rails.application.routes.draw do
     get 'calendar', to: 'calendar#index'
     get 'welcome', to: 'welcome#index'
 
+    get 'nook_statistics', to: 'nook_statistics#index'
+    post 'nook_statistics/filter', to: 'nook_statistics#filter', as: :nook_stats_filter
+
     get 'reservation/:id/approve', to: 'reservations#approve', as: :reservation_approve
     get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject
 

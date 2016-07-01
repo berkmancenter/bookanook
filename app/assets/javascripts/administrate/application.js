@@ -1,5 +1,6 @@
 //= require jquery
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require selectize
 //= require moment
 //= require datetime_picker
@@ -12,4 +13,7 @@
 //= require administrate/admin_calendar
 //= require gmaps/google
 //= require administrate/geolocation
+//= require highcharts
+//= require highcharts/modules/exporting
+//= require administrate/graphs/column
 //= require_tree .

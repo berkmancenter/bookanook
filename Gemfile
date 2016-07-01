@@ -23,6 +23,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem "less-rails", '~> 2.7'
 gem 'less-rails-bootstrap'
+gem 'bootstrap-sass', '~> 3.3.6'
+
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
 gem 'simple_form'
 gem 'selectize-rails'
@@ -47,6 +49,8 @@ gem 'cancancan', '~> 1.10'
 gem 'omniauth-google-oauth2', '~> 0.4.1'
 gem 'gmaps4rails'
 gem 'geocoder'
+
+gem 'highcharts-rails'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
