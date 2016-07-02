@@ -10,8 +10,8 @@ function getDateTimeRange(timeSelector, startDate, endDate) {
   startDate.setHours(startHours);
   startDate.setMinutes(startTime - startHours * 100);
   startDate.setSeconds(0, 0);
-  endDate.setHours(endHours + 1);
-  endDate.setMinutes(endTime - endHours * 100);
+  endDate.setHours(endHours);
+  endDate.setMinutes(endTime - endHours * 100 + 30);
   endDate.setSeconds(0, 0);
   return [startDate, endDate];
 }
@@ -31,6 +31,7 @@ function updateTimeRangeLabel(dateRange, $rangeLabel) {
 }
 
 $(function() {
+
   $('.modify-reservation').on('click', function() {
     NProgress.start();
     $($(this).data('target'))
@@ -98,7 +99,6 @@ $(function() {
   });
 
   bookModalLoaded = function () {
-    var activeWhen = $('#when button.active').first().val();
 
     $('#new_reservation').on('ajax:before', function(e) {
       var $form = $(this);
@@ -113,35 +113,7 @@ $(function() {
       });
     });
 
-    // make days active based on selected filter
-    if (activeWhen === 'today') {
-      $('.reservation-when-days button').first().addClass('active');
-    } else if (activeWhen === 'this-week') {
-      $('.date-this-week button.active').each(function () {
-        var elem = $(this);
-
-        $($('.reservation-when-days button[value=' + elem.val() + ']')).addClass('active');
-      });
-    } else if (activeWhen === 'future') {
-      var selectedDate = $('.datepicker-element').first().datepicker('getFormattedDate');
-      var dateArr = selectedDate.split('/');
-
-      var date = new Date(dateArr[2], dateArr[0] - 1, dateArr[1]);
-
-      $('.reservation-when-days button').first().addClass('active');
-
-      $('.reservation-when-days button').each(function () {
-        var elem = $(this);
-
-        elem.val(date.toFormattedString('yyyy-mm-dd'));
-        elem.text(date.toFormattedString('DD')[0]);
-
-        date.setDate(date.getDate() + 1);
-      });
-    }
-
     // make times active based on selected filter
-
     var from = 0;
     var to = 0;
 
@@ -154,17 +126,16 @@ $(function() {
       var timeSliderValues = $('#hour-range-slider').slider('getValue');
 
       var hour = Math.floor(timeSliderValues[0]);
-      var minutes = '00';
-      from = parseInt(hour + '' + minutes);
+      from = parseInt(hour + '00');
 
       hour = Math.floor(timeSliderValues[1] - 1);
-      to = parseInt(hour + '' + minutes);
+      to = parseInt(hour + '30');
     }
 
     timeSelector.selectRange([from, to]);
     updateTimeRange($('#new_reservation'), timeSelector);
 
-    $('.time-slot').on('click', function () {
+    $('.time-slot button').on('click', function () {
       updateTimeRange($('#new_reservation'), timeSelector);
     });
   };

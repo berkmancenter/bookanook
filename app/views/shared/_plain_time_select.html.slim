@@ -1,0 +1,14 @@
+div.time-select
+  - hour_counter = 0
+  - (0..1).each do |half|
+    div.col-sm-6
+      - (0..11).each do |hour|
+        div.time-slot.col-sm-1
+          button.btn.open type="button" value="#{hour_counter.to_s.rjust(2, '0')}00"
+          button.btn.open.right type="button" value="#{hour_counter.to_s.rjust(2, '0')}30"
+          - if show_hours and hour_counter.even?
+            - if half == 0
+              span.small = "#{hour_counter == 0 ? 12 : hour_counter}:00AM"
+            - else          
+              span.small = "#{hour_counter == 12 ? hour_counter : hour_counter - 12}:00PM"
+        - hour_counter += 1

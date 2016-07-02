@@ -7,20 +7,20 @@ var TimeSelect = function(parent, options) {
 
   self.options = _.defaults(self.options, {
     continuous: true,
-    slots: 24,
-    slotDuration: moment.duration(1, 'hour'),
+    slots: 48,
+    slotDuration: moment.duration(30, 'minutes'),
   });
 
   self.allSlots = []; // Stored as start integers
   var start = self.toMoment('0000'), slot;
   for (var i = 0; i < self.options.slots; i++) {
     self.allSlots.push(self.fromMoment(start));
-    start.add(moment.duration(1, 'hours'));
+    start.add(moment.duration(30, 'minutes'));
   }
 
-  $(self.parent + ' .time-slot').on('click', function() {
+  $(self.parent + ' button').on('click', function() {
     var $time = $(this);
-    var time = $time.find('button').val();
+    var time = $time.val();
     self.toggleSelect(time);
     self.syncDom();
   });
@@ -38,8 +38,14 @@ var TimeSelect = function(parent, options) {
 _.extend(TimeSelect.prototype, {
   toMoment: function(time) {
     if (moment.isMoment(time)) { return time; }
-    if (_.isNumber(time) && time < 1000) {
-      time = '0' + String(time);
+    if (_.isNumber(time)) {
+      var prefix = '';
+      if (time < 100) {
+        prefix = '00'
+      } else if (time < 1000) {
+        prefix = '0'
+      }
+      time = prefix + String(time);
     }
     return moment(String(time), this.format);
   },
@@ -226,13 +232,18 @@ _.extend(TimeSelect.prototype, {
 
   syncDom: function() {
     var self = this;
-    $(self.parent + ' .time-slot').removeClass('selected').addClass('open');
+    $(self.parent + ' button').each( function() {
+      $(this).removeClass('selected');
+      if (!$(this).hasClass('taken')) {
+        $(this).addClass('open');
+      }
+    });
 
     self.getSelected().forEach(function(selTime) {
       var selector = self.parent +
         ' .time-slot button[value="' + s.lpad(String(selTime), 4, '0') + '"]';
       $button = $(selector);
-      $slot = $button.parent();
+      $slot = $button;
       $slot.removeClass('open').addClass('selected');
     });
   },

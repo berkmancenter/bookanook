@@ -10,6 +10,8 @@ class Reservation < ActiveRecord::Base
 
   acts_as_taggable_on :remarks
 
+  before_save :ciel_end_time
+
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
@@ -161,5 +163,13 @@ class Reservation < ActiveRecord::Base
         "#{n.to_i} #{name}"
       end
     }.compact.reverse.join(' ')
+  end
+
+  def ceil_time(time, seconds=60)
+    Time.at((time.to_f / seconds).ceil * seconds)
+  end
+
+  def ciel_end_time
+    self.end = ceil_time(self.end, 30.minutes) - 1.seconds
   end
 end
