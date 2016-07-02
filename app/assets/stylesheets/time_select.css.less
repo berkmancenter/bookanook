@@ -20,38 +20,33 @@
 
     button {
       height: 40px;
-      width: 100%;
+      width: 50%;
       padding: 0;
       border-radius: 0;
-    }
 
-    &.open {
-      button {
+      &.open {
         background-color: #ffffff;
         border: 1px solid #d4d3d1;
       }
-    }
 
-    &.selected {
-      color: #ec137c;
-
-      button {
+      &.selected {
         background-color: #ec137c;
         border: none;
       }
 
-      span.small {
-        &:before {
-          border-color: #ec137c;
-        }
-      }
-    }
-
-    &.taken {
-      button {
+      &.taken {
         background-color: #e9e9e9;
         border: none;
         cursor: default;
+
+        &.selected {
+          background-color: #ec137c;
+          opacity: 0.5;
+        }
+      }
+
+      &.right {
+        margin-left: -1px;
       }
     }
 
