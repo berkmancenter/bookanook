@@ -22,8 +22,12 @@ module Admin
       create_params = resource_params
       create_params.delete(:is_superadmin)
       resource = resource_class.new(create_params)
+      resource.password = resource.generate_password
+      resource.password_confirmation = resource.password
+      resource.skip_confirmation!
 
       if resource.save
+        UserMailer.send_password(resource).deliver_now
         if params[:is_superadmin]
           resource.add_role :superadmin
         else
