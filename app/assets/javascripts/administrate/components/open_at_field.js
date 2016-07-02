@@ -36,7 +36,7 @@ function updateSchedule(timeSelectors, input) {
   var mask = timeSelectors.map(function(selector) {
     return selector.getSelectedMask();
   }).join('');
-  mask = expandMask(mask, 4);
+  mask = expandMask(mask, 2);
   mask = rleEncode(mask);
   $(input).val(mask);
 }
