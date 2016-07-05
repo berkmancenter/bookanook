@@ -19,6 +19,10 @@ class User < ActiveRecord::Base
     return has_role? :superadmin
   end
 
+  def generate_password
+    ((1..9).to_a + ('a'..'z').to_a + ('A'..'Z').to_a).shuffle[0, 12].join
+  end
+
   def locations_in_charge(locations=nil)
     return Location.all if superadmin?
     return locations.with_roles( :admin, self ) unless locations.nil?
