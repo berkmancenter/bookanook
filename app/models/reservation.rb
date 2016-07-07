@@ -102,7 +102,7 @@ class Reservation < ActiveRecord::Base
 
   def self.happening_within(time_range, reservations=nil)
     reservations = Reservation.all if reservations.nil?
-    confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
+    reservations.confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 

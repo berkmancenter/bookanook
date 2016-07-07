@@ -14,6 +14,9 @@
 //= require gmaps/google
 //= require administrate/geolocation
 //= require highcharts
+//= require highcharts/modules/data
+//= require highcharts/modules/heatmap
 //= require highcharts/modules/exporting
-//= require administrate/graphs/column
+//= require administrate/charts/canvas_heatmap.js
+//= require administrate/statistics
 //= require_tree .
