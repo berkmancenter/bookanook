@@ -36,7 +36,8 @@ Rails.application.routes.draw do
     get 'welcome', to: 'welcome#index'
 
     get 'nook_statistics', to: 'nook_statistics#index'
-    post 'nook_statistics/filter', to: 'nook_statistics#filter', as: :nook_stats_filter
+    post 'nook_statistics/fetch', to: 'nook_statistics#fetch', as: :nook_stats_fetch
+    post 'nook_statistics/download', to: 'nook_statistics#download', as: :nook_stats_download
 
     get 'reservation/:id/approve', to: 'reservations#approve', as: :reservation_approve
     get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject

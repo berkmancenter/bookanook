@@ -1,9 +1,42 @@
 module Admin
   class NookStatisticsController < Admin::ApplicationController
+    require 'csv'
+    before_filter :filter, except: :index
 
     def index      
     end
 
+    def fetch
+      @reservations_by_nook = @reservations.group_by { |r| r.nook_id }
+      @reservations_by_date = @reservations.group_by { |r| r.start.strftime("%Y-%-m-%-d") }
+
+      response = { reservations_by_nook: @reservations_by_nook, reservations_by_date: @reservations_by_date }
+
+      respond_to do |format|
+        format.json { render json: response.to_json }
+      end
+    end
+
+    def download
+      directory = "#{Rails.root}/public/reports"
+      filename = "#{current_user.id}-reservations.csv"
+      file = File.join(directory, filename)
+
+      File.open(file, 'w') do |f|
+        f.write Reservation.to_csv(@reservations)
+      end
+
+      send_file file,
+              filename: "Reservations.csv",
+              type: "application/csv"
+    end
+
+    def resource_resolver
+      @_resource_resolver ||=
+        Administrate::ResourceResolver.new('admin/reservations')
+    end
+
+    private
     def filter
       nook_ids = params[:nooks]
 
@@ -28,21 +61,8 @@ module Admin
         start_time = DateTime.strptime(params[:start_date], '%Y-%m-%d')
         @reservations = Reservation.happening_within(start_time..end_time, @reservations) if start_time < end_time
       end
-
-      @reservations_by_nook = @reservations.group_by { |r| r.nook_id }
-      @reservations_by_date = @reservations.group_by { |r| r.start.strftime("%Y-%-m-%-d") }
-
-      response = { reservations_by_nook: @reservations_by_nook, reservations_by_date: @reservations_by_date }
-
-      respond_to do |format|
-        format.json { render json: response.to_json }
-      end
     end
 
-    def resource_resolver
-      @_resource_resolver ||=
-        Administrate::ResourceResolver.new('admin/reservations')
-    end
 
   end
 end

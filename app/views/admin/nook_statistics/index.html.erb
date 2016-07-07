@@ -1,7 +1,7 @@
 <div class="nook-statistics">
-  <%= form_tag(:admin_nook_stats_filter, remote: true, id: 'nooks-stats-filter') do %>
+  <%= form_tag(:admin_nook_stats_fetch, remote: true, id: 'nooks-stats-filter') do %>
     <div class="row">
-      <div class="col-md-7">
+      <div class="col-md-6">
         <%= text_field_tag :nooks, nil, placeholder: 'Nooks', class: 'selectize-nook',
           'data-options': Nook.strip_nook_data( current_user.nooks_in_charge ) %>
       </div>
@@ -14,7 +14,17 @@
       <div class="col-md-1">
         <%= submit_tag 'Go' %>
       </div>
+      <div class="col-md-1">
+        <%= button_tag id: :download_nooks_spreadsheet do %>
+          <%= inline_svg "box-add.svg", height: 14, width: 14 %>
+        <% end %>
+      </div>
     </div>
+  <% end %>
+  <%= form_tag(:admin_nook_stats_download, target: '_blank', id: 'nooks-stats-download', style:'display:none;') do %>
+      <%= text_field_tag :nooks, nil, id: :nooks_clone %>
+      <%= text_field_tag :start_date, nil, id: :start_date_clone %>
+      <%= text_field_tag :end_date, nil, id: :end_date_clone %>
   <% end %>
   <div class="row">
     <div class="col-md-6">
@@ -26,7 +36,12 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div id="container" style="height: 320px; margin: 0 auto"></div>
+      <div id="nooks-all-days-heatmap" style="height: 320px; margin: 0 auto"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div id="nooks-days-time-heatmap" style="height: 320px; margin: 0 auto"></div>
     </div>
   </div>
 </div>

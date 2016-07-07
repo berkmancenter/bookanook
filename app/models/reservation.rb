@@ -111,6 +111,17 @@ class Reservation < ActiveRecord::Base
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
+  def self.to_csv(reservations, options = {})
+    CSV.generate(options) do |csv|
+      csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'Start', 'End', 'Created at' ]
+      reservations.each do |reservation|
+        csv << [ reservation.nook.location.name,
+                 reservation.nook.name,
+                 reservation.attributes.values_at('id', 'name', 'description', 'start', 'end', 'created_at') ].flatten
+      end
+    end
+  end
+
   private
 
   def set_defaults

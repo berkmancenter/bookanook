@@ -22,50 +22,51 @@ function maxDate() {
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-function initialChartData() {
-  var datetimeHash = {};
-  for (var date = getStartDate(); date <= getEndDate(); date.setDate(date.getDate() + 1)) {
-    for (var hour = 0; hour <= 23; hour += 1) {
-      datetimeHash[dateToString(date) + '--' + hour] = 0;
-    }
-  }
-  return datetimeHash;
-}
+function initializeAllDaysHeatMap(data) {
 
-function dataToCSV(data) {
-  var datetimeHash = initialChartData();
-  var dates = Object.keys(data);
-  for (var i = 0; i < dates.length; i++) {
-
-    var reservations = data[dates[i]];
-    for (var rIndex = 0; rIndex < reservations.length; rIndex++) {
-      var reservation = reservations[rIndex];
-      var startHour = new Date(reservations[rIndex]['start']).getHours();
-      var endHour = new Date(reservations[rIndex]['end']).getHours();
-      var date = dates[i];
-
-      for (; startHour <= endHour; startHour++) {
-        datetimeHash[date + '--' + startHour] = datetimeHash[date + '--' + startHour] + 1;
+  function initialChartData() {
+    var datetimeHash = {};
+    for (var date = getStartDate(); date <= getEndDate(); date.setDate(date.getDate() + 1)) {
+      for (var hour = 0; hour <= 23; hour += 1) {
+        datetimeHash[dateToString(date) + '--' + hour] = 0;
       }
     }
-  };
+    return datetimeHash;
+  }
 
-  var csv = 'Date,Time,count';
-  var fieldSeparator = ',';
-  var recordSeparator = '\n';
+  function dataToCSV(data) {
+    var datetimeHash = initialChartData();
+    var dates = Object.keys(data);
+    for (var i = 0; i < dates.length; i++) {
 
-  jQuery.each(datetimeHash, function (key, value) {
-    var dateHour = key.split('--');
-    csv += recordSeparator + dateHour[0] + fieldSeparator 
-                           + dateHour[1] + fieldSeparator
-                           + value
-  });
-  return csv;
-}
+      var reservations = data[dates[i]];
+      for (var rIndex = 0; rIndex < reservations.length; rIndex++) {
+        var reservation = reservations[rIndex];
+        var startHour = new Date(reservations[rIndex]['start']).getHours();
+        var endHour = new Date(reservations[rIndex]['end']).getHours();
+        var date = dates[i];
 
-function initializeAllDaysHeatMap(data) {
+        for (; startHour <= endHour; startHour++) {
+          datetimeHash[date + '--' + startHour] = datetimeHash[date + '--' + startHour] + 1;
+        }
+      }
+    };
+
+    var csv = 'Date,Time,count';
+    var fieldSeparator = ',';
+    var recordSeparator = '\n';
+
+    jQuery.each(datetimeHash, function (key, value) {
+      var dateHour = key.split('--');
+      csv += recordSeparator + dateHour[0] + fieldSeparator
+                             + dateHour[1] + fieldSeparator
+                             + value
+    });
+    return csv;
+  }
+
   var start;
-  $('#container').highcharts({
+  $('#nooks-all-days-heatmap').highcharts({
 
     data: {
       csv: dataToCSV(data),
@@ -81,14 +82,10 @@ function initializeAllDaysHeatMap(data) {
 
     title: {
       text: 'All days HeatMap',
-      align: 'left',
-      x: 40
     },
 
     subtitle: {
       text: 'No of Reservations',
-      align: 'left',
-      x: 40
     },
 
     xAxis: {
@@ -118,7 +115,6 @@ function initializeAllDaysHeatMap(data) {
           } else { 
             return value + 'pm';
           }
-          return 'ad'
         }
       },
       minPadding: 0,

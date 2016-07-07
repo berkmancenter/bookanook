@@ -61,12 +61,21 @@ $( function() {
         data: $(this).serialize(),
         success: function(data) {
           preprocessedData = commonPreprocess(data['reservations_by_nook']);
-          initializeColumnChart ( preprocessedData );
-          initializeHoursColumnChart ( preprocessedData );
-          initializeAllDaysHeatMap ( data['reservations_by_date'] );
+          initializeColumnChart( preprocessedData );
+          initializeHoursColumnChart( preprocessedData );
+          initializeAllDaysHeatMap( data['reservations_by_date'] );
+          initializeDayTimeHeatMap( data['reservations_by_date'] )
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
     });
   };
+
+  $('#download_nooks_spreadsheet').click( function(e) {
+    $('#nooks_clone').val( $('#nooks').val() );
+    $('#start_date_clone').val( $('#start_date_clone').val() );
+    $('#end_date_clone').val( $('#end_date_clone').val() );
+    $('#nooks-stats-download').submit();
+    e.preventDefault();
+  });
 });
