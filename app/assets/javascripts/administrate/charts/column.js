@@ -1,4 +1,4 @@
-function initializeColumnChart(data) {
+function initializeColumnChart($container, data) {
 
   function preprocess(data) {
     for (var i = 0; i < data.length; i++) {
@@ -17,7 +17,7 @@ function initializeColumnChart(data) {
     return data;
   };
 
-  $('#nooks-column-chart').highcharts({
+  $container.highcharts({
     chart: {
         type: 'column'
     },

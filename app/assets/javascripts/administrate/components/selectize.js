@@ -11,7 +11,7 @@ $('.selectize').each(function() {
   });
 });
 
-$('.selectize-admin, .selectize-nook').each(function() {
+$('.selectize-admin, .selectize-nook, .selectize-location').each(function() {
   var options = [];
   if ($(this).data('options')) {
     $(this).data('options').split(',').forEach( function(tag) {

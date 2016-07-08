@@ -1,9 +1,9 @@
-<div class="nook-statistics">
-  <%= form_tag(:admin_nook_stats_fetch, remote: true, id: 'nooks-stats-filter', class: 'stats-filter') do %>
+<div class="location-statistics">
+  <%= form_tag(:admin_location_stats_fetch, remote: true, id: 'locations-stats-filter', class: 'stats-filter') do %>
     <div class="row">
       <div class="col-md-6">
-        <%= text_field_tag :nooks, nil, placeholder: 'Nooks', class: 'selectize-nook',
-          'data-options': Nook.strip_nook_data( current_user.nooks_in_charge ) %>
+        <%= text_field_tag :locations, nil, placeholder: 'Locations', class: 'selectize-location',
+          'data-options': Location.strip_location_data( current_user.locations_in_charge ) %>
       </div>
       <div class="col-md-2">
         <%= text_field_tag :start_date, nil,  placeholder: 'Start date', class: 'datepicker' %>
@@ -21,27 +21,27 @@
       </div>
     </div>
   <% end %>
-  <%= form_tag(:admin_nook_stats_download, target: '_blank', class: 'stats-download', style:'display:none;') do %>
-      <%= text_field_tag :nooks, nil, id: :nooks_clone %>
+  <%= form_tag(:admin_location_stats_download, target: '_blank', class: 'stats-download', style:'display:none;') do %>
+      <%= text_field_tag :locations, nil, id: :locations_clone %>
       <%= text_field_tag :start_date, nil, id: :start_date_clone %>
       <%= text_field_tag :end_date, nil, id: :end_date_clone %>
   <% end %>
   <div class="row">
     <div class="col-md-6">
-      <div id="nooks-column-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <div id="locations-column-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
     <div class="col-md-6">
-      <div id="nooks-hours-column-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <div id="locations-hours-column-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div id="nooks-all-days-heatmap" style="height: 320px; margin: 0 auto"></div>
+      <div id="locations-all-days-heatmap" style="height: 320px; margin: 0 auto"></div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div id="nooks-days-time-heatmap" style="height: 320px; margin: 0 auto"></div>
+      <div id="locations-days-time-heatmap" style="height: 320px; margin: 0 auto"></div>
     </div>
   </div>
 </div>

@@ -24,6 +24,14 @@ class Location < ActiveRecord::Base
     self.lng = lng.to_f
   end
 
+
+  def self.strip_location_data(locations)
+    locations = locations.map do |location|
+      [ location.id, location.name ].join(':')
+    end
+    locations.join(',')
+  end
+
   private
 
   def set_defaults

@@ -39,6 +39,10 @@ Rails.application.routes.draw do
     post 'nook_statistics/fetch', to: 'nook_statistics#fetch', as: :nook_stats_fetch
     post 'nook_statistics/download', to: 'nook_statistics#download', as: :nook_stats_download
 
+    get 'location_statistics', to: 'location_statistics#index'
+    post 'location_statistics/fetch', to: 'location_statistics#fetch', as: :location_stats_fetch
+    post 'location_statistics/download', to: 'location_statistics#download', as: :location_stats_download
+
     get 'reservation/:id/approve', to: 'reservations#approve', as: :reservation_approve
     get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject
 

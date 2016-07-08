@@ -1,4 +1,4 @@
-function initializeDayTimeHeatMap(data) {
+function initializeDayTimeHeatMap($container, data) {
 
   function initialChartData() {
     var datetimeArray = [];
@@ -41,7 +41,7 @@ function initializeDayTimeHeatMap(data) {
     return processedData;
   }
 
-  $('#nooks-days-time-heatmap').highcharts({
+  $container.highcharts({
 
     chart: {
       type: 'heatmap',

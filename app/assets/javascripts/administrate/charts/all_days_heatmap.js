@@ -22,7 +22,7 @@ function maxDate() {
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-function initializeAllDaysHeatMap(data) {
+function initializeAllDaysHeatMap($container, data) {
 
   function initialChartData() {
     var datetimeHash = {};
@@ -66,7 +66,7 @@ function initializeAllDaysHeatMap(data) {
   }
 
   var start;
-  $('#nooks-all-days-heatmap').highcharts({
+  $container.highcharts({
 
     data: {
       csv: dataToCSV(data),
