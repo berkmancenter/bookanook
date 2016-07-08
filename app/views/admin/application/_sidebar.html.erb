@@ -31,4 +31,18 @@ as defined by the DashboardManifest.
       ) %>
     </li>
   <% end %>
+  <li>
+    <%= link_to(
+      'Nook Stats',
+      [namespace, 'nook_statistics'],
+      class: "sidebar__link sidebar__link--#{nav_link_state('nook_statistics')}"
+    ) %>
+  </li>
+  <li>
+    <%= link_to(
+      'Location Stats',
+      [namespace, 'location_statistics'],
+      class: "sidebar__link sidebar__link--#{nav_link_state('location_statistics')}"
+    ) %>
+  </li>
 </ul>

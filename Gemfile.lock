@@ -72,6 +72,9 @@ GEM
     bcrypt (3.1.10)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.6)
+      autoprefixer-rails (>= 5.2.1)
+      sass (>= 3.3.4)
     bourbon (4.2.6)
       sass (~> 3.4)
       thor (~> 0.19)
@@ -113,6 +116,8 @@ GEM
       activesupport (>= 4.1.0)
     gmaps4rails (2.1.2)
     hashie (3.4.4)
+    highcharts-rails (4.2.5)
+      railties (>= 3.1)
     i18n (0.7.0)
     inline_svg (0.6.1)
       activesupport (>= 4.0.4)
@@ -297,6 +302,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on (~> 3.4)
   administrate!
+  bootstrap-sass (~> 3.3.6)
   byebug
   cancancan (~> 1.10)
   carrierwave!
@@ -306,6 +312,7 @@ DEPENDENCIES
   factory_girl_rails
   geocoder
   gmaps4rails
+  highcharts-rails
   jbuilder (~> 2.0)
   jquery-datatables-rails (~> 3.3.0)
   jquery-rails

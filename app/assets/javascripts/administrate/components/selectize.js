@@ -11,12 +11,12 @@ $('.selectize').each(function() {
   });
 });
 
-$('.selectize-admin').each(function() {
+$('.selectize-admin, .selectize-nook, .selectize-location').each(function() {
   var options = [];
   if ($(this).data('options')) {
     $(this).data('options').split(',').forEach( function(tag) {
-      user = tag.split(':');
-      options.push({ value: user[0], text: user[1] });
+      var elem = tag.split(':');
+      options.push({ value: elem[0], text: elem[1] });
     });
   }
   var $select = $(this).selectize({
@@ -27,8 +27,8 @@ $('.selectize-admin').each(function() {
   var defaultValue = [];
   if ($(this).data('default')) {
     $(this).data('default').split(',').forEach( function(tag) {
-      user = tag.split(':');
-      defaultValue.push(selectize.search(user[1]).items[0].id);
+      var elem = tag.split(':');
+      defaultValue.push(selectize.search(elem[1]).items[0].id);
     });
     selectize.setValue(defaultValue);
   }

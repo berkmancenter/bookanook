@@ -100,14 +100,26 @@ class Reservation < ActiveRecord::Base
             { time: time })
   end
 
-  def self.happening_within(time_range)
-    confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
+  def self.happening_within(time_range, reservations=nil)
+    reservations = Reservation.all if reservations.nil?
+    reservations.confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
   def self.overlapping_with(time_range)
     confirmed.where('tsrange("reservations"."start", "reservations"."end") && ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
+  end
+
+  def self.to_csv(reservations, options = {})
+    CSV.generate(options) do |csv|
+      csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'Start', 'End', 'Created at' ]
+      reservations.each do |reservation|
+        csv << [ reservation.nook.location.name,
+                 reservation.nook.name,
+                 reservation.attributes.values_at('id', 'name', 'description', 'start', 'end', 'created_at') ].flatten
+      end
+    end
   end
 
   private
