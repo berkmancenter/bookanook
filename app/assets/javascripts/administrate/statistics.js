@@ -64,6 +64,7 @@ $( function() {
         type: "POST",
         url: url,
         data: $(this).serialize(),
+        dataType: "json",
         success: function(data) {
           preprocessedData = commonPreprocess('nook', data['reservations_by_nook']);
           initializeColumnChart( $('#nooks-column-chart'), preprocessedData );
@@ -85,6 +86,7 @@ $( function() {
         type: "POST",
         url: url,
         data: $(this).serialize(),
+        dataType: "json",
         success: function(data) {
           preprocessedData = commonPreprocess('location', data['reservations_by_location']);
           initializeColumnChart( $('#locations-column-chart'), preprocessedData );
