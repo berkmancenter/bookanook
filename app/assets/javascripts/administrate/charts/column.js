@@ -63,4 +63,5 @@ function initializeColumnChart($container, data) {
     },
     series: preprocess(data)
   });
+  addborder($container);
 };

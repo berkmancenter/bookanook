@@ -63,4 +63,5 @@ function initializeHoursColumnChart($container, data) {
     },
     series: preprocess(data)
   });
+  addborder($container);
 };

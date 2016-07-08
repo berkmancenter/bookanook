@@ -113,4 +113,5 @@ function initializeDayTimeHeatMap($container, data) {
     }]
 
   });
+  addborder($container);
 }

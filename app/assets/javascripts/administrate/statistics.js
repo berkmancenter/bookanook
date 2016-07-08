@@ -50,6 +50,10 @@ function buildEntitiesNameHash(model) {
   };
 };
 
+function addborder($element) {
+  $element.addClass('highlight');
+}
+
 $( function() {
   if ($('.nook-statistics').length) {
     buildEntitiesNameHash('nook');
@@ -107,7 +111,6 @@ $( function() {
     $(sidebar_reservation_link).removeClass('sidebar__link--active');
     $(sidebar_reservation_link).addClass('sidebar__link--inactive');
     var pagePath = window.location.pathname;
-    console.log(pagePath);
     $('a[href="' + pagePath + '"]').addClass('sidebar__link--active');
   }
 });

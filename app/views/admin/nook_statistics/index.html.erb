@@ -1,21 +1,21 @@
 <div class="nook-statistics">
   <%= form_tag(:admin_nook_stats_fetch, remote: true, id: 'nooks-stats-filter', class: 'stats-filter') do %>
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-6 filter-col">
         <%= text_field_tag :nooks, nil, placeholder: 'Nooks', class: 'selectize-nook',
           'data-options': Nook.strip_nook_data( current_user.nooks_in_charge ) %>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 filter-col">
         <%= text_field_tag :start_date, nil,  placeholder: 'Start date', class: 'datepicker' %>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 filter-col">
         <%= text_field_tag :end_date, nil,  placeholder: 'End date (inclusive)', class: 'datepicker' %>
       </div>
-      <div class="col-md-1">
-        <%= submit_tag 'Go' %>
+      <div class="col-md-1 filter-col">
+        <%= submit_tag 'Go', class: 'button' %>
       </div>
-      <div class="col-md-1">
-        <%= button_tag class: :download_spreadsheet do %>
+      <div class="col-md-1 filter-col">
+        <%= button_tag class: 'download_spreadsheet button' do %>
           <%= inline_svg "box-add.svg", height: 14, width: 14 %>
         <% end %>
       </div>
@@ -28,20 +28,20 @@
   <% end %>
   <div class="row">
     <div class="col-md-6">
-      <div id="nooks-column-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <div id="nooks-column-chart" class="chart"></div>
     </div>
     <div class="col-md-6">
-      <div id="nooks-hours-column-chart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+      <div id="nooks-hours-column-chart" class="chart"></div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div id="nooks-all-days-heatmap" style="height: 320px; margin: 0 auto"></div>
+      <div id="nooks-all-days-heatmap" class="chart"></div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12">
-      <div id="nooks-days-time-heatmap" style="height: 320px; margin: 0 auto"></div>
+      <div id="nooks-days-time-heatmap" class="chart"></div>
     </div>
   </div>
 </div>

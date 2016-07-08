@@ -156,5 +156,6 @@ function initializeAllDaysHeatMap($container, data) {
     }]
 
   });
+  addborder($container);
   console.log('Rendered in ' + (new Date() - start) + ' ms'); // eslint-disable-line no-console
 }
