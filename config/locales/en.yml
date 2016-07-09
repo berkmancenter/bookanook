@@ -144,3 +144,9 @@ en:
       todays: "Today's Reservations"
       pending: 'Awaiting Review'
       canceled: 'Canceled Reservations'
+  mailers:
+    user_mailer:
+      send_password:
+        subject: 'Welcome to Book-a-Nook!'
+      status_update:
+        subject: "Reservation request's status changed"

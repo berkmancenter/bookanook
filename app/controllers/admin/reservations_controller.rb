@@ -76,9 +76,16 @@ module Admin
       update_params = resource_params
       update_params.delete(:remarks)
 
+      prev_status = requested_resource.status
+      new_status = update_params[:status]
+
       if requested_resource.update(update_params)
         requested_resource.remark_list = params[:reservation][:remarks]
         requested_resource.save
+
+        unless prev_status == new_status
+          UserMailer.status_update(requested_resource.requester, requested_resource, prev_status).deliver
+        end
 
         redirect_to(
           [namespace, requested_resource],
