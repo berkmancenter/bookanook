@@ -103,6 +103,10 @@ $(function() {
         $("input[id=nook-reservation-start]").attr('value', dateTimeRange[0]);
         $("input[id=nook-reservation-end]").attr('value', dateTimeRange[1]);
 
+        $('.book-this-expanded-nook').each( function () {
+          $(this).attr('href', $(this).attr('href').split('?')[0] + '?search_date=' + date);
+        });
+
         lastSelectedDay = day;
       });
     };

@@ -28,6 +28,7 @@ class NooksController < ApplicationController
     date = params[:days][0].to_date
     day = date.wday
     @date_range = ( (date - day)..(date + (6 - day)) )
+    @search_date = date
 
     respond_to do |format|
       format.json
@@ -38,6 +39,11 @@ class NooksController < ApplicationController
   def reserve
     @reservation = Reservation.new
     @reservation.nook = @nook
+
+    unless params[:search_date].nil?
+      @search_date = params[:search_date].to_date
+    end
+
     respond_to do |format|
       format.json
       format.html {

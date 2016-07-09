@@ -41,7 +41,7 @@ input id="nook-reservation-end" type="text" hidden="true"
                        reserved_slots: nook.reserved_slots(date)
       div.row
         = link_to reserve_nook_path(nook),
-          class: 'remote-modal book-this-nook', data: { modal: '#modal',
+          class: 'remote-modal book-this-expanded-nook', data: { modal: '#modal',
                                                         callback: 'bookModalLoaded' }
           button.btn.pull-right Reserve
 

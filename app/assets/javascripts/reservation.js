@@ -82,8 +82,17 @@ $(function() {
 
   function updateTimeRange($form, timeSelector) {
 
-    var startDate = $('.datepicker-element').first().datepicker('getDate');
-    var endDate = $('.datepicker-element').first().datepicker('getDate');
+    var startDate;
+    var endDate;
+
+    if ($('li[role=presentation][data-view=expanded]').hasClass('active')) {
+      var date = $('#nook-reservation-date').val();
+      startDate = new Date(date);
+      endDate = new Date(date);
+    } else {
+      var startDate = $('.datepicker-element').first().datepicker('getDate');
+      var endDate = $('.datepicker-element').first().datepicker('getDate');
+    }
 
     timeSelector.syncDom();
     var dateTimeRange = getDateTimeRange(timeSelector, startDate, endDate);

@@ -9,18 +9,32 @@ div.reservation-form
     div.empty-separator
 
     - if @reservation && @reservation.start && @reservation.end
-      div.reservation-when-times data-start=@reservation.time_range.begin data-end=@reservation.time_range.end
+      - @search_date = @reservation.start.to_date
+      div.reservation-when-times data-start=@reservation.time_range.begin data-end=@reservation.time_range.end data-reserved-slots=@reservation.nook.reserved_slots(@search_date)
         = render 'shared/time_select', show_hours: true,
-                  schedule: @reservation.nook.open_schedule.spans_chunk(2)[@reservation.start.wday],
-                  reserved_slots: @reservation.nook.reserved_slots(@reservation.start)
+                  schedule: @reservation.nook.open_schedule.spans_chunk(2)[@reservation.start.wday]
     - else
-      div.reservation-when-times
-        = render 'shared/plain_time_select', show_hours: true, schedule: nil, reserved_slots: nil
+      div.reservation-when-times data-reserved-slots=@reservation.nook.reserved_slots(@search_date)
+        = render 'shared/time_select', show_hours: true,
+                  schedule: @reservation.nook.open_schedule.spans_chunk(2)[@search_date.wday]
 
     javascript:
       var timeSelector = new TimeSelect('.reservation-when-times', {
         continuous: true
       });
+      var reserved = $('.reservation-when-times').data('reserved-slots').toString();
+      reserved = reserved.substring(1, reserved.length - 1).split(', ');
+      for(var i = 0; i < reserved.length; i++) {
+        var interval = reserved[i].split('..');
+        var slots = timeSelector.getIntRange(interval[0], interval[1]);
+        slots.pop();
+        for(var j = 0; j < slots.length; j++) {
+          var $button = $('.reservation-when-times button[value="' + slots[j] + '"]');
+          $button.addClass('taken');
+          $button.attr('disabled', 'true');
+        }
+      }
+
       updateTimeRangeLabel(getDateTimeRange(timeSelector), $('.time-range'));
       $('.reservation-when-times').on('timeSelector:change', function(e, selector) {
         if ($('#reservation_start').val() && $('#reservation_end').val()) {

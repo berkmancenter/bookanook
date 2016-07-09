@@ -1,7 +1,7 @@
 div.nooks-masonry
 - nooks.flatten.each.with_index do |nook, i|
   div.nook-item
-    = link_to reserve_nook_path(nook),
+    = link_to reserve_nook_path(id: nook, search_date: @search_date),
       class: 'remote-modal book-this-nook', data: {modal: '#modal', callback: 'bookModalLoaded'}
       div.nook
         = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg'

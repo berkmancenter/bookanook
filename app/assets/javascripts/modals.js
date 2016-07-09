@@ -20,6 +20,9 @@ $(function() {
     if ($link.attr('href') && !data['target']) {
       data['target'] = $link.attr('href');
     }
+    if ($link.hasClass('book-this-expanded-nook')) {
+      data['target'] = $link.attr('href');
+    }
     if (data['target']) {
       $(modal).find('.modal-dialog').load(data['target'], function () {
         NProgress.done();
@@ -39,7 +42,6 @@ $(function() {
       $('#modal').modal('toggle');
     }
   });
-
 
   $(document).on('click', '.nook-map-toggle', function () {
     var elem = $(this);

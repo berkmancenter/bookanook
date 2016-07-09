@@ -223,6 +223,17 @@ _.extend(TimeSelect.prototype, {
     return ranges;
   },
 
+  getIntRange: function(start, end) {
+    var current = this.toMoment(start);
+    var end = this.toMoment(end);
+    var array = [];
+    array.push(this.fromMoment(current));
+     while (current.isBefore(end)) {
+      array.push(this.fromMoment(current.add(this.options.slotDuration)));
+    }
+    return array;
+  },
+
   getSelectedMask: function() {
     var self = this;
     return self.allSlots.map(function(time) {
