@@ -122,6 +122,13 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  def self.send_reminders(date)
+    reservations = Reservation.happening_within(date.beginning_of_day..date.end_of_day)
+    for reservation in reservations
+      UserMailer.reservation_reminder(reservation.requester, reservation).deliver
+    end
+  end
+
   private
 
   def set_defaults

@@ -1,0 +1,15 @@
+<p>
+  Hi <%= @user.full_name %>,
+</p>
+<p>
+  This is a reminder for your upcoming reservation:
+</p>
+<ul>
+  <li>Name: <%= @reservation.name %></li>
+  <li>description: <%= @reservation.description %></li>
+  <li>location: <%= @location %></li>
+  <li>start: <%= @reservation.start.strftime("%Y-%m-%d %H:%M") %></li>
+  <li>end: <%= @reservation.end.strftime("%Y-%m-%d %H:%M") %></li>
+  <li>timezone: <%= @reservation.start.time_zone.tzinfo.name %></li>
+  <li>status: <%= @reservation.status %></li>
+</ul>

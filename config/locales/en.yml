@@ -150,3 +150,5 @@ en:
         subject: 'Welcome to Book-a-Nook!'
       status_update:
         subject: "Reservation request's status changed"
+      reservation_reminder:
+        subject: 'Reminder for Upcoming reservation'

@@ -13,4 +13,10 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: t('mailers.user_mailer.status_update.subject'))
   end
 
+  def reservation_reminder(user, reservation)
+    @user = user
+    @reservation = reservation
+    mail(to: @user.email, subject: t('mailers.user_mailer.reservation_reminder.subject'))
+  end
+
 end
