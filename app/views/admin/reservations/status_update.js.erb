@@ -1,9 +1,8 @@
 var status_element = $('.cell-data--<%= @reservation.id %>-status-update');
-if ($(status_element).length) {
-  $(status_element).html('<%= escape_javascript render "status_update", reservation: @reservation %>');
-}
+$(status_element).html('<%= escape_javascript render "status_update", reservation: @reservation %>');
 
-if ($('.welcome-tiles').length) {
+var updated = <%= @updated %>
+if (updated && $('.welcome-tiles').length) {
   var welcome_reservations = $('.tile-link.pending-reservations .tile-body');
   var count = +($(welcome_reservations).html().trim()) - 1;
   $(welcome_reservations).html(count);

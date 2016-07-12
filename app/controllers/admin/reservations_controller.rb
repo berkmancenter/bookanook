@@ -15,6 +15,7 @@ module Admin
 
     # See https://administrate-docs.herokuapp.com/customizing_controller_actions
     # for more information
+    before_filter :authorize_instance_access, only: [ :approve, :reject ]
 
     def new
       resource = resource_class.new
@@ -101,9 +102,11 @@ module Admin
     def approve
       id = params[:id]
       @reservation = Reservation.where(id: id).first
-      if not @reservation.nil? and @reservation.modifiable?
+      @updated = false
+      if not @reservation.nil?
         @reservation.confirm
         @reservation.save
+        @updated = true
       end
       render :js, template: 'admin/reservations/status_update'
     end
@@ -111,9 +114,11 @@ module Admin
     def reject
       id = params[:id]
       @reservation = Reservation.where(id: id).first
-      if not @reservation.nil? and @reservation.modifiable?
+      @updated = false
+      if not @reservation.nil?
         @reservation.reject
         @reservation.save
+        @updated = true
       end
       render :js, template: 'admin/reservations/status_update'
     end
