@@ -58,7 +58,6 @@ RSpec.describe NookSearch, type: :model do
       end
 
       it 'filters by reservable time' do
-        pending 'is implemented but failing'
         search_days = [Date.tomorrow]
         search_start = Time.now.seconds_since_midnight
         search_end = search_start + 2.hours
@@ -75,7 +74,6 @@ RSpec.describe NookSearch, type: :model do
       end
 
       it 'filters by reservable time available for any day', wip: true do
-        pending 'is implemented but failing'
         search_days = [Date.tomorrow, Date.today + 2.days]
         search_start = Time.now.seconds_since_midnight
         search_end = search_start + 2.hours
