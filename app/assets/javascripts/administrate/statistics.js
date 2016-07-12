@@ -50,8 +50,8 @@ function buildEntitiesNameHash(model) {
   };
 };
 
-function addborder($element) {
-  $element.addClass('highlight');
+function showChart($element) {
+  $element.show();
 }
 
 $( function() {
@@ -66,11 +66,14 @@ $( function() {
         data: $(this).serialize(),
         dataType: "json",
         success: function(data) {
+          $('.chart-wrapper').show();
           preprocessedData = commonPreprocess('nook', data['reservations_by_nook']);
           initializeColumnChart( $('#nooks-column-chart'), preprocessedData );
           initializeHoursColumnChart( $('#nooks-hours-column-chart'), preprocessedData );
           initializeAllDaysHeatMap( $('#nooks-all-days-heatmap'), data['reservations_by_date'] );
-          initializeDayTimeHeatMap( $('#nooks-days-time-heatmap'), data['reservations_by_date'] )
+          initializeDaysTimeHeatMap( $('#nooks-days-time-heatmap'), data['reservations_by_date'] );
+          initializeOneDayTimeHeatMap( $('#nooks-one-day-time-heatmap'), data['reservations_by_day'], 0, 'Sunday');
+          data_by_day = data['reservations_by_day'];
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -88,15 +91,19 @@ $( function() {
         data: $(this).serialize(),
         dataType: "json",
         success: function(data) {
+          $('.chart-wrapper').show();
           preprocessedData = commonPreprocess('location', data['reservations_by_location']);
           initializeColumnChart( $('#locations-column-chart'), preprocessedData );
           initializeHoursColumnChart( $('#locations-hours-column-chart'), preprocessedData );
           initializeAllDaysHeatMap( $('#locations-all-days-heatmap'), data['reservations_by_date'] );
-          initializeDayTimeHeatMap( $('#locations-days-time-heatmap'), data['reservations_by_date'] )
+          initializeDaysTimeHeatMap( $('#locations-days-time-heatmap'), data['reservations_by_date'] );
+          initializeOneDayTimeHeatMap( $('#locations-one-day-time-heatmap'), data['reservations_by_day'], 0, 'Sunday');
+          data_by_day = data['reservations_by_day'];
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
     });
+
   };
 
   $('.download_spreadsheet').click( function(e) {
@@ -116,3 +123,40 @@ $( function() {
     $('a[href="' + pagePath + '"]').addClass('sidebar__link--active');
   }
 });
+
+$('#days-select').change( function() {
+  var selectedIndex = $(this)[0].selectedIndex;
+  var selectedOption = $(this).find(":selected").text();
+  initializeOneDayTimeHeatMap (
+    $('.one-day-time-heatmap'),
+    data_by_day,
+    selectedIndex,
+    selectedOption
+  );
+
+});
+
+// Date util functions used by heatmaps
+function dateToString(date) {
+  return date.getFullYear() + '-' + (date.getMonth()  + 1) + '-' + date.getDate();
+}
+
+function getStartDate() {
+  var date = new Date($('#start_date').val());
+  return date;
+}
+
+function getEndDate() {
+  var date = new Date($('#end_date').val());
+  return date;
+}
+
+function minDate() {
+  var date = getStartDate();
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+function maxDate() {
+  var date = getEndDate();
+  return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+}

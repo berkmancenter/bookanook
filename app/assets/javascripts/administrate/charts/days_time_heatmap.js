@@ -1,4 +1,4 @@
-function initializeDayTimeHeatMap($container, data) {
+function initializeDaysTimeHeatMap($container, data) {
 
   function initialChartData() {
     var datetimeArray = [];
@@ -113,5 +113,4 @@ function initializeDayTimeHeatMap($container, data) {
     }]
 
   });
-  addborder($container);
 }

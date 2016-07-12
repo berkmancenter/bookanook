@@ -17,6 +17,7 @@ function initializeHoursColumnChart($container, data) {
     return data;
   };
 
+  showChart($container);
   $container.highcharts({
     chart: {
         type: 'column'
@@ -63,5 +64,4 @@ function initializeHoursColumnChart($container, data) {
     },
     series: preprocess(data)
   });
-  addborder($container);
 };
