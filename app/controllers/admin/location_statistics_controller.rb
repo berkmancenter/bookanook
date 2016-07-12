@@ -9,8 +9,11 @@ module Admin
     def fetch
       @reservations_by_location = @reservations.group_by { |r| r.nook.location_id }
       @reservations_by_date = @reservations.group_by { |r| r.start.strftime("%Y-%-m-%-d") }
+      @reservations_by_day = @reservations.group_by { |r| r.start.wday }
 
-      response = { reservations_by_location: @reservations_by_location, reservations_by_date: @reservations_by_date }
+      response = { reservations_by_location: @reservations_by_location,
+                   reservations_by_date: @reservations_by_date,
+                   reservations_by_day: @reservations_by_day }
 
       respond_to do |format|
         format.json { render json: response.to_json }

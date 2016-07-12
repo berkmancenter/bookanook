@@ -28,20 +28,38 @@
   <% end %>
   <div class="row">
     <div class="col-md-6">
-      <div id="locations-column-chart" class="chart"></div>
+      <div id="locations-column-chart" class="column-chart"></div>
     </div>
     <div class="col-md-6">
-      <div id="locations-hours-column-chart" class="chart"></div>
+      <div id="locations-hours-column-chart" class="column-chart"></div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-12">
-      <div id="locations-all-days-heatmap" class="chart"></div>
+  <div class="row chart-wrapper">
+    <div class="row">
+      <div class="col-md-4"></div>
+      <div class="col-md-4">
+        <select id="days-select">
+          <% Date::DAYNAMES.each do |day| %>
+            <option><%= day %></option>
+          <% end %>
+        </select>
+      </div>
+      <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div id="locations-one-day-time-heatmap" class="one-day-time-heatmap"></div>
+      </div>
     </div>
   </div>
-  <div class="row">
+  <div class="row chart-wrapper">
     <div class="col-md-12">
-      <div id="locations-days-time-heatmap" class="chart"></div>
+      <div id="locations-all-days-heatmap"></div>
+    </div>
+  </div>
+  <div class="row chart-wrapper">
+    <div class="col-md-12">
+      <div id="locations-days-time-heatmap"></div>
     </div>
   </div>
 </div>

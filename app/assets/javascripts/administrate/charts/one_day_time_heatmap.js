@@ -1,8 +1,16 @@
-function initializeAllDaysHeatMap($container, data) {
+function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayName) {
 
   function initialChartData() {
     var datetimeHash = {};
-    for (var date = getStartDate(); date <= getEndDate(); date.setDate(date.getDate() + 1)) {
+    var startDate = getStartDate();
+    var startDay = startDate.getDay();
+    if (selectedDay < startDay) {
+      startDate.setDate( startDate.getDate() + (7 + selectedDay - startDay) );
+    } else if (selectedDay > startDay) {
+      startDate.setDate( startDate.getDate() + ( selectedDay - startDay) );
+    }
+    console.log(startDate);
+    for (var date = startDate; date <= getEndDate(); date.setDate(date.getDate() + 7)) {
       for (var hour = 0; hour <= 23; hour += 1) {
         datetimeHash[dateToString(date) + '--' + hour] = 0;
       }
@@ -12,21 +20,21 @@ function initializeAllDaysHeatMap($container, data) {
 
   function dataToCSV(data) {
     var datetimeHash = initialChartData();
-    var dates = Object.keys(data);
-    for (var i = 0; i < dates.length; i++) {
 
-      var reservations = data[dates[i]];
+    if (selectedDay in data) {
+      var reservations = data[selectedDay];
+
       for (var rIndex = 0; rIndex < reservations.length; rIndex++) {
         var reservation = reservations[rIndex];
-        var startHour = new Date(reservations[rIndex]['start']).getHours();
-        var endHour = new Date(reservations[rIndex]['end']).getHours();
-        var date = dates[i];
+        var startHour = new Date(reservation['start']).getHours();
+        var endHour = new Date(reservation['end']).getHours();
+        var date = dateToString(new Date(reservation['start']));
 
         for (; startHour <= endHour; startHour++) {
           datetimeHash[date + '--' + startHour] = datetimeHash[date + '--' + startHour] + 1;
         }
       }
-    };
+    }
 
     var csv = 'Date,Time,count';
     var fieldSeparator = ',';
@@ -57,7 +65,7 @@ function initializeAllDaysHeatMap($container, data) {
     },
 
     title: {
-      text: 'All days HeatMap',
+      text: 'All ' + selectedDayName + 's HeatMap',
     },
 
     subtitle: {
@@ -65,9 +73,6 @@ function initializeAllDaysHeatMap($container, data) {
     },
 
     xAxis: {
-      type: 'datetime',
-      min: minDate(),
-      max: maxDate(),
       labels: {
         align: 'left',
         x: 5,
@@ -88,7 +93,7 @@ function initializeAllDaysHeatMap($container, data) {
           if (value < 12) {
             if (value == 0) value = 12;
             return value + 'am';
-          } else { 
+          } else {
             return value + 'pm';
           }
         }
@@ -123,9 +128,9 @@ function initializeAllDaysHeatMap($container, data) {
     series: [{
       borderWidth: 0,
       nullColor: '#3060cf',
-      colsize: 24 * 36e5, // one day
+      colsize: 24 * 36e5 * 7, // one week
       tooltip: {
-        headerFormat: 'No. of reservations<br/>',
+        headerFormat: 'No of reservations<br/>',
         pointFormat: '{point.x:%e %b, %Y} {point.y}:00: <b>{point.value}</b>'
       },
       turboThreshold: Number.MAX_VALUE // #3404, remove after 4.0.5 release
