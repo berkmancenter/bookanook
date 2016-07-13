@@ -1,10 +1,5 @@
 ul.nav.nav-pills.navbar-left
-  - if active_page?('reservations')
-    li role="presentation"
-      = link_to nooks_path do
-        span.glyphicon.glyphicon-globe
-      end
-  - else
+  - if active_page?('nooks')
     li role="presentation" data-view="masonry" class="active"
       = link_to '#' do
         span.glyphicon.glyphicon-globe
@@ -13,8 +8,20 @@ ul.nav.nav-pills.navbar-left
       = link_to '#' do
         span.glyphicon.glyphicon-time
       end
+  - else
+    li role="presentation"
+      = link_to nooks_path do
+        span.glyphicon.glyphicon-globe
+      end
 
 ul.nav.nav-pills.navbar-right
+  - if user_signed_in?
+    li
+      a href="#{user_new_notifications_path}" class="notify-link"
+        span class="badge badge-danger icon-count"
+          = current_user.notifications.unseen.length
+        span class="glyphicon glyphicon-bell notify-bell"
+
   li.dropdown
     a#user-pill.dropdown-toggle.row data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
       div.col-xs-2.col-sm-2.col-md-2.col-lg-2
@@ -27,6 +34,8 @@ ul.nav.nav-pills.navbar-right
     ul.dropdown-menu aria-labelledby="user-pill"
       - if user_signed_in?
         li = link_to('My Reservations', mine_reservations_path)
+        li.divider role="separator"
+        li = link_to('My Notifications', user_notifications_path)
         li.divider role="separator"
         li = link_to('Logout', destroy_user_session_path, :method => :delete)
       - else

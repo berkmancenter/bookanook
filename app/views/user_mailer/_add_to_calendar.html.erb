@@ -1,0 +1,102 @@
+<table style="border-spacing: 0;border-collapse: collapse;vertical-align: top" width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tbody>
+    <tr style="vertical-align: top">
+      <td class="button-container" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;padding-top: 10px;padding-right: 10px;padding-bottom: 0px;padding-left: 10px" align="center">
+        <table style="border-spacing: 0;border-collapse: collapse;vertical-align: top" width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+          <tbody>
+            <tr style="vertical-align: top">
+              <td class="button" style="word-break: break-word;border-collapse: collapse !important;vertical-align: top" width="100%" align="center" valign="middle">
+                <!--[if mso]>
+                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href=""
+                  style="
+                  height:32px;
+                  v-text-anchor:middle;
+                  width:102px;"
+                  arcsize="13%"
+                  strokecolor="#3AAEE0"
+                  fillcolor="#3AAEE0" >
+                  <w:anchorlock/>
+                  <center
+                  style="color:#ffffff;
+                  font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
+                  font-size:16px;">
+                <![endif]-->
+                <!--[if !mso]><!- - -->
+                <div style="display: inline-block;
+                  border-radius: 4px;
+                  -webkit-border-radius: 4px;
+                  -moz-border-radius: 4px;
+                  max-width: 100%;
+                  width: auto;
+                  margin-left: -15px;
+                  border-top: 0px solid transparent;
+                  border-right: 0px solid transparent;
+                  border-bottom: 0px solid transparent;
+                  border-left: 0px solid transparent;" align="center">
+
+                  <table style="border-spacing: 0;border-collapse: collapse;vertical-align: top;" width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr style="vertical-align: top">
+                          <!--<![endif]-->
+                            <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
+
+                            <style type="text/css">
+                              .atc-style-blue .atcb-link,
+                              .atc-style-blue .atcb-link:hover,
+                              .atc-style-blue .atcb-link:active,
+                              .atc-style-blue .atcb-link:focus {
+                                background: rgb(236,19,124);
+                                font-size: 12px;
+                              }
+
+                              .atc-style-blue .atcb-item-link,
+                              .atc-style-blue .atcb-item-link:hover {
+                                font-size: 12px;
+                              }
+
+                              .atc-style-blue .atcb-item.hover,
+                              .atc-style-blue .atcb-item:hover {
+                                background: rgb(236,19,124);
+                              }
+                            </style>
+
+                            <script type="text/javascript">
+                              (function () {
+                                if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+                                if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+                                  var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+                                  s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+                                  s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+                                  var h = d[g]('body')[0];h.appendChild(s); }
+                              })();
+                            </script>
+
+                            <span class="addtocalendar atc-style-blue">
+                              <var class="atc_event">
+                                <var class="atc_date_start"><%= @reservation.start.strftime("%Y-%m-%d %H:%M") %></var>
+                                <var class="atc_date_end"><%= @reservation.end.strftime("%Y-%m-%d %H:%M") %></var>
+                                <var class="atc_timezone"><%= @reservation.start.time_zone.tzinfo.name %></var>
+                                <var class="atc_title"><%= @reservation.name %></var>
+                                <var class="atc_description"><%= @reservation.description %></var>
+                                <var class="atc_location"><%= @location %></var>
+                                <var class="atc_organizer"><%= @user.full_name %></var>
+                                <var class="atc_organizer_email"><%= @user.email %></var>
+                              </var>
+                            </span>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!--<![endif]-->
+                <!--[if mso]>
+                  </center>
+                  </v:roundrect>
+                <![endif]-->
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>

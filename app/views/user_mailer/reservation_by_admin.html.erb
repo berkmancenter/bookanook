@@ -1,7 +1,7 @@
 <%= render partial: 'greetings' %>
 
 <% content_for :mail_message do %>
-  This is a reminder for your upcoming reservation:
+  A reservation request has been placed by <%= @admin.full_name %> on your behalf.
 <% end %>
 
 <%= render partial: 'reservation_info' %>

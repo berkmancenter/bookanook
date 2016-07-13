@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <h1><%= @title %></h1>
+  <table class="table notifications">
+    <thead>
+      <tr>
+        <th>Time</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if @notifications.empty? %>
+        <tr>
+          <td>No notifications.</td>
+        </tr>
+      <% else %>
+        <% @notifications.each do |notification| %>
+          <tr>
+            <td><%= notification.created_at.to_formatted_s(:short) %></td>
+            <td><%= notification.message %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

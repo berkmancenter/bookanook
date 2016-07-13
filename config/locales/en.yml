@@ -152,3 +152,14 @@ en:
         subject: "Reservation request's status changed"
       reservation_reminder:
         subject: 'Reminder for Upcoming reservation'
+      reservation_by_admin:
+        subject: 'Reservation request on your behalf'
+  messages:
+    '1': "Your reservation request named '%{reservation_name}' for Nook '%{nook_name}' has been approved."
+    '2': "Your reservation request named '%{reservation_name}'' for Nook '%{nook_name}' has been rejected."
+    '3': "Your reservation named '%{reservation_name}' for Nook '%{nook_name}'' has been canceled."
+    '4': "The status of your reservation request '%{reservation_name}' has been changed to pending."
+    '5': "%{actor_name} has requested reservation for Nook '%{nook_name}' on your behalf."
+  titles:
+    new_notifications: 'New Notifications'
+    my_notifications: 'My Notifications'

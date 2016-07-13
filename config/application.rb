@@ -28,5 +28,10 @@ module Bookanook
     CONFIG.each do |k,v|
       ENV[k.upcase] ||= v
     end
+
+    # configure Devise to use custom email layout
+    config.to_prepare do
+      Devise::Mailer.layout 'mailer'
+    end
   end
 end

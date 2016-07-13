@@ -42,6 +42,26 @@
     font-weight: bold;
     color: @brand-primary;
     box-shadow: 0 2px 3px @gray-lighter;
+
+    &.notify-link {
+      padding-top: 11px;
+      padding-bottom: 7px;
+      margin-right: 3px;
+    }
+
+    > .notify-bell {
+      font-size: 18px;
+    }
+
+    > .badge {
+      position: absolute;
+      top: 2px;
+      right: 4px;
+      z-index: 3;
+      background: #efefef;
+      color: @brand-primary;
+      font-size: 10px;
+    }
   }
 
   #user-pill {

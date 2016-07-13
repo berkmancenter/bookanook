@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   STATUSES = [ :active, :banned ]
 
   has_many :reservations
+  has_many :notifications
 
   def admin?
     return has_role? :admin, :any
