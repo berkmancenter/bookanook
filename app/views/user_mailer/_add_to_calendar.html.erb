@@ -28,6 +28,7 @@
                   -moz-border-radius: 4px;
                   max-width: 100%;
                   width: auto;
+                  font-size: 13px;
                   margin-left: -15px;
                   border-top: 0px solid transparent;
                   border-right: 0px solid transparent;
@@ -38,51 +39,26 @@
                     <tbody>
                       <tr style="vertical-align: top">
                           <!--<![endif]-->
-                            <link href="http://addtocalendar.com/atc/1.5/atc-style-blue.css" rel="stylesheet" type="text/css">
 
-                            <style type="text/css">
-                              .atc-style-blue .atcb-link,
-                              .atc-style-blue .atcb-link:hover,
-                              .atc-style-blue .atcb-link:active,
-                              .atc-style-blue .atcb-link:focus {
-                                background: rgb(236,19,124);
-                                font-size: 12px;
-                              }
+                        <style type="text/css">
+                          .cal-link,
+                          .cal-link:hover {
+                            color: rgb(236,19,124);
+                          }
+                          .cal-add {
+                            color: rgb(128, 128, 128);
+                          }
+                        </style>
 
-                              .atc-style-blue .atcb-item-link,
-                              .atc-style-blue .atcb-item-link:hover {
-                                font-size: 12px;
-                              }
-
-                              .atc-style-blue .atcb-item.hover,
-                              .atc-style-blue .atcb-item:hover {
-                                background: rgb(236,19,124);
-                              }
-                            </style>
-
-                            <script type="text/javascript">
-                              (function () {
-                                if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
-                                if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
-                                  var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
-                                  s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
-                                  s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
-                                  var h = d[g]('body')[0];h.appendChild(s); }
-                              })();
-                            </script>
-
-                            <span class="addtocalendar atc-style-blue">
-                              <var class="atc_event">
-                                <var class="atc_date_start"><%= @reservation.start.strftime("%Y-%m-%d %H:%M") %></var>
-                                <var class="atc_date_end"><%= @reservation.end.strftime("%Y-%m-%d %H:%M") %></var>
-                                <var class="atc_timezone"><%= @reservation.start.time_zone.tzinfo.name %></var>
-                                <var class="atc_title"><%= @reservation.name %></var>
-                                <var class="atc_description"><%= @reservation.description %></var>
-                                <var class="atc_location"><%= @location %></var>
-                                <var class="atc_organizer"><%= @user.full_name %></var>
-                                <var class="atc_organizer_email"><%= @user.email %></var>
-                              </var>
-                            </span>
+                        <% enc_start = @reservation.start.strftime("%Y-%m-%d %H:%M") %>
+                        <% enc_end  = @reservation.end.strftime("%Y-%m-%d %H:%M") %>
+                        <% enc_tz = @reservation.start.time_zone.tzinfo.name %>
+                        <% enc_rname = @reservation.name %>
+                        <% enc_desc = @reservation.description %>
+                        <% enc_location = @location %>
+                        <% enc_uname = @user.full_name %>
+                        <% enc_email = @user.email %>
+                        <span class="cal-add"><b>Add to: </b></span><a id="fl_ical" class="cal-link" href="http://addtocalendar.com/atc/ical?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">iCalendar</a> &nbsp;•&nbsp; <a id="fl_google" class="cal-link" href="http://addtocalendar.com/atc/google?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Google Calendar</a> &nbsp;•&nbsp; <a id="fl_outlook" class="cal-link" href="http://addtocalendar.com/atc/outlook?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Outlook</a> &nbsp;•&nbsp; <a id="fl_yahoo" class="cal-link" href="http://addtocalendar.com/atc/yahoo?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Yahoo Calendar</a>
                       </tr>
                     </tbody>
                   </table>
