@@ -40,16 +40,6 @@
                       <tr style="vertical-align: top">
                           <!--<![endif]-->
 
-                        <style type="text/css">
-                          .cal-link,
-                          .cal-link:hover {
-                            color: rgb(236,19,124);
-                          }
-                          .cal-add {
-                            color: rgb(128, 128, 128);
-                          }
-                        </style>
-
                         <% enc_start = @reservation.start.strftime("%Y-%m-%d %H:%M") %>
                         <% enc_end  = @reservation.end.strftime("%Y-%m-%d %H:%M") %>
                         <% enc_tz = @reservation.start.time_zone.tzinfo.name %>
@@ -58,7 +48,7 @@
                         <% enc_location = @location %>
                         <% enc_uname = @user.full_name %>
                         <% enc_email = @user.email %>
-                        <span class="cal-add"><b>Add to: </b></span><a id="fl_ical" class="cal-link" href="http://addtocalendar.com/atc/ical?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">iCalendar</a> &nbsp;•&nbsp; <a id="fl_google" class="cal-link" href="http://addtocalendar.com/atc/google?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Google Calendar</a> &nbsp;•&nbsp; <a id="fl_outlook" class="cal-link" href="http://addtocalendar.com/atc/outlook?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Outlook</a> &nbsp;•&nbsp; <a id="fl_yahoo" class="cal-link" href="http://addtocalendar.com/atc/yahoo?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Yahoo Calendar</a>
+                        <span style="color: rgb(128, 128, 128);"><b>Add to: </b></span><a id="fl_ical" style="color: rgb(236,19,124);" href="http://addtocalendar.com/atc/ical?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">iCalendar</a> &nbsp;•&nbsp; <a id="fl_google"  style="color: rgb(236,19,124);" href="http://addtocalendar.com/atc/google?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Google Calendar</a> &nbsp;•&nbsp; <a id="fl_outlook"  style="color: rgb(236,19,124);" href="http://addtocalendar.com/atc/outlook?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Outlook</a> &nbsp;•&nbsp; <a id="fl_yahoo"  style="color: rgb(236,19,124);" href="http://addtocalendar.com/atc/yahoo?f=m&e[0][date_start]=<%= enc_start %>&e[0][date_end]=<%= enc_end %>&e[0][timezone]=<%= enc_tz %>&e[0][title]=<%= enc_rname %>&e[0][description]=<%= enc_desc %>&e[0][location]=<%= enc_location %>&e[0][organizer]=<%= enc_uname %>&e[0][organizer_email]=<%= enc_email %>" target="_blank">Yahoo Calendar</a>
                       </tr>
                     </tbody>
                   </table>
