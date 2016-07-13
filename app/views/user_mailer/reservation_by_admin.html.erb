@@ -1,18 +1,10 @@
-<p>
-  Hi <%= @user.full_name %>,
-</p>
-<p>
+<%= render partial: 'greetings' %>
+
+<% content_for :mail_message do %>
   A reservation request has been placed by <%= @admin.full_name %> on your behalf.
-</p>
-<ul>
-  <li>Name: <%= @reservation.name %></li>
-  <li>description: <%= @reservation.description %></li>
-  <li>location: <%= @location %></li>
-  <li>start: <%= @reservation.start.strftime("%Y-%m-%d %H:%M") %></li>
-  <li>end: <%= @reservation.end.strftime("%Y-%m-%d %H:%M") %></li>
-  <li>timezone: <%= @reservation.start.time_zone.tzinfo.name %></li>
-  <li>status: <%= @reservation.status %></li>
-</ul>
+<% end %>
+
+<%= render partial: 'reservation_info' %>
 
 <% if @reservation.confirmed? %>
   <%= render partial: 'add_to_calendar' %>

@@ -1,0 +1,44 @@
+<table style="border-spacing: 0;border-collapse: collapse;vertical-align: top" cellpadding="0" cellspacing="0" width="100%">
+  <tbody>
+    <tr style="vertical-align: top">
+      <td style="word-break: break-word;border-collapse: collapse !important;vertical-align: top;padding-top: 10px;padding-right: 30px;padding-bottom: 10px;padding-left: 0px">
+        <div style="color:#ffffff;line-height:150%;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;">
+          <div style="font-size:12px;line-height:18px;color:#ffffff;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
+            <p style="margin: 0;">
+              <span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;">
+                <%= content_for :mail_message %>
+              </span>
+            </p>
+            <p style="margin: 0;font-size: 12px;line-height: 18px"><span style="font-size: 14px; line-height: 21px;">&nbsp;</span>
+              <br>
+            </p>
+            <ul>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"><strong>Name:</strong> <%= @reservation.name %></span>
+                <br><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"></span>
+              </li>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="font-size: 14px; line-height: 21px;"><strong><span style="color: rgb(128, 128, 128); line-height: 21px; font-size: 14px;">description:</span>
+                </strong> <%= @reservation.description %>
+                </span>
+                <br><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"></span>
+              </li>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"><strong>location:</strong> <%= @location %></span>
+                <br><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"></span>
+              </li>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"><strong>start:</strong> <%= @reservation.start.strftime("%Y-%m-%d %H:%M") %></span>
+                <br><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"></span>
+              </li>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"><strong>end:</strong> <%= @reservation.end.strftime("%Y-%m-%d %H:%M") %></span>
+                <br><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"></span>
+              </li>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"><strong>timezone:</strong> <%= @reservation.start.time_zone.tzinfo.name %></span>
+                <br><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"></span>
+              </li>
+              <li style="font-size: 12px; line-height: 14px;" dir="ltr"><span style="color: rgb(128, 128, 128); font-size: 14px; line-height: 21px;"><strong>status:</strong> <%= @reservation.status %></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
