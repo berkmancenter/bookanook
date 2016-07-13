@@ -117,6 +117,7 @@ en:
     canceled: 'Your reservation has been canceled'
     not_canceled: 'Your reservation could not be canceled'
     confirm_cancel: 'Are you sure you want to cancel this reservation?'
+    not_modified: 'Your reservation could not be modified'
   users:
     filters:
       keyword: 'Keyword'
@@ -129,6 +130,7 @@ en:
         banned: 'Banned'
     authentication:
       simple_registration: 'It seems you are not registered through Google. Please login using your password.'
+    unauthorized: 'You are not authorized to perform this action'
   admins:
     unauthorized: 'You are not authorized to perform this action.'
   filters:

@@ -24,7 +24,7 @@
           <td><%= reservation.created_at %></td>
           <td><%= reservation.status %></td>
           <td>
-            <% if Reservation::Status::MODIFIABLE.include? reservation.status %>
+            <% if reservation.modifiable? %>
               <button type="button" class="btn btn-info modify-reservation"
                 data-toggle="modal" data-target="#reservation-modal"
                 data-content="<%= edit_reservation_path(reservation) %>">Modify</button>

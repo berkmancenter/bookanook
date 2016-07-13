@@ -21,19 +21,38 @@ class ReservationsController < ApplicationController
   end
 
   def edit
-    render layout: false if request.xhr?
-  end
-
-  def update
-    if @reservation.update(reservation_params)
-      flash[:notice] = t('reservations.updated')
-      if request.xhr?
-        render text: true
+    if @reservation.requester == current_user
+      if @reservation.modifiable?
+        render layout: false if request.xhr?
       else
+        flash[:alert] = t('reservations.not_modified')
         redirect_to reservation_path(@reservation)
       end
     else
-      render :edit, status: :unprocessable_entity, layout: false if request.xhr?
+      flash[:alert] = t('users.unauthorized')
+      redirect_to root_path
+    end
+  end
+
+  def update
+    if @reservation.requester == current_user && @reservation.modifiable?
+      if @reservation.update(reservation_params)
+        flash[:notice] = t('reservations.updated')
+        if request.xhr?
+          render text: true
+        else
+          redirect_to reservation_path(@reservation)
+        end
+      else
+        render :edit, status: :unprocessable_entity, layout: false if request.xhr?
+      end
+    else
+      if request.xhr?
+        render :edit, status: :unprocessable_entity, layout: false
+      else
+        flash[:alert] = t('reservations.not_modified')
+        redirect_to reservation_path(@reservation)
+      end
     end
   end
 
