@@ -39,6 +39,16 @@ module Admin
         resource.remark_list = params[:reservation][:remarks]
         resource.save
 
+        unless resource.requester == current_user
+          Notification.create(
+            user: resource.requester,
+            actor: current_user,
+            message_id: 4,
+            reservation: resource
+          )
+          UserMailer.reservation_by_admin(resource.requester, current_user, resource).deliver
+        end
+
         redirect_to(
           [namespace, resource],
           notice: translate_with_resource("create.success"),
@@ -85,6 +95,12 @@ module Admin
         requested_resource.save
 
         unless prev_status == new_status
+          Notification.create(
+            user: requested_resource.requester,
+            actor: current_user,
+            message_id: Notification.get_message_id(new_status),
+            reservation: requested_resource
+          )
           UserMailer.status_update(requested_resource.requester, requested_resource, prev_status).deliver
         end
 

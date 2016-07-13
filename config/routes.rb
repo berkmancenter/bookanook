@@ -26,6 +26,8 @@ Rails.application.routes.draw do
   end
 
   get 'select_locations', to: 'locations#select', as: :select_locations
+  get 'notifications', to: 'users#notifications', as: :user_notifications
+  get 'notifications/new', to: 'users#new_notifications', as: :user_new_notifications
 
   namespace :admin do
     DashboardManifest::DASHBOARDS.each do |dashboard_resource|

@@ -19,4 +19,12 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: t('mailers.user_mailer.reservation_reminder.subject'))
   end
 
+  def reservation_by_admin(user, admin, reservation)
+    @user = user
+    @admin = admin
+    @reservation = reservation
+    @location = "#{@reservation.nook.name}, #{@reservation.nook.location.name}"
+    mail(to: @user.email, subject: t('mailers.user_mailer.reservation_by_admin.subject'))
+  end
+
 end
