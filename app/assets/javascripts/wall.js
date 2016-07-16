@@ -110,6 +110,7 @@ $(function() {
         lastSelectedDay = day;
       });
     };
+    setDefaultValue();
   };
 
   initializeTimeSelectors = function() {
@@ -119,6 +120,21 @@ $(function() {
       });
       timeSelectors.push(timeSelector);
     };
+  };
+
+  setDefaultValue = function() {
+    var timeSliderValues = $('#hour-range-slider').slider('getValue');
+    var hour = Math.floor(timeSliderValues[0]);
+    from = parseInt(hour + '00');
+    hour = Math.floor(timeSliderValues[1] - 1);
+    to = parseInt(hour + '30');
+
+    var date = $('input[id=nook-reservation-date]').attr('value');
+    var day = new Date(date).getDay();
+
+    timeSelectors[day].selectRange([from, to]);
+    timeSelectors[day].syncDom();
+    lastSelectedDay = day;
   };
 
   // update the time span above the updated timeSelector

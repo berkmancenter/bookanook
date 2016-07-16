@@ -7,7 +7,7 @@ function commonPreprocess(model, data) {
     var newReservations = [];
 
     for (var j = 0; j < reservations.length; j++) {
-      newReservations.push({ 
+      newReservations.push({
         'id': reservations[j]['id'],
         'start': new Date(reservations[j]['start']),
         'end': new Date(reservations[j]['end'])
@@ -72,8 +72,9 @@ $( function() {
           initializeHoursColumnChart( $('#nooks-hours-column-chart'), preprocessedData );
           initializeAllDaysHeatMap( $('#nooks-all-days-heatmap'), data['reservations_by_date'] );
           initializeDaysTimeHeatMap( $('#nooks-days-time-heatmap'), data['reservations_by_date'] );
-          initializeOneDayTimeHeatMap( $('#nooks-one-day-time-heatmap'), data['reservations_by_day'], 0, 'Sunday');
           data_by_day = data['reservations_by_day'];
+          $('#days-select')[0].selectedIndex = 0;
+          $('#days-select').trigger('change');
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
@@ -97,8 +98,9 @@ $( function() {
           initializeHoursColumnChart( $('#locations-hours-column-chart'), preprocessedData );
           initializeAllDaysHeatMap( $('#locations-all-days-heatmap'), data['reservations_by_date'] );
           initializeDaysTimeHeatMap( $('#locations-days-time-heatmap'), data['reservations_by_date'] );
-          initializeOneDayTimeHeatMap( $('#locations-one-day-time-heatmap'), data['reservations_by_day'], 0, 'Sunday');
           data_by_day = data['reservations_by_day'];
+          $('#days-select')[0].selectedIndex = 0;
+          $('#days-select').trigger('change');
         }
       });
       e.preventDefault(); // avoid to execute the actual submit of the form.
