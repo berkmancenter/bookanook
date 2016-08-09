@@ -91,6 +91,41 @@ body {
             background-color: #fafafa;
             margin: 0 0 10px 0;
             padding: 10px;
+
+            .schedule-wrapper {
+              overflow: hidden;
+            }
+
+            .timeline-wrapper {
+              margin-left: 0px;
+              margin-right: 0px;
+              margin-bottom: 10px;
+
+              .timeline {
+                padding-left: 0px;
+                padding-right: 0px;
+
+                .col-sm-1 {
+                  padding-left: 0px;
+                }
+
+                span.small {
+                  font-size: 10px;
+                  line-height: 18px;
+                  padding-left: 0px;
+                  padding-right: 1px;
+
+                  &:before {
+                    content: " ";
+                    position: absolute;
+                    bottom: -3px;
+                    left: 0px;
+                    border-left: 1px solid #C1C1C1;
+                    height: 5px;
+                  }
+                }
+              }
+            }
           }
 
           .nook-expanded {
@@ -103,6 +138,21 @@ body {
           .nook-weekly-schedule {
             padding-left: 10px;
             padding-right: 10px;
+
+            .time-slot {
+              button {
+                &:hover:before {
+                  position: absolute;
+                  left: 0;
+                  top: -500px;
+                  content: "";
+                  width: 1px;
+                  height: 1000px;
+                  background: #ec137c;
+                  z-index: 100;
+                }
+              }
+            }
           }
 
           .book-this-expanded-nook {

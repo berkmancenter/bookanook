@@ -26,24 +26,39 @@ input id="nook-reservation-end" type="text" hidden="true"
             = nook.max_capacity
             = ' '
             = "people".pluralize(nook.max_capacity)
-    div.nook-weekly-schedule
-      - open_ranges = nook.open_schedule.spans_chunk(2)
-      - @date_range.each_with_index do |date, index|
-          div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
-            div.row.date data-date="#{date}"
-              = date.strftime("%a, %B %d")
-              span.local-time
-                span.start
-                span.end
-            div.row
-              = render 'shared/time_select', show_hours: false,
-                       schedule: open_ranges[index],
-                       reserved_slots: nook.reserved_slots(date)
-      div.row
-        = link_to reserve_nook_path(nook),
-          class: 'remote-modal book-this-expanded-nook', data: { modal: '#modal',
-                                                        callback: 'bookModalLoaded' }
-          button.btn.pull-right Reserve
+
+
+    div.schedule-wrapper
+      div.row.timeline-wrapper
+        div.timeline.col-sm-6
+          - (0..11).each do |hour|
+            div.col-sm-1
+              span.small
+                = "#{hour == 0 ? 12 : hour}am" if hour.even?
+        div.timeline.col-sm-6
+          - (12..23).each do |hour|
+            div.col-sm-1
+              span.small
+                = "#{hour == 12 ? hour : hour - 12}pm" if hour.even?
+
+      div.nook-weekly-schedule
+        - open_ranges = nook.open_schedule.spans_chunk(2)
+        - @date_range.each_with_index do |date, index|
+            div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
+              div.row.date data-date="#{date}"
+                = date.strftime("%a, %B %d")
+                span.local-time
+                  span.start
+                  span.end
+              div.row
+                = render 'shared/time_select', show_hours: false,
+                         schedule: open_ranges[index],
+                         reserved_slots: nook.reserved_slots(date)
+    div
+      = link_to reserve_nook_path(nook),
+        class: 'remote-modal book-this-expanded-nook', data: { modal: '#modal',
+                                                      callback: 'bookModalLoaded' }
+        button.btn.pull-right Reserve
 
 javascript:
   var timeSelectors = []
