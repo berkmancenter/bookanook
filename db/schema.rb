@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160713062907) do
+ActiveRecord::Schema.define(version: 20160807060955) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,9 +50,11 @@ ActiveRecord::Schema.define(version: 20160713062907) do
     t.boolean  "bookable"
     t.boolean  "requires_approval"
     t.boolean  "repeatable"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.integer  "modifiable_before",      default: 48
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "modifiable_before",               default: 48
+    t.integer  "reservable_before_hours",         default: 2
+    t.integer  "unreservable_before_days",        default: 60
   end
 
   add_index "nooks", ["location_id"], name: "index_nooks_on_location_id", using: :btree

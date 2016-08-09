@@ -118,6 +118,9 @@ en:
     not_canceled: 'Your reservation could not be canceled'
     confirm_cancel: 'Are you sure you want to cancel this reservation?'
     not_modified: 'Your reservation could not be modified'
+    unreservable_before: 'You cannot make reservation request for this nook before %{x} days to the event.'
+    reservable_before: 'You can make reservation request for this nook only before %{x} hours to the event.'
+    reservation_in_past: 'You cannot make reservation request for the past.'
   users:
     filters:
       keyword: 'Keyword'

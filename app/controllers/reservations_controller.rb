@@ -85,20 +85,36 @@ class ReservationsController < ApplicationController
       @reservation.nook = @nook
     end
 
+    time_diff = Time.parse(params[:reservation][:start]).utc - Time.now.utc
+
     respond_to do |format|
-      if @reservation.save
-        format.html {
+      if time_diff.to_i < 0
+        flash[:alert] = t('reservations.reservation_in_past')
+        redirect_to_nooks_with_errors(format)
+
+      elsif time_diff < @nook.reservable_before_hours.hours.to_i
+        flash[:alert] = t('reservations.reservable_before', x: @nook.reservable_before_hours)
+        redirect_to_nooks_with_errors(format)
+
+      elsif time_diff < @nook.unreservable_before_days.days.to_i
+        if @reservation.save
           flash[:notice] = t('reservations.submitted')
-          if request.xhr?
-            render text: nooks_url
-          else
-            redirect_to nooks_path
-          end
-        }
-        format.json { render :show, status: :created, location: @reservation }
+          format.html {
+            if request.xhr?
+              render text: nooks_url
+            else
+              redirect_to nooks_path
+            end
+          }
+          format.json { render :show, status: :created, location: @reservation }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
+
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        flash[:alert] = t('reservations.unreservable_before', x: @nook.unreservable_before_days)
+        redirect_to_nooks_with_errors(format)
       end
     end
   end
@@ -125,5 +141,16 @@ class ReservationsController < ApplicationController
     def reservation_params
       params.require(:reservation).permit(:name, :start, :end, :description,
                                           :url, :stream_url, :notes)
+    end
+
+    def redirect_to_nooks_with_errors(format)
+      format.html {
+        if request.xhr?
+          render text: nooks_url
+        else
+          redirect_to nooks_path
+        end
+      }
+      format.json { render json: @reservation.errors, status: :unprocessable_entity }
     end
 end
