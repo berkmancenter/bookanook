@@ -85,10 +85,23 @@ class ReservationsController < ApplicationController
       @reservation.nook = @nook
     end
 
-    time_diff = Time.parse(params[:reservation][:start]).utc - Time.now.utc
+    start_time = Time.parse(params[:reservation][:start])
+    end_time = Time.parse(params[:reservation][:end])
+    duration = (end_time - start_time + 1.second).to_i / 1800
+
+    request_date = start_time.to_date
+    requested_slots = current_user.reservation_requests_on(request_date)
+                                        .map { |r| r.duration / 1800 }.sum.to_i
+    time_diff = start_time.utc - Time.now.utc
 
     respond_to do |format|
-      if time_diff.to_i < 0
+      if requested_slots + duration > User::PERMISSIBLE_SLOTS
+
+        flash[:alert] = t('reservations.requested_time_maxed_out',
+                           x: Reservation.humanize_seconds(requested_slots * 1800))
+        redirect_to_nooks_with_errors(format)
+
+      elsif time_diff.to_i < 0
         flash[:alert] = t('reservations.reservation_in_past')
         redirect_to_nooks_with_errors(format)
 

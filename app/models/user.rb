@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   STATUSES = [ :active, :banned ]
+  PERMISSIBLE_SLOTS = 4 # can request for atmost 2 hours per day i.e. 4 half hours
 
   has_many :reservations
   has_many :notifications
@@ -40,6 +41,11 @@ class User < ActiveRecord::Base
     return Reservation.all if superadmin?
     return reservations.where(nook_id: nooks_in_charge.ids) unless reservations.nil?
     Reservation.where(nook_id: nooks_in_charge.ids)
+  end
+
+  def reservation_requests_on(date)
+    reservations.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
+                    'tsrange(?, ?)', date.beginning_of_day, date.end_of_day)
   end
 
   def first_name

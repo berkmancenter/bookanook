@@ -38,7 +38,7 @@ class Reservation < ActiveRecord::Base
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
     greater_than_or_equal_to: 0
-  validate :minimum_length, :maximum_length, :minimum_start, :maximum_start
+  validate :minimum_length, :maximum_length
 
   after_initialize :set_defaults
 
@@ -53,7 +53,7 @@ class Reservation < ActiveRecord::Base
   end
 
   def length
-    self.end - self.start
+    self.end - self.start + 1.second
   end
   alias :duration :length
 
@@ -146,7 +146,7 @@ class Reservation < ActiveRecord::Base
     if nook && nook.min_reservation_length &&
       duration < nook.min_reservation_length.seconds
       errors.add(:end, "can't be less than " +
-                 "#{humanize_seconds(nook.min_reservation_length)} after start")
+                 "#{Reservation.humanize_seconds(nook.min_reservation_length)} after start")
     end
   end
 
@@ -154,7 +154,7 @@ class Reservation < ActiveRecord::Base
     if nook && nook.max_reservation_length &&
       duration > nook.max_reservation_length.seconds
       errors.add(:end, "can't be more than " +
-                 "#{humanize_seconds(nook.max_reservation_length)} after start")
+                 "#{Reservation.humanize_seconds(nook.max_reservation_length)} after start")
     end
   end
 
@@ -162,7 +162,7 @@ class Reservation < ActiveRecord::Base
     if nook && nook.min_schedulable &&
       self.start < Time.now + nook.min_schedulable.seconds
       errors.add(:start, "can't start less than " +
-                 "#{humanize_seconds(nook.min_schedulable)} from now")
+                 "#{Reservation.humanize_seconds(nook.min_schedulable)} from now")
     end
   end
 
@@ -170,15 +170,15 @@ class Reservation < ActiveRecord::Base
     if nook && nook.max_schedulable &&
       self.start > Time.now + nook.max_schedulable.seconds
       errors.add(:start, "can't start more than " +
-                 "#{humanize_seconds(nook.max_schedulable)} from now")
+                 "#{Reservation.humanize_seconds(nook.max_schedulable)} from now")
     end
   end
 
-  def humanize_seconds(secs)
+  def self.humanize_seconds(secs)
     [[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map{ |count, name|
       if secs > 0
         secs, n = secs.divmod(count)
-        "#{n.to_i} #{name}"
+        "#{n.to_i} #{name}" unless name == :seconds
       end
     }.compact.reverse.join(' ')
   end
