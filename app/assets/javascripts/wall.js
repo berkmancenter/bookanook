@@ -103,7 +103,19 @@ $(function() {
         $("input[id=nook-reservation-start]").attr('value', dateTimeRange[0]);
         $("input[id=nook-reservation-end]").attr('value', dateTimeRange[1]);
 
+        // to disable reserve button
+        if (dateTimeRange[0] == 'Invalid Date') {
+          disable = true;
+        } else {
+          disable = false;
+        }
+
         $('.book-this-expanded-nook').each( function () {
+          if(disable) {
+            $(this).find('button').attr('disabled', true);
+          } else {
+            $(this).find('button').removeAttr('disabled');
+          }
           $(this).attr('href', $(this).attr('href').split('?')[0] + '?search_date=' + date);
         });
 
