@@ -44,8 +44,9 @@ class User < ActiveRecord::Base
   end
 
   def reservation_requests_on(date)
-    reservations.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
+    reservations.where('tsrange("reservations"."start_time", "reservations"."end_time") <@ ' +
                     'tsrange(?, ?)', date.beginning_of_day, date.end_of_day)
+                .where(status: [ Reservation::Status::PENDING, Reservation::Status::CONFIRMED ])
   end
 
   def first_name

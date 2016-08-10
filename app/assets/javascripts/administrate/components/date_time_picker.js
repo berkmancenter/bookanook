@@ -9,8 +9,8 @@ $(function () {
   });
 
   if ($('.reservation-when-times').length) {
-    $('#reservation_start').parent().hide();
-    $('#reservation_end').parent().hide();
+    $('#reservation_start_time').parent().hide();
+    $('#reservation_end_time').parent().hide();
 
     var timeSelector = new TimeSelect('.reservation-when-times', {
       continuous: true
@@ -34,11 +34,11 @@ $(function () {
       var dateTimeRange = getDateTimeRange(selector, startDate, endDate);
       updateTimeRangeLabel(dateTimeRange, $('.time-range'));
       if(dateTimeRange[0] == 'InvalidDate') {
-        $('input[id=reservation_start]').attr('value', '');
-        $('input[id=reservation_end]').attr('value', '');
+        $('input[id=reservation_start_time]').attr('value', '');
+        $('input[id=reservation_end_time]').attr('value', '');
       } else {
-        $('input[id=reservation_start]').attr('value', dateTimeRange[0]);
-        $('input[id=reservation_end]').attr('value', dateTimeRange[1]);
+        $('input[id=reservation_start_time]').attr('value', dateTimeRange[0]);
+        $('input[id=reservation_end_time]').attr('value', dateTimeRange[1]);
       }
     }
   }

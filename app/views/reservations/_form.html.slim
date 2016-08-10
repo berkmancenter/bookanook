@@ -1,7 +1,7 @@
 div.reservation-form
   div.reservation-when-time
     div.row-title
-      | #{t('reservations.time_range')} 
+      | #{t('reservations.time_range')}
       span.time-range
         span.start
         span.end
@@ -37,12 +37,12 @@ div.reservation-form
 
       updateTimeRangeLabel(getDateTimeRange(timeSelector), $('.time-range'));
       $('.reservation-when-times').on('timeSelector:change', function(e, selector) {
-        if ($('#reservation_start').val() && $('#reservation_end').val()) {
-          var startDate = new Date($('#reservation_start').val());
-          var endDate = new Date($('#reservation_end').val());
+        if ($('#reservation_start_time').val() && $('#reservation_end_time').val()) {
+          var startDate = new Date($('#reservation_start_time').val());
+          var endDate = new Date($('#reservation_end_time').val());
           var dateTimeRange = getDateTimeRange(selector, startDate, endDate);
-          $('#reservation_start').val(dateTimeRange[0]);
-          $('#reservation_end').val(dateTimeRange[1]);
+          $('#reservation_start_time').val(dateTimeRange[0]);
+          $('#reservation_end_time').val(dateTimeRange[1]);
         }
       });
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160807060955) do
+ActiveRecord::Schema.define(version: 20160810141347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,8 +91,8 @@ ActiveRecord::Schema.define(version: 20160807060955) do
     t.string   "stream_url"
     t.string   "status"
     t.integer  "priority"
-    t.datetime "start"
-    t.datetime "end"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.text     "description"
     t.text     "notes"
     t.string   "repeats_every"

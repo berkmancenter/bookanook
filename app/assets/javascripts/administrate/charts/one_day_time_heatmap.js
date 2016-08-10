@@ -26,9 +26,9 @@ function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayN
 
       for (var rIndex = 0; rIndex < reservations.length; rIndex++) {
         var reservation = reservations[rIndex];
-        var startHour = new Date(reservation['start']).getHours();
-        var endHour = new Date(reservation['end']).getHours();
-        var date = dateToString(new Date(reservation['start']));
+        var startHour = new Date(reservation['start_time']).getHours();
+        var endHour = new Date(reservation['end_time']).getHours();
+        var date = dateToString(new Date(reservation['start_time']));
 
         for (; startHour <= endHour; startHour++) {
           datetimeHash[date + '--' + startHour] = datetimeHash[date + '--' + startHour] + 1;

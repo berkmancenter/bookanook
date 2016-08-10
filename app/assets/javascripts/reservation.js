@@ -99,8 +99,8 @@ $(function() {
 
     updateTimeRangeLabel(dateTimeRange, $('.time-range'));
 
-    $form.find('#reservation_start').val(dateTimeRange[0].toISOString());
-    $form.find('#reservation_end').val(dateTimeRange[1].toISOString());
+    $form.find('#reservation_start_time').val(dateTimeRange[0].toISOString());
+    $form.find('#reservation_end_time').val(dateTimeRange[1].toISOString());
   }
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {

@@ -85,8 +85,8 @@ class ReservationsController < ApplicationController
       @reservation.nook = @nook
     end
 
-    start_time = Time.parse(params[:reservation][:start])
-    end_time = Time.parse(params[:reservation][:end])
+    start_time = Time.parse(params[:reservation][:start_time])
+    end_time = Time.parse(params[:reservation][:end_time])
     duration = (end_time - start_time + 1.second).to_i / 1800
 
     request_date = start_time.to_date
@@ -152,7 +152,7 @@ class ReservationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reservation_params
-      params.require(:reservation).permit(:name, :start, :end, :description,
+      params.require(:reservation).permit(:name, :start_time, :end_time, :description,
                                           :url, :stream_url, :notes)
     end
 

@@ -12,6 +12,9 @@ class Reservation < ActiveRecord::Base
 
   before_save :ciel_end_time
 
+  alias_attribute :start, :start_time
+  alias_attribute :end, :end_time
+
   module Status
     PENDING, REJECTED, CONFIRMED, CANCELED =
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
@@ -33,7 +36,7 @@ class Reservation < ActiveRecord::Base
 
   serialize :repeats_every
 
-  validates_presence_of :name, :start, :end, :nook, :requester
+  validates_presence_of :name, :start_time, :end_time, :nook, :requester
   validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
@@ -96,18 +99,18 @@ class Reservation < ActiveRecord::Base
 
   def self.happening_at(time)
     confirmed.
-      where('"reservations"."start" < :time AND "reservations"."end" > :time',
+      where('"reservations"."start_time" < :time AND "reservations"."end_time" > :time',
             { time: time })
   end
 
   def self.happening_within(time_range, reservations=nil)
     reservations = Reservation.all if reservations.nil?
-    reservations.confirmed.where('tsrange("reservations"."start", "reservations"."end") <@ ' +
+    reservations.confirmed.where('tsrange("reservations"."start_time", "reservations"."end_time") <@ ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
   def self.overlapping_with(time_range)
-    confirmed.where('tsrange("reservations"."start", "reservations"."end") && ' +
+    confirmed.where('tsrange("reservations"."start_time", "reservations"."end_time") && ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
@@ -117,7 +120,7 @@ class Reservation < ActiveRecord::Base
       reservations.each do |reservation|
         csv << [ reservation.nook.location.name,
                  reservation.nook.name,
-                 reservation.attributes.values_at('id', 'name', 'description', 'start', 'end', 'created_at') ].flatten
+                 reservation.attributes.values_at('id', 'name', 'description', 'start_time', 'end_time', 'created_at') ].flatten
       end
     end
   end
@@ -145,7 +148,7 @@ class Reservation < ActiveRecord::Base
   def minimum_length
     if nook && nook.min_reservation_length &&
       duration < nook.min_reservation_length.seconds
-      errors.add(:end, "can't be less than " +
+      errors.add(:end_time, "can't be less than " +
                  "#{Reservation.humanize_seconds(nook.min_reservation_length)} after start")
     end
   end
@@ -153,7 +156,7 @@ class Reservation < ActiveRecord::Base
   def maximum_length
     if nook && nook.max_reservation_length &&
       duration > nook.max_reservation_length.seconds
-      errors.add(:end, "can't be more than " +
+      errors.add(:end_time, "can't be more than " +
                  "#{Reservation.humanize_seconds(nook.max_reservation_length)} after start")
     end
   end
@@ -161,7 +164,7 @@ class Reservation < ActiveRecord::Base
   def minimum_start
     if nook && nook.min_schedulable &&
       self.start < Time.now + nook.min_schedulable.seconds
-      errors.add(:start, "can't start less than " +
+      errors.add(:start_time, "can't start less than " +
                  "#{Reservation.humanize_seconds(nook.min_schedulable)} from now")
     end
   end
@@ -169,12 +172,13 @@ class Reservation < ActiveRecord::Base
   def maximum_start
     if nook && nook.max_schedulable &&
       self.start > Time.now + nook.max_schedulable.seconds
-      errors.add(:start, "can't start more than " +
+      errors.add(:start_time, "can't start more than " +
                  "#{Reservation.humanize_seconds(nook.max_schedulable)} from now")
     end
   end
 
   def self.humanize_seconds(secs)
+    return '0 hours' if secs == 0
     [[60, :seconds], [60, :minutes], [24, :hours], [1000, :days]].map{ |count, name|
       if secs > 0
         secs, n = secs.divmod(count)

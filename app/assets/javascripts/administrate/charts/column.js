@@ -10,7 +10,7 @@ function initializeColumnChart($container, data) {
       };
 
       for (var j = 0; j < reservations.length; j++) {
-        months[ reservations[j]['start'].getMonth() ]++;
+        months[ reservations[j]['start_time'].getMonth() ]++;
       };
       data[i]['data'] = months;
     };

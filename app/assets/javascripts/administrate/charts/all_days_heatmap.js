@@ -18,8 +18,8 @@ function initializeAllDaysHeatMap($container, data) {
       var reservations = data[dates[i]];
       for (var rIndex = 0; rIndex < reservations.length; rIndex++) {
         var reservation = reservations[rIndex];
-        var startHour = new Date(reservations[rIndex]['start']).getHours();
-        var endHour = new Date(reservations[rIndex]['end']).getHours();
+        var startHour = new Date(reservations[rIndex]['start_time']).getHours();
+        var endHour = new Date(reservations[rIndex]['end_time']).getHours();
         var date = dates[i];
 
         for (; startHour <= endHour; startHour++) {
