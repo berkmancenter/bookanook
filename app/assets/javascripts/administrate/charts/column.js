@@ -12,7 +12,7 @@ function initializeColumnChart($container, data) {
       for (var j = 0; j < reservations.length; j++) {
         months[ reservations[j]['start'].getMonth() ]++;
       };
-      data[i]['data'] = months;        
+      data[i]['data'] = months;
     };
     return data;
   };
@@ -20,7 +20,8 @@ function initializeColumnChart($container, data) {
   showChart($container);
   $container.highcharts({
     chart: {
-        type: 'column'
+        type: 'column',
+        backgroundColor: '#f6f7f7'
     },
     title: {
         text: 'Reservations per month'

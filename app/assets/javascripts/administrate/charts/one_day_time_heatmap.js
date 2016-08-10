@@ -61,7 +61,8 @@ function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayN
 
     chart: {
       type: 'heatmap',
-      margin: [60, 10, 80, 50]
+      margin: [60, 10, 80, 50],
+      backgroundColor: '#f6f7f7'
     },
 
     title: {
@@ -111,13 +112,10 @@ function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayN
 
     colorAxis: {
       stops: [
-        [0, '#3060cf'],
-        [0.5, '#fffbbc'],
-        [0.9, '#c4463a'],
-        [1, '#c4463a']
+        [0, '#ffffff'],
+        [1, '#2a94d6'],
       ],
       min: 0,
-      max: 24,
       startOnTick: false,
       endOnTick: false,
       labels: {
