@@ -10,9 +10,9 @@ function initializeHoursColumnChart($container, data) {
       };
 
       for (var j = 0; j < reservations.length; j++) {
-        months[ reservations[j]['start'].getMonth() ] += Math.round((reservations[j]['end'] - reservations[j]['start']) / 36e5);
+        months[ reservations[j]['start_time'].getMonth() ] += Math.round((reservations[j]['end_time'] - reservations[j]['start_time']) / 36e5);
       };
-      data[i]['data'] = months;        
+      data[i]['data'] = months;
     };
     return data;
   };
@@ -20,7 +20,8 @@ function initializeHoursColumnChart($container, data) {
   showChart($container);
   $container.highcharts({
     chart: {
-        type: 'column'
+        type: 'column',
+        backgroundColor: '#f6f7f7'
     },
     title: {
         text: 'Hours of reservations per month'

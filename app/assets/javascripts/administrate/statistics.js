@@ -9,8 +9,8 @@ function commonPreprocess(model, data) {
     for (var j = 0; j < reservations.length; j++) {
       newReservations.push({
         'id': reservations[j]['id'],
-        'start': new Date(reservations[j]['start']),
-        'end': new Date(reservations[j]['end'])
+        'start_time': new Date(reservations[j]['start_time']),
+        'end_time': new Date(reservations[j]['end_time'])
       });
     };
     processedData.push({

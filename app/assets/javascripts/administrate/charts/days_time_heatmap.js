@@ -22,8 +22,8 @@ function initializeDaysTimeHeatMap($container, data) {
 
       for (var rIndex = 0; rIndex < reservations.length; rIndex++) {
         var reservation = reservations[rIndex];
-        var startHour = new Date(reservations[rIndex]['start']).getHours();
-        var endHour = new Date(reservations[rIndex]['end']).getHours();
+        var startHour = new Date(reservations[rIndex]['start_time']).getHours();
+        var endHour = new Date(reservations[rIndex]['end_time']).getHours();
 
         for (; startHour <= endHour; startHour++) {
           datetimeArray[day][startHour] = datetimeArray[day][startHour] + 1;
@@ -45,7 +45,8 @@ function initializeDaysTimeHeatMap($container, data) {
 
     chart: {
       type: 'heatmap',
-      margin: [60, 10, 80, 50]
+      margin: [60, 10, 80, 50],
+      backgroundColor: '#f6f7f7'
     },
 
     title: {
@@ -67,7 +68,7 @@ function initializeDaysTimeHeatMap($container, data) {
           if (value < 12) {
             if (value == 0) value = 12;
             return value + 'am';
-          } else { 
+          } else {
             return value + 'pm';
           }
         }
@@ -85,13 +86,10 @@ function initializeDaysTimeHeatMap($container, data) {
 
     colorAxis: {
       stops: [
-        [0, '#3060cf'],
-        [0.5, '#fffbbc'],
-        [0.9, '#c4463a'],
-        [1, '#c4463a']
+        [0, '#ffffff'],
+        [1, '#2a94d6'],
       ],
       min: 0,
-      max: 200,
       startOnTick: false,
       endOnTick: false,
       labels: {

@@ -85,20 +85,49 @@ class ReservationsController < ApplicationController
       @reservation.nook = @nook
     end
 
+    start_time = Time.parse(params[:reservation][:start_time])
+    end_time = Time.parse(params[:reservation][:end_time])
+    duration = (end_time - start_time + 1.second).to_i / 1800
+
+    request_date = start_time.to_date
+    requested_slots = current_user.reservation_requests_on(request_date)
+                                        .map { |r| r.duration / 1800 }.sum.to_i
+    time_diff = start_time.utc - Time.now.utc
+
     respond_to do |format|
-      if @reservation.save
-        format.html {
+      if requested_slots + duration > User::PERMISSIBLE_SLOTS
+
+        flash[:alert] = t('reservations.requested_time_maxed_out',
+                           x: Reservation.humanize_seconds(requested_slots * 1800))
+        redirect_to_nooks_with_errors(format)
+
+      elsif time_diff.to_i < 0
+        flash[:alert] = t('reservations.reservation_in_past')
+        redirect_to_nooks_with_errors(format)
+
+      elsif time_diff < @nook.reservable_before_hours.hours.to_i
+        flash[:alert] = t('reservations.reservable_before', x: @nook.reservable_before_hours)
+        redirect_to_nooks_with_errors(format)
+
+      elsif time_diff < @nook.unreservable_before_days.days.to_i
+        if @reservation.save
           flash[:notice] = t('reservations.submitted')
-          if request.xhr?
-            render text: nooks_url
-          else
-            redirect_to nooks_path
-          end
-        }
-        format.json { render :show, status: :created, location: @reservation }
+          format.html {
+            if request.xhr?
+              render text: nooks_url
+            else
+              redirect_to nooks_path
+            end
+          }
+          format.json { render :show, status: :created, location: @reservation }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
+
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        flash[:alert] = t('reservations.unreservable_before', x: @nook.unreservable_before_days)
+        redirect_to_nooks_with_errors(format)
       end
     end
   end
@@ -123,7 +152,18 @@ class ReservationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reservation_params
-      params.require(:reservation).permit(:name, :start, :end, :description,
+      params.require(:reservation).permit(:name, :start_time, :end_time, :description,
                                           :url, :stream_url, :notes)
+    end
+
+    def redirect_to_nooks_with_errors(format)
+      format.html {
+        if request.xhr?
+          render text: nooks_url
+        else
+          redirect_to nooks_path
+        end
+      }
+      format.json { render json: @reservation.errors, status: :unprocessable_entity }
     end
 end

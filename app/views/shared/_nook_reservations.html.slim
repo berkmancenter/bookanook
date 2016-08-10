@@ -1,4 +1,4 @@
-- upcoming = nook.reservations.where('start > ?', DateTime.now).limit(10).order('start asc')
+- upcoming = nook.reservations.where('start_time > ?', DateTime.now).limit(10).order('start_time asc')
 - if upcoming.empty?
   div.upcoming-reservation.clearfix
     = t('reservations.no_reservations')

@@ -31,6 +31,8 @@ class NookDashboard < Administrate::BaseDashboard
     requires_approval: Field::Boolean,
     repeatable: Field::Boolean,
     modifiable_before: Field::Number,
+    reservable_before_hours: Field::Number,
+    unreservable_before_days: Field::Number,
     user_id: Field::Number,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -69,6 +71,8 @@ class NookDashboard < Administrate::BaseDashboard
     :amenities,
     :bookable,
     :requires_approval,
+    :reservable_before_hours,
+    :unreservable_before_days,
   ]
 
   # FORM_ATTRIBUTES
@@ -85,14 +89,14 @@ class NookDashboard < Administrate::BaseDashboard
     :amenities,
     :min_capacity,
     :max_capacity,
-    :min_schedulable,
-    :max_schedulable,
     :min_reservation_length,
     :max_reservation_length,
+    :reservable_before_hours,
+    :unreservable_before_days,
     :bookable,
     :modifiable_before,
     :requires_approval,
-    :open_schedule
+    :open_schedule,
   ]
 
   # Overwrite this method to customize how nooks are displayed

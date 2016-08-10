@@ -30,8 +30,8 @@ if ( $('.admin-calendar').length ) {
     $(reservations).each( function( index, reservation ) {
       var event = {
         title: reservation['name'],
-        start: reservation['start'].split('.')[0],
-        end: reservation['end'].split('.')[0],
+        start: reservation['start_time'].split('.')[0],
+        end: reservation['end_time'].split('.')[0],
         className: statusToColorClass(reservation['status']),
         url: edit_reservation_path(reservation['id']),
         allDay: false,

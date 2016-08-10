@@ -8,7 +8,7 @@ module Admin
       resources = resources.page(params[:page]).per(records_per_page)
       resources = current_user.reservations_in_charge(resources)
 
-      todays_reservations = resources.where( 'start BETWEEN ? AND ?',
+      todays_reservations = resources.where( 'start_time BETWEEN ? AND ?',
                                               DateTime.now.beginning_of_day,
                                               DateTime.now.end_of_day ).confirmed
 
