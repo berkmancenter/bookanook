@@ -6,10 +6,10 @@
           'data-options': Nook.strip_nook_data( current_user.nooks_in_charge ) %>
       </div>
       <div class="col-md-2 filter-col">
-        <%= text_field_tag :start_date, nil,  placeholder: 'Start date', class: 'datepicker' %>
+        <%= text_field_tag :start_date, nil,  placeholder: 'Start date', class: 'datepicker start-date' %>
       </div>
       <div class="col-md-2 filter-col">
-        <%= text_field_tag :end_date, nil,  placeholder: 'End date (inclusive)', class: 'datepicker' %>
+        <%= text_field_tag :end_date, nil,  placeholder: 'End date (inclusive)', class: 'datepicker end-date' %>
       </div>
       <div class="col-md-1 filter-col">
         <%= submit_tag 'Go', class: 'button' %>

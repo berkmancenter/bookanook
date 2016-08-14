@@ -3,7 +3,7 @@ module Admin
     require 'csv'
     before_filter :filter, except: :index
 
-    def index      
+    def index
     end
 
     def fetch
@@ -59,7 +59,7 @@ module Admin
       end
 
       if params[:start_date].empty?
-        @reservations = @reservations.confirmed.where('"reservations"."end" < ?', end_time)
+        @reservations = @reservations.confirmed.where('"reservations"."end_time" < ?', end_time)
       else
         start_time = DateTime.strptime(params[:start_date], '%Y-%m-%d')
         @reservations = Reservation.happening_within(start_time..end_time, @reservations) if start_time < end_time

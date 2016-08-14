@@ -70,8 +70,9 @@ $( function() {
           preprocessedData = commonPreprocess('nook', data['reservations_by_nook']);
           initializeColumnChart( $('#nooks-column-chart'), preprocessedData );
           initializeHoursColumnChart( $('#nooks-hours-column-chart'), preprocessedData );
-          initializeAllDaysHeatMap( $('#nooks-all-days-heatmap'), data['reservations_by_date'] );
-          initializeDaysTimeHeatMap( $('#nooks-days-time-heatmap'), data['reservations_by_date'] );
+          data_by_date = data['reservations_by_date'];
+          initializeAllDaysHeatMap( $('#nooks-all-days-heatmap'), data_by_date );
+          initializeDaysTimeHeatMap( $('#nooks-days-time-heatmap'), data_by_date );
           data_by_day = data['reservations_by_day'];
           $('#days-select')[0].selectedIndex = 0;
           $('#days-select').trigger('change');
@@ -96,8 +97,9 @@ $( function() {
           preprocessedData = commonPreprocess('location', data['reservations_by_location']);
           initializeColumnChart( $('#locations-column-chart'), preprocessedData );
           initializeHoursColumnChart( $('#locations-hours-column-chart'), preprocessedData );
-          initializeAllDaysHeatMap( $('#locations-all-days-heatmap'), data['reservations_by_date'] );
-          initializeDaysTimeHeatMap( $('#locations-days-time-heatmap'), data['reservations_by_date'] );
+          data_by_date = data['reservations_by_date'];
+          initializeAllDaysHeatMap( $('#locations-all-days-heatmap'), data_by_date );
+          initializeDaysTimeHeatMap( $('#locations-days-time-heatmap'), data_by_date );
           data_by_day = data['reservations_by_day'];
           $('#days-select')[0].selectedIndex = 0;
           $('#days-select').trigger('change');
@@ -144,12 +146,23 @@ function dateToString(date) {
 }
 
 function getStartDate() {
-  var date = new Date($('#start_date').val());
+  var selectedVal = $('#start_date').val();
+  var date = new Date(selectedVal);
+  if (selectedVal == '') {
+    selectedVal = Object.keys(data_by_date).reduce(function (a, b) { return a < b ? a : b; });
+    date = new Date(selectedVal);
+    $('.start-date').val(date.toISOString().slice(0,10));
+  }
   return date;
 }
 
 function getEndDate() {
-  var date = new Date($('#end_date').val());
+  var selectedVal = $('#end_date').val();
+  var date = new Date(selectedVal);
+  if (selectedVal == '') {
+    date = new Date();
+    $('.end-date').val(date.toISOString().slice(0,10));
+  }
   return date;
 }
 
