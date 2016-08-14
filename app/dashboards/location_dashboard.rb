@@ -17,8 +17,8 @@ class LocationDashboard < Administrate::BaseDashboard
     attrs: Field::Text,
     hidden_attrs: Field::Text,
     open_schedule: OpenAtField,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    created_at: TimestampField,
+    updated_at: TimestampField,
     admins: SelectizeField,
     geolocation: GeolocationField
   }

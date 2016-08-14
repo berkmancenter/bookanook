@@ -16,8 +16,8 @@ class OpenScheduleDashboard < Administrate::BaseDashboard
     blocks: Field::Boolean,
     duration: Field::Number,
     start: Field::DateTime,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    created_at: TimestampField,
+    updated_at: TimestampField,
   }
 
   # COLLECTION_ATTRIBUTES
