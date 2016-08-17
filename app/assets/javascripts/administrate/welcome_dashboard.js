@@ -1,3 +1,10 @@
+/**
+ *
+ * Functions related to welcome dashboard
+ *
+ */
+
+// Function to hide all types of reservations table
 function hideWelcomeContent() {
   $('.welcome-content').each( function() {
     $(this).hide();
@@ -8,6 +15,8 @@ function hideWelcomeContent() {
   });
 }
 
+// Hide all types of reservations and
+// show today's reservations table
 if ( $('.welcome-tiles').length ) {
   hideWelcomeContent();
   $('.welcome-content.todays-reservations').show();
@@ -19,12 +28,15 @@ if ( $('.welcome-tiles').length ) {
   $('a[href="/admin/welcome"]').addClass('sidebar__link--active');
 }
 
+// When welcome tiles are clicked,
+// hide all tables and mark all tiles inactive
+// mark the clicked one active and show related table
 $('.tile-link').each( function() {
   $(this).click( function() {
     hideWelcomeContent();
     $(this).parent().addClass('active');
     $(this).parent().removeClass('inactive');
-    $($(this).attr('class').split(' ')).each(function() { 
+    $($(this).attr('class').split(' ')).each(function() {
       if (this.toString().match('reservations$')) {
         $('.welcome-content.' + this).show();
       }

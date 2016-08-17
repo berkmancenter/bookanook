@@ -1,5 +1,15 @@
+/**
+ *
+ * type: heatmap
+ * x: all dates in selected range
+ * y: all 24 hours in a day
+ * z: no. of reservations happenning at that hour
+ *
+ */
 function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayName) {
 
+  // extract the dates falling on particular day and
+  // fill up with 0 reservation on all hours
   function initialChartData() {
     var datetimeHash = {};
     var startDate = getStartDate();
@@ -18,6 +28,7 @@ function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayN
     return datetimeHash;
   }
 
+  // convert data to csv for better rendering
   function dataToCSV(data) {
     var datetimeHash = initialChartData();
 
@@ -49,6 +60,7 @@ function initializeOneDayTimeHeatMap($container, data, selectedDay, selectedDayN
     return csv;
   }
 
+  // render the chart
   var start;
   $container.highcharts({
 

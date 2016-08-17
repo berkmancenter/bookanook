@@ -26,6 +26,7 @@ gem 'less-rails-bootstrap'
 gem 'bootstrap-sass', '~> 3.3.6'
 
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave.git'
+gem 'fog-aws'
 gem 'simple_form'
 gem 'selectize-rails'
 

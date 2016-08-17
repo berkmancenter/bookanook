@@ -16,6 +16,8 @@ class Notification < ActiveRecord::Base
     )
   end
 
+  # message_id is stored in database and
+  # used in getting message string from locales
   def self.get_message_id(status)
     case status
     when Reservation::Status::CONFIRMED
@@ -25,7 +27,7 @@ class Notification < ActiveRecord::Base
     when Reservation::Status::CANCELED
       return 3
     when Reservation::Status::PENDING
-      return 5
+      return 4
     end
   end
 end

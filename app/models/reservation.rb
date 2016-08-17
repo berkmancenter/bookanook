@@ -114,6 +114,7 @@ class Reservation < ActiveRecord::Base
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
+  # Used in downloadable statistics report
   def self.to_csv(reservations, options = {})
     CSV.generate(options) do |csv|
       csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'Start', 'End', 'Created at' ]
@@ -125,6 +126,7 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  # Remind users whose reservations are scheduled on 'date'
   def self.send_reminders(date)
     reservations = Reservation.happening_within(date.beginning_of_day..date.end_of_day)
     for reservation in reservations
@@ -161,6 +163,7 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  # replaced by reservable_before_hours
   def minimum_start
     if nook && nook.min_schedulable &&
       self.start < Time.now + nook.min_schedulable.seconds
@@ -169,6 +172,7 @@ class Reservation < ActiveRecord::Base
     end
   end
 
+  # replaced by unreservable_before_days
   def maximum_start
     if nook && nook.max_schedulable &&
       self.start > Time.now + nook.max_schedulable.seconds
@@ -191,6 +195,7 @@ class Reservation < ActiveRecord::Base
     Time.at((time.to_f / seconds).ceil * seconds)
   end
 
+  # ceil to nearest half-hour
   def ciel_end_time
     self.end = ceil_time(self.end, 30.minutes) - 1.seconds
   end

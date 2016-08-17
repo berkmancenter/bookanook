@@ -1,3 +1,11 @@
+/**
+ *
+ * Related to Google Maps used for capturing
+ * geo-location when creating/updating Locations (Libraries)
+ *
+ */
+
+// render the map in form
 if ( $('#location_form_map').length ) {
   handler = Gmaps.build('Google');
   handler.buildMap({
@@ -30,6 +38,7 @@ if ( $('#location_form_map').length ) {
   }
 }
 
+// render the map in location show page
 if ( $('#location_show_map').length ) {
   handler = Gmaps.build('Google');
   handler.buildMap({
@@ -43,6 +52,7 @@ if ( $('#location_show_map').length ) {
   });
 }
 
+// used to place marker at Location's geo-location
 function placeMarker(handler, lat, lng, draggable) {
   markers = handler.addMarkers([
     {
@@ -53,7 +63,7 @@ function placeMarker(handler, lat, lng, draggable) {
     draggable: draggable
   });
 
-  google.maps.event.addListener(markers[0].getServiceObject(), 'dragend', function(object) { 
+  google.maps.event.addListener(markers[0].getServiceObject(), 'dragend', function(object) {
     setInputFields(object.latLng.lat(), object.latLng.lng());
   });
 
@@ -61,10 +71,11 @@ function placeMarker(handler, lat, lng, draggable) {
   handler.fitMapToBounds();
   handler.getMap().setZoom(17);
 
-  setInputFields(markers[0].getServiceObject().position.lat(), 
+  setInputFields(markers[0].getServiceObject().position.lat(),
                  markers[0].getServiceObject().position.lng());
 }
 
+// set field values when the marker is updated by dragging
 function setInputFields(lat, lng) {
   $('.latitude_field').val(lat);
   $('.longitude_field').val(lng);

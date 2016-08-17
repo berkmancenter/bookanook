@@ -1,6 +1,6 @@
 <%= f.label field.attribute %>
 
-<% if resource.new_record? %>
+<% if resource.new_record? and resource.start.to_s.blank? %>
   <%= text_field_tag :date_time, nil, class: 'datepicker', id: 'reservation_date' %>
 <% else %>
   <%= text_field_tag :date_time, resource.start.to_date, class: 'datepicker', id: 'reservation_date' %>
@@ -11,12 +11,12 @@
   <span class="end"></span>
 </span>
 
-<% if resource.new_record? %>
+<% if resource.new_record? and resource.start.to_s.blank? %>
   <div class="reservation-when-times">
     <%= render partial: 'shared/plain_time_select', locals: { show_hours: true } %>
   </div>
 <% else %>
-  <div class="reservation-when-times" data-start="<%= resource.time_range.begin %>" data-end="<%= resource.time_range.end %>">
+  <div class="reservation-when-times" data-start="<%= resource.time_range.begin or resource.start %>" data-end="<%= resource.time_range.end or resource.end %>">
     <%= render partial: 'shared/plain_time_select', locals: { show_hours: true } %>
   </div>
 <% end%>

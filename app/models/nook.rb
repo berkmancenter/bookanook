@@ -48,6 +48,7 @@ class Nook < ActiveRecord::Base
     available # I don't think this line is necessary, but not sure yet.
   end
 
+  # used in blocking reserved slots on reservation form or expanded-nook view
   def reserved_slots(date)
     Reservation.confirmed.where(nook_id: self.id)
                           .happening_within(date.beginning_of_day..date.end_of_day)
@@ -57,6 +58,7 @@ class Nook < ActiveRecord::Base
                           end
   end
 
+  # Used in initializing selectize options
   def self.strip_nook_data(nooks)
     nooks = nooks.map do |nook|
       [ nook.id, nook.name ].join(':')

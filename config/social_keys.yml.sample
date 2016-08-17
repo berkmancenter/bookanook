@@ -2,13 +2,22 @@ development:
   google_key: 'google_key'
   google_secret: 'google_secret'
   maps_api_key: 'google_maps_api_key'
+  aws_s3_key: 's3_key'
+  aws_s3_secret: 's3_secret'
+  aws_s3_bucket: 's3_bucket'
 
 test:
   google_key: 'google_key'
   google_secret: 'google_secret'
   maps_api_key: 'google_maps_api_key'
+  aws_s3_key: 's3_key'
+  aws_s3_secret: 's3_secret'
+  aws_s3_bucket: 's3_bucket'
 
 production:
   google_key: 'google_key'
   google_secret: 'google_secret'
   maps_api_key: 'google_maps_api_key'
+  aws_s3_key: 's3_key'
+  aws_s3_secret: 's3_secret'
+  aws_s3_bucket: 's3_bucket'

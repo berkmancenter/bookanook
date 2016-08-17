@@ -3,7 +3,7 @@ module Admin
     require 'csv'
     before_filter :filter, except: :index
 
-    def index      
+    def index
     end
 
     def fetch
@@ -20,6 +20,8 @@ module Admin
       end
     end
 
+    # downloading filter results in CSV form
+    # TO DO: Move the static paths to config
     def download
       directory = "#{Rails.root}/public/reports"
       filename = "#{current_user.id}-reservations.csv"
@@ -34,6 +36,7 @@ module Admin
               type: "application/csv"
     end
 
+    # Nook dashboard is inherited from Reservations
     def resource_resolver
       @_resource_resolver ||=
         Administrate::ResourceResolver.new('admin/reservations')
@@ -59,7 +62,7 @@ module Admin
       end
 
       if params[:start_date].empty?
-        @reservations = @reservations.confirmed.where('"reservations"."end" < ?', end_time)
+        @reservations = @reservations.confirmed.where('"reservations"."end_time" < ?', end_time)
       else
         start_time = DateTime.strptime(params[:start_date], '%Y-%m-%d')
         @reservations = Reservation.happening_within(start_time..end_time, @reservations) if start_time < end_time

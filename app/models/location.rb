@@ -15,16 +15,19 @@ class Location < ActiveRecord::Base
   alias_attribute :lat, :latitude
   alias_attribute :lng, :longitude
 
+  # admins explicitly having access to this Location instance
+  # excluding superadmin
   def admins
     User.with_role(:admin, self)
   end
 
+  # setter for geo-location
   def set_geolocation(lat, lng)
     self.lat = lat.to_f
     self.lng = lng.to_f
   end
 
-
+  # Used in initializing selectize options
   def self.strip_location_data(locations)
     locations = locations.map do |location|
       [ location.id, location.name ].join(':')

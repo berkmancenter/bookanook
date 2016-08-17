@@ -29,9 +29,10 @@ class Admin::ApplicationController < Administrate::ApplicationController
 
   rescue_from CanCan::AccessDenied do |exception|
     flash[:alert] = t('admins.unauthorized')
-    redirect_to :back
+    redirect_to :admin_root
   end
 
+  # Setting state of the side-bar link
   helper_method :nav_link_state
   def nav_link_state(resource)
     if resource_name.to_s.pluralize == resource.to_s or

@@ -1,11 +1,20 @@
+/**
+ *
+ * Related to Calendar view in Admin Panel
+ *
+ */
+
 if ( $('.admin-calendar').length ) {
 
+  // AJAX call to get all reservations associated
+  // directly or indirect to the admin
   $.ajax({
     url: "/admin/reservations.json",
   }).done(function(data) {
     initializeCalendar(data);
   });
 
+  // determining CSS class from reservation status
   function statusToColorClass(status) {
     switch (status) {
       case 'Confirmed':
@@ -19,14 +28,17 @@ if ( $('.admin-calendar').length ) {
     }
   }
 
+  // util function to get reservation edit path
   // Not camel cased to keep it similar with routes helper
   function edit_reservation_path(reservation_id) {
     return "/admin/reservations/" + reservation_id + '/edit';
   }
 
+  // initialize the calendar
   function initializeCalendar(reservations) {
     var events = []
 
+    // create events array from reservations
     $(reservations).each( function( index, reservation ) {
       var event = {
         title: reservation['name'],
@@ -39,6 +51,7 @@ if ( $('.admin-calendar').length ) {
       events.push(event);
     });
 
+    // render the calendar
     $('.admin-calendar').fullCalendar({
       header: {
         left: 'prev,next today',

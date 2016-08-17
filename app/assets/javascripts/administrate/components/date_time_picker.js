@@ -27,6 +27,7 @@ $(function () {
     });
   }
 
+  // for setting start/time in Reservation create/edit form
   function updateInputs(selector) {
     if ($('#reservation_date').val()) {
       var startDate = new Date($('#reservation_date').val());

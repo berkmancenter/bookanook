@@ -1,5 +1,15 @@
+/**
+ *
+ * type: heatmap
+ * x: all 7 days in week
+ * y: all 24 hours in a day
+ * z: no. of reservations happenning at that hour
+ *
+ */
+
 function initializeDaysTimeHeatMap($container, data) {
 
+  // initialize the cart data with 0 reservations
   function initialChartData() {
     var datetimeArray = [];
     for (var day = 0; day <= 6; day += 1) {
@@ -12,6 +22,7 @@ function initializeDaysTimeHeatMap($container, data) {
     return datetimeArray;
   }
 
+  // count no. of reservations happening at each day and hour
   function preprocessData(data) {
     var datetimeArray = initialChartData();
     var dates = Object.keys(data);
@@ -41,6 +52,7 @@ function initializeDaysTimeHeatMap($container, data) {
     return processedData;
   }
 
+  // render the chart
   $container.highcharts({
 
     chart: {

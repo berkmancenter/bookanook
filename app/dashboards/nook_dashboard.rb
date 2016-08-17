@@ -34,8 +34,8 @@ class NookDashboard < Administrate::BaseDashboard
     reservable_before_hours: Field::Number,
     unreservable_before_days: Field::Number,
     user_id: Field::Number,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    created_at: TimestampField,
+    updated_at: TimestampField,
   }
 
   # COLLECTION_ATTRIBUTES

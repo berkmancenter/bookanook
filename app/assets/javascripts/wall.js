@@ -125,6 +125,8 @@ $(function() {
     setDefaultValue();
   };
 
+  // initialize 7 time selectors
+  // each for a day in the week for all nooks
   initializeTimeSelectors = function() {
     for (var i = 0; i < 7; i++) {
       var timeSelector = new TimeSelect('#day--' + i + '--times', {
@@ -134,6 +136,7 @@ $(function() {
     };
   };
 
+  // set the default day and time as selected in filter
   setDefaultValue = function() {
     var timeSliderValues = $('#hour-range-slider').slider('getValue');
     var hour = Math.floor(timeSliderValues[0]);

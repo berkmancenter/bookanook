@@ -12,8 +12,8 @@ class UserDashboard < Administrate::BaseDashboard
     id: Field::Number,
     email: Field::String,
     sign_in_count: Field::Number,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    created_at: TimestampField,
+    updated_at: TimestampField,
   }
 
   # COLLECTION_ATTRIBUTES
