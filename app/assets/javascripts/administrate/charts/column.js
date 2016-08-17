@@ -1,5 +1,16 @@
+/**
+ *
+ * type: column chart
+ * x: 12 months of the year
+ * y: no. of reservations happenning at that nook/location
+ * columns: nooks/locations
+ *
+ */
 function initializeColumnChart($container, data) {
 
+  // data is key-value pair where key is nook
+  // and value is array of reservations
+  // preprocess it to count reservations happening in particular month
   function preprocess(data) {
     for (var i = 0; i < data.length; i++) {
       var reservations = data[i]['reservations'];
@@ -17,6 +28,7 @@ function initializeColumnChart($container, data) {
     return data;
   };
 
+  // render the chart
   showChart($container);
   $container.highcharts({
     chart: {

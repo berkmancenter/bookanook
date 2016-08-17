@@ -43,7 +43,7 @@ module Admin
           Notification.create(
             user: resource.requester,
             actor: current_user,
-            message_id: 4,
+            message_id: 5,
             reservation: resource
           )
           UserMailer.reservation_by_admin(resource.requester, current_user, resource).deliver

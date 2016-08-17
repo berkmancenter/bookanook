@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # Define abilities for the passed in user here.
+    # Abilities for the passed-in user
     return if user.nil?
 
     if user.superadmin?

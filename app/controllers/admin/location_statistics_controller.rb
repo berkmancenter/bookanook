@@ -20,6 +20,8 @@ module Admin
       end
     end
 
+    # downloading filter results in CSV form
+    # TO DO: Move the static paths to config
     def download
       directory = "#{Rails.root}/public/reports"
       filename = "#{current_user.id}-reservations.csv"
@@ -34,6 +36,7 @@ module Admin
               type: "application/csv"
     end
 
+    # Location dashboard is inherited from Reservations
     def resource_resolver
       @_resource_resolver ||=
         Administrate::ResourceResolver.new('admin/reservations')

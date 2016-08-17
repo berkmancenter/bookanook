@@ -1,3 +1,13 @@
+/**
+ *
+ * Commons functions used for both statistics dashboard
+ * and trigger rendering all types of charts
+ *
+ */
+
+// Commmon preprocessing of data for column charts
+// original intention was to use it for all charts
+// but some heatmaps use CSV format
 function commonPreprocess(model, data) {
   var processedData = [];
   var entityIds = Object.keys(data);
@@ -22,6 +32,9 @@ function commonPreprocess(model, data) {
   return processedData;
 };
 
+// Locations/nooks with no reservations are not included in the filter result
+// because back-end APIs uses group_by clauses
+// underlying functions add these entities with empty array values
 function addEntitiesWithNoReservation(model, data, processedData) {
   var selectedEntities = $('.selectize-' + model).val();
   if(selectedEntities == '') {
@@ -40,6 +53,10 @@ function addEntitiesWithNoReservation(model, data, processedData) {
   }
 };
 
+// Name hash maps id of nook/location to its name
+// e.g. 1: Grand Library
+// filter results are grouped by ids.
+// Names are used in the charts.
 function buildEntitiesNameHash(model) {
   entitiyNames = {}
   if ($('.selectize-' + model).data('options')) {
@@ -50,11 +67,15 @@ function buildEntitiesNameHash(model) {
   };
 };
 
+// Charts containers are originally hidden as they have borders
+// show them when charts are initialized
 function showChart($element) {
   $element.show();
 }
 
 $( function() {
+
+  // Render charts on Nook-stats dashboard
   if ($('.nook-statistics').length) {
     buildEntitiesNameHash('nook');
     setSidebarLinkActive();
@@ -82,6 +103,7 @@ $( function() {
     });
   };
 
+  // Render charts on Location-stats dashboard
   if ($('.location-statistics').length) {
     buildEntitiesNameHash('location');
     setSidebarLinkActive();
@@ -110,6 +132,7 @@ $( function() {
 
   };
 
+  // On-click event function for downlaoding spreadsheet
   $('.download_spreadsheet').click( function(e) {
     $('#nooks_clone').val( $('#nooks').val() );
     $('#locations_clone').val( $('#locations').val() );
@@ -119,6 +142,9 @@ $( function() {
     e.preventDefault();
   });
 
+  // Nooks and Locations stats dashboards inherits from Reservations dashboard
+  // on opening them reservations links get active.
+  // This is used to set dasboards links to active
   function setSidebarLinkActive() {
     var sidebar_reservation_link = $('a[href="/admin/reservations"]');
     $(sidebar_reservation_link).removeClass('sidebar__link--active');
@@ -128,6 +154,8 @@ $( function() {
   }
 });
 
+// Reinitialize one_day_time_heatmap when another day is selected
+// this can be moved to charts/one_day_time_heatmap.js
 $('#days-select').change( function() {
   var selectedIndex = $(this)[0].selectedIndex;
   var selectedOption = $(this).find(":selected").text();
@@ -145,6 +173,8 @@ function dateToString(date) {
   return date.getFullYear() + '-' + (date.getMonth()  + 1) + '-' + date.getDate();
 }
 
+// Get the date selected in the filter
+// if empty, get the smallest date in results
 function getStartDate() {
   var selectedVal = $('#start_date').val();
   var date = new Date(selectedVal);
@@ -156,6 +186,8 @@ function getStartDate() {
   return date;
 }
 
+// Get the date selected in the filter
+// if empty, get the largest date in results
 function getEndDate() {
   var selectedVal = $('#end_date').val();
   var date = new Date(selectedVal);
@@ -166,11 +198,13 @@ function getEndDate() {
   return date;
 }
 
+// Used in heatmap charts to determine where to start y axis
 function minDate() {
   var date = getStartDate();
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
+// Used in heatmap charts to determine where to stop y aixs
 function maxDate() {
   var date = getEndDate();
   return Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
