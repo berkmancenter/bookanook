@@ -19,6 +19,11 @@ RSpec.describe Location, type: :model do
     it 'has nooks and reservations' do
       expect(location).to respond_to :nooks, :reservations
     end
+
+    it 'must have a name' do
+      location.save
+      expect(location.errors.full_messages).to include("Name can't be blank")
+    end
   end
 
   describe '#set_defaults' do
