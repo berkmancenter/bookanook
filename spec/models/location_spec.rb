@@ -32,6 +32,7 @@ RSpec.describe Location, type: :model do
   describe '#amenities' do
     it 'can be an array' do
       location = Location.new
+      location.name = 'Conference Room'
       location.amenity_list = [ 'Projector', 'Conference Phone' ]
       location.save
       expect( location.amenities.count ).to eq( 2 )
