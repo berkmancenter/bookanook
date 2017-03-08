@@ -20,6 +20,27 @@ Check full features and entities involved on the [wiki home page](https://github
 7. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add key and secret for Google authentication.
 8. Create database: `rake db:create`
 9. Run migrations: `rake db:migrate`
-10. Seed database with initial data: `rake db:seed`
+10. Seed database with initial data: `rake db:seed`. Check the section below for the initial test data
 11. Start the server: `rails s`
 12. Visit the application at localhost:3000
+ 
+## Initial Data
+The command `rake db:seed` creates 14 Nooks/Rooms and 3 Libraries and 5 users.
+The users are 
+```
+User 1 : superadmin@bookanook.com Password:12345678
+User 2 : admin1@bookanook.com     Password:12345678
+User 3 : admin2@bookanook.com     Password:12345678
+User 4 : admin3@bookanook.com     Password:12345678
+User 5 : patron@bookanook.com     Password:12345678
+```
+The Libraries are
+```
+Library 1
+Library 2
+Library 3
+```
+The Rooms are 
+```
+Nice Offfice 1, Nice Office 2, Nice Office 3 ..................Nice Office 14
+```
