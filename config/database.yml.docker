@@ -1,0 +1,28 @@
+# SQLite version 3.x
+#   gem install sqlite3
+#
+#   Ensure the SQLite 3 gem is defined in your Gemfile
+#   gem 'sqlite3'
+#
+default: &default
+  adapter: postgresql
+  host: db # Alias inside containers; Can be changed in docker-compose.yml
+  user: postgres
+  password: 
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: bookanook_dev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: bookanook_test
+
+production:
+  <<: *default
+  database: bookanook_prod

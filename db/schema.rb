@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20160810141347) do
     t.text     "description"
     t.string   "type"
     t.text     "place"
-    t.string   "photos",                 default: [],              array: true
+    t.string   "photos",                   default: [],              array: true
     t.integer  "open_schedule_id"
     t.integer  "min_capacity"
     t.integer  "max_capacity"
@@ -50,11 +50,11 @@ ActiveRecord::Schema.define(version: 20160810141347) do
     t.boolean  "bookable"
     t.boolean  "requires_approval"
     t.boolean  "repeatable"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.integer  "modifiable_before",               default: 48
-    t.integer  "reservable_before_hours",         default: 2
-    t.integer  "unreservable_before_days",        default: 60
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+    t.integer  "modifiable_before",        default: 48
+    t.integer  "reservable_before_hours",  default: 2
+    t.integer  "unreservable_before_days", default: 60
   end
 
   add_index "nooks", ["location_id"], name: "index_nooks_on_location_id", using: :btree
@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20160810141347) do
     t.integer  "user_id",                        null: false
     t.integer  "message_id",                     null: false
     t.integer  "reservation_id"
-    t.boolean  "seen",                           default: false
+    t.boolean  "seen",           default: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end

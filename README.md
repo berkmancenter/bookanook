@@ -23,3 +23,17 @@ Check full features and entities involved on the [wiki home page](https://github
 10. Seed database with initial data: `rake db:seed`
 11. Start the server: `rails s`
 12. Visit the application at localhost:3000
+
+## Dockerized Setup
+
+1. Install `Docker` and `docker-compose`
+2. Clone the repository
+3. Go to the application's root directory in terminal
+4. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add key and secret for Google authentication
+5. Add `host: db` and `username: postgres` to `database.yml` (Have a look at `database.yml.docker`)
+6. Run `docker-compose build`
+7. Run `docker-compose up`
+8. Create database:  `docker-compose run bookanook rake db:create`
+9. Run migrations: `docker-compose run bookanook rake db:migrate`
+10. Seed database with initial data: `docker-compose run bookanook rake db:seed`
+11. Visit the application at localhost:3000
