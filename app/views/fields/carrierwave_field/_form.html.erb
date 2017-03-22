@@ -1,2 +1,10 @@
 <%= f.label field.attribute %>
-<%= f.file_field field.attribute, multiple: true %>
+<%- f.object.photos.each_with_index do |photo, index| #grab the index %>
+<div>
+    <%= image_tag(photo.url) %>
+    <%= link_to "Delete",  admin_remove_photo_path(f.object,index), :method => :delete, data: { confirm: "Are you sure you want to delete this image?" } %>
+</div>
+<% end %>
+<div class="field">
+  <%= f.file_field field.attribute, multiple: true %>
+</div>
