@@ -67,6 +67,14 @@ class User < ActiveRecord::Base
     'active'
   end
 
+  def add_superadmin
+    add_role :superadmin
+  end
+
+  def remove_superadmin
+    remove_role :superadmin
+  end
+
   def self.strip_user_data(users)
     users = users.map do |user|
       [ user.id, user.full_name ].join(':')
