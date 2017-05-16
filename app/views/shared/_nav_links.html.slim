@@ -33,6 +33,10 @@ ul.nav.nav-pills.navbar-right
         span.caret
     ul.dropdown-menu aria-labelledby="user-pill"
       - if user_signed_in?
+        - unless current_user.roles.blank?
+          - if current_user.roles.first.name == "superadmin" || current_user.roles.first.name == "admin"
+            li = link_to('Admin Panel', admin_root_path)
+            li.divider role="separator"
         li = link_to('My Reservations', mine_reservations_path)
         li.divider role="separator"
         li = link_to('My Notifications', user_notifications_path)
