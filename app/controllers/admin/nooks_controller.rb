@@ -106,12 +106,8 @@ module Admin
     end
 
     def remove_photo
-      remain_photos = requested_resource.photos # copy the array
-      deleted_photo = remain_photos.delete_at(params[:photo_id].to_i) # delete the target photo
-      deleted_photo.try(:remove!) # delete photo from S3
-      requested_resource.photos = remain_photos # re-assign back
-      requested_resource.remove_photos! if remain_photos.empty?
-      flash[:error] = "Failed deleting photo" unless requested_resource.save
+      res = requested_resource.remove_photos(params[:photo_id]) # delete the target photo
+      flash[:error] = "Failed deleting photo" if res == false
       redirect_to :back
     end
   end
