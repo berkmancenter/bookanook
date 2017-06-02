@@ -1,6 +1,7 @@
 module Admin
   class LocationStatisticsController < Admin::ApplicationController
     require 'csv'
+    include Download
     before_filter :filter, except: :index
 
     def index
@@ -22,20 +23,7 @@ module Admin
 
     # downloading filter results in CSV form
     # TO DO: Move the static paths to config
-    def download
-      directory = "#{Rails.root}/public/reports"
-      filename = "#{current_user.id}-reservations.csv"
-      file = File.join(directory, filename)
-
-      File.open(file, 'w') do |f|
-        f.write Reservation.to_csv(@reservations)
-      end
-
-      send_file file,
-              filename: "Reservations.csv",
-              type: "application/csv"
-    end
-
+    
     # Location dashboard is inherited from Reservations
     def resource_resolver
       @_resource_resolver ||=

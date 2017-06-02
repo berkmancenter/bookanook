@@ -15,6 +15,7 @@ class Location < ActiveRecord::Base
   alias_attribute :lat, :latitude
   alias_attribute :lng, :longitude
 
+  validates_presence_of :name
   # admins explicitly having access to this Location instance
   # excluding superadmin
   def admins

@@ -19,6 +19,11 @@ RSpec.describe Location, type: :model do
     it 'has nooks and reservations' do
       expect(location).to respond_to :nooks, :reservations
     end
+
+    it 'must have a name' do
+      location.save
+      expect(location.errors.full_messages).to include("Name can't be blank")
+    end
   end
 
   describe '#set_defaults' do
@@ -32,6 +37,7 @@ RSpec.describe Location, type: :model do
   describe '#amenities' do
     it 'can be an array' do
       location = Location.new
+      location.name = 'Conference Room'
       location.amenity_list = [ 'Projector', 'Conference Phone' ]
       location.save
       expect( location.amenities.count ).to eq( 2 )
