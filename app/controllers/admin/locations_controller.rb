@@ -67,6 +67,10 @@ module Admin
           notice: translate_with_resource("create.success"),
         )
       else
+        flash[:alert] = resource.errors.full_messages.join(', ')
+        resource = resource_class.new
+        resource.open_schedule = OpenSchedule.new
+        resource.open_schedule.add_9_to_5
         render :new, locals: {
           page: Administrate::Page::Form.new(dashboard, resource),
         }
