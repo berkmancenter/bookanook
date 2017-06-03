@@ -6,11 +6,13 @@ html
     = stylesheet_link_tag  'application', media: 'all'
     = javascript_include_tag '//maps.google.com/maps/api/js?v=3.23&key=' + ENV["MAPS_API_KEY"]
     = javascript_include_tag '//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js'
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.6/jstz.min.js'
+    = javascript_include_tag '//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.4/js.cookie.min.js'
     = javascript_include_tag 'application'
     = csrf_meta_tags
   body class="#{content_for(:body_classes)}"
     div.container-fluid
-
+      = Time.zone
       - if content_for?(:left_menu)
         div.left-menu.col-sm-4.col-md-3.col-lg-2 class="#{content_for(:left_menu_classes)}"
           = content_for(:left_menu) || '<div></div>'.html_safe
