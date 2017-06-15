@@ -34,6 +34,8 @@
 
 //= require filters
 //= require fullcalendar.min
+//= require js.cookie.min
+//= require jstz.min
 //= require main
 //= require modals
 //= require reservation

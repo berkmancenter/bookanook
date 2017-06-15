@@ -12,11 +12,11 @@ class ApplicationController < ActionController::Base
 
     def set_time_zone
       begin
-        old_time_zone = Time.zone
+        @old_time_zone = Time.zone
         Time.zone = browser_timezone if browser_timezone.present?
         yield
-        Time.zone = old_time_zone
       ensure
+        Time.zone = @old_time_zone
       end
     end
 

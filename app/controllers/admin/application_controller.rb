@@ -30,14 +30,11 @@ class Admin::ApplicationController < Administrate::ApplicationController
 
   def set_time_zone
     begin
-      logger.info 'I am the before action'
       old_time_zone = Time.zone
       Time.zone = browser_timezone if browser_timezone.present?
-      puts "hello" + cookies["browser.timezone"]
       yield
-      Time.zone = old_time_zone
-      logger.info 'I am the after action'
     ensure
+      Time.zone = old_time_zone
     end
   end
 
