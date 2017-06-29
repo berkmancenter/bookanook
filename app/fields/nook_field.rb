@@ -1,4 +1,4 @@
-require "administrate/fields/belongs_to"
+require "administrate/field/belongs_to"
 
 class NookField < Administrate::Field::BelongsTo
   def to_s
