@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     get 'reservation/:id/reject', to: 'reservations#reject', as: :reservation_reject
 
     get 'nook/check_availability/:reservation_id', to: 'nooks#check_availability', as: :check_availability
+    delete 'nooks/:id/photos/:photo_id', to: 'nooks#remove_photo', as: :remove_photo
 
     root controller: :welcome, action: :index
   end

@@ -58,6 +58,18 @@ class Nook < ActiveRecord::Base
                           end
   end
 
+  def remove_photo(photo_id)
+    remain_photos = self.photos # copy the array
+    deleted_photo = remain_photos.delete_at(photo_id.to_i) # delete the target photo
+    deleted_photo.try(:remove!) # delete photo from S3
+    self.photos = remain_photos # re-assign back
+    self.remove_photos! if remain_photos.empty?
+    if self.save
+      return true
+    else
+      return false
+    end
+  end
   # Used in initializing selectize options
   def self.strip_nook_data(nooks)
     nooks = nooks.map do |nook|
