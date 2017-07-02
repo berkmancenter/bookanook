@@ -12,11 +12,11 @@ div.reservation-form
       - @search_date = @reservation.start.to_date
       div.reservation-when-times data-start=@reservation.time_range.begin data-end=@reservation.time_range.end data-reserved-slots=@reservation.nook.reserved_slots(@search_date)
         = render 'shared/time_select', show_hours: true,
-                  schedule: @reservation.nook.open_schedule.spans_chunk(2)[@reservation.start.wday]
+                  schedule: OpenSchedule.advance(@reservation.nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@reservation.start.wday]
     - else
       div.reservation-when-times data-reserved-slots=@reservation.nook.reserved_slots(@search_date)
         = render 'shared/time_select', show_hours: true,
-                  schedule: @reservation.nook.open_schedule.spans_chunk(2)[@search_date.wday]
+                  schedule: OpenSchedule.advance(@reservation.nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@search_date.wday]
 
     javascript:
       var timeSelector = new TimeSelect('.reservation-when-times', {

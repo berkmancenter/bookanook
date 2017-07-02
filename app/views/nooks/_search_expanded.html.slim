@@ -42,7 +42,7 @@ input id="nook-reservation-end" type="text" hidden="true"
                 = "#{hour == 12 ? hour : hour - 12}pm" if hour.even?
 
       div.nook-weekly-schedule
-        - open_ranges = nook.open_schedule.spans_chunk(2)
+        - open_ranges = OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)
         - @date_range.each_with_index do |date, index|
             div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
               div.row.date data-date="#{date}"
