@@ -106,7 +106,7 @@ module Admin
     end
 
     def remove_photo
-      res = requested_resource.remove_photos(params[:photo_id]) # delete the target photo
+      res = requested_resource.remove_photo(params[:photo_id]) # delete the target photo
       flash[:error] = "Failed deleting photo" if res == false
       redirect_to :back
     end
