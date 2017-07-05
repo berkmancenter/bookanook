@@ -119,6 +119,18 @@ $(function() {
       });
       $form.on('ajax:error', function(e, xhr, status, error) {
         $form.replaceWith($(xhr.responseText).find('.reservation-form form'));
+        $('#new_reservation').on('ajax:before', function(e) {
+          var $form = $(this);
+
+          updateTimeRange($form, timeSelector);
+
+          $form.on('ajax:success', function(e, data, status, xhr) {
+            window.location.assign(data);
+          });
+          $form.on('ajax:error', function(e, xhr, status, error) {
+            $form.replaceWith($(xhr.responseText).find('.reservation-form form'));
+          });
+        });
       });
     });
 
