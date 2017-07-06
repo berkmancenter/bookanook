@@ -6,11 +6,10 @@ By default, it includes the application JS,
 but each page can define additional JS sources
 by providing a `content_for(:javascript)` block.
 %>
-
-<%= javascript_include_tag "//maps.google.com/maps/api/js?v=3.23&key=#{ENV['MAPS_API_KEY']}" %>
 <%= javascript_include_tag "//cdn.rawgit.com/mahnunchik/markerclustererplus/master/dist/markerclusterer.min.js" %>
 
 <%= javascript_include_tag "administrate/application" %>
+<%= javascript_include_tag "//maps.google.com/maps/api/js?v=3.23&key=#{ENV['MAPS_API_KEY']}&libraries=places&callback=initAutocomplete" %>
 
 <%= yield :javascript %>
 

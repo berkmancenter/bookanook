@@ -32,7 +32,7 @@ to display a collection of resources in an HTML table.
 
             <% if collection_presenter.ordered_by?(attr_name) %>
               <span class="cell-label__sort-indicator cell-label__sort-indicator--<%= collection_presenter.ordered_html_class(attr_name) %>">
-                <%= inline_svg("administrate/sort_arrow.svg") %>
+                <%= image_tag("administrate/sort_arrow.svg", width: 18, height: 18) %>
               </span>
             <% end %>
           <% end %>
@@ -68,13 +68,13 @@ to display a collection of resources in an HTML table.
 
         <td class="resource__actions">
           <%= link_to( [:edit, namespace, resource], class: "action-edit") do %>
-            <%= inline_svg "pencil.svg", height: 18, width: 18 %>
+            <%= image_tag "pencil.svg", height: 18, width: 18 %>
           <% end %>
         </td>
         <td class="resource__actions">
           <%= link_to( [namespace, resource], class: "table__action--destroy",
                       method: :delete, data: { confirm: t("administrate.actions.confirm") }) do %>
-            <%= inline_svg "bin.svg", height: 18, width: 18 %>
+            <%= image_tag "bin.svg", height: 18, width: 18 %>
           <% end %>
         </td>
       </tr>

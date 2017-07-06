@@ -119,6 +119,7 @@ $(function() {
       });
       $form.on('ajax:error', function(e, xhr, status, error) {
         $form.replaceWith($(xhr.responseText).find('.reservation-form form'));
+        bookModalLoaded();
       });
     });
 
