@@ -146,6 +146,14 @@ class OpenSchedule < ActiveRecord::Base
     blocks_to_s
   end
 
+  def advance(offset_hours)
+    return blocks.rotate(-offset_hours*(1.hour/seconds_per_block))
+  end
+
+  def self.advance(schedule, offset_hours)
+    a = OpenSchedule.new({ blocks: schedule.advance(offset_hours) })
+  end
+
   private
 
   def block_index_from_time(time, rounding: :floor)

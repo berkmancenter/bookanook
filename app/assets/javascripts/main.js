@@ -30,4 +30,15 @@ $(function() {
       window.location.href = '/users/sign_up';
     }
   });
+  window.BrowserTZone || (window.BrowserTZone = {});
+
+  BrowserTZone.setCookie = function() {
+    Cookies.set("browser.timezone", jstz.determine().name(), {
+      expires: 365,
+      path: '/'
+    });
+  };
+
+  BrowserTZone.setCookie();
+
 });

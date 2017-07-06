@@ -16,10 +16,10 @@
       div.filter-title 2. #{t('nooks.filters.when')}
       div.date-future
         div#days.datepicker-element
-      <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="6" data-slider-max="22" data-slider-step="1" data-slider-value="[10.0,14.0]"/>
+      <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="0" data-slider-max="23" data-slider-step="1" data-slider-value="[0.0,23.0]"/>
       div.clearfix
-        div.slider-min 10:00AM
-        div.slider-max 2:00PM
+        div.slider-min 0:00AM
+        div.slider-max 11:00PM
     div.amenities.filter
       div.filter-title 3. #{t('nooks.filters.what')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|

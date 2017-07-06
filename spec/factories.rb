@@ -24,6 +24,14 @@ FactoryGirl.define do
     factory :confirmed_user do
       after(:create) { |user| user.confirm }
     end
+
+    factory :admin do
+      after(:create) { |user|
+        user.confirm
+        user.add_role :admin
+        user.save
+      }
+    end
   end
 
   factory :reservation do
