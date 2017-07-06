@@ -15,16 +15,17 @@
 @import "selectize";
 @import "datetime_picker";
 
-@import "mixins/**/*";
-@import "base/base";
-
-@import "layout";
-
+@import "library/**/*";
+@import "base/**/*";
 @import "components/**/*";
 
 @import "fullcalendar";
 
 @import "nprogress";
+
+.main-content {
+  padding: 0 20px 20px 20px;
+}
 
 @import "administrate/welcome_dashboard";
 @import "administrate/statistics";

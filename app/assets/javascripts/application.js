@@ -32,10 +32,10 @@
 // the following as alternative to require_tree .
 // this would prevent admin-side js being included on patron-side
 
+//= require wall
 //= require filters
 //= require fullcalendar.min
 //= require main
 //= require modals
 //= require reservation
 //= require time_select
-//= require wall
