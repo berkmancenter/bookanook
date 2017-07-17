@@ -75,9 +75,13 @@ module Admin
       update_params = resource_params
       update_params.delete(:amenities)
       update_params.delete(:open_schedule)
+      update_params.delete(:photos)
       if requested_resource.update(update_params)
         requested_resource.amenity_list = params[:nook][:amenities]
         requested_resource.open_schedule.blocks = params[:nook][:open_schedule]
+        photos = requested_resource.photos
+        photos += params[:nook][:photos]
+        requested_resource.photos = photos
         requested_resource.open_schedule.save
         requested_resource.save
         redirect_to(
@@ -99,6 +103,12 @@ module Admin
         @available = @reservation.nook.available_for?(@reservation.start..@reservation.end)
       end
       render :js, template: 'admin/nooks/availability'
+    end
+
+    def remove_photo
+      res = requested_resource.remove_photo(params[:photo_id]) # delete the target photo
+      flash[:error] = "Failed deleting photo" if res == false
+      redirect_to :back
     end
   end
 end
