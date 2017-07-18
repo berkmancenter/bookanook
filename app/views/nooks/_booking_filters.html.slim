@@ -4,11 +4,8 @@
   form#left_menu.booking
     div#location-filter.btn-group-sm.filter
       div.filter-title 1. #{t('nooks.filters.where')}
-      img.loading src="#{asset_path('loading.gif')}" width="20" alt="loading.."
-      div#add-location-button.btn
-        = link_to select_locations_path, class: 'btn btn-primary remote-modal', id: 'select-locations-link', data: { modal: '#modal', callback: 'locationsModalLoaded' } do
-          span = t('nooks.filters.library.add')
-          span#add-location-sign +
+      = select_tag "Locations", options_from_collection_for_select(Location.all, "id", "name", Location.all.map(&:id) ), multiple: true, width: "100%", id: "location-select"
+      = button_tag "Clear Locations", id:"clear-select"
     div.filter.date.this-week
       div.filter-title 2. #{t('nooks.filters.when')}
       div.date-future

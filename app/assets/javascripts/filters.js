@@ -4,11 +4,15 @@ $(function() {
    */
 
   // updating nooks wall
-  $(document).on('filter-updated', function (e, params) {
+  // $(document).on('filter-updated',
+  $("form :input").change(function (e, params) {
     var searchParams = {};
 
     // locations filter selection
     var selected = [];
+    $("select option:selected").each(function () {
+      selected.push($(this).val());
+    });
     $('.selected-location-item').each(function (k, val) {
       selected.push($(this).attr('data-item-id'));
     });
@@ -258,5 +262,12 @@ $(function() {
     NProgress.start();
 
     $(document).trigger('filter-updated');
+  });
+
+  $('form.booking #clear-select').on('click',function(e){
+    e.preventDefault();
+    var $select = $('select').selectize();
+    var control = $select[0].selectize;
+    control.clear();
   });
 });
