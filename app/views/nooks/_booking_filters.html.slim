@@ -10,10 +10,22 @@
       div.filter-title 2. #{t('nooks.filters.when')}
       div.date-future
         div#days.datepicker-element
-      <input id="hour-range-slider" type="text" class="span2" value="" data-slider-min="0" data-slider-max="23" data-slider-step="1" data-slider-value="[0.0,23.0]"/>
-      div.clearfix
-        div.slider-min 0:00AM
-        div.slider-max 11:00PM
+        div.row
+          div.col-md-12
+            div.input-group
+              span.input-group-addon = "From"
+              <input type='text' class="form-control" id='datetimepicker6'>
+              span.input-group-btn
+                button class="btn btn-primary clear-time" type="button" = "Any"
+
+          br
+          br
+          div.col-md-12
+            div.input-group
+              span.input-group-addon = "Up to"
+              <input type='text' class="form-control" id='datetimepicker7'>
+              span.input-group-btn
+                button class="btn btn-primary clear-time" type="button" = "Any"
     div.amenities.filter
       div.filter-title 3. #{t('nooks.filters.what')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|

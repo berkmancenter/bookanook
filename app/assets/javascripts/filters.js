@@ -4,8 +4,7 @@ $(function() {
    */
 
   // updating nooks wall
-  // $(document).on('filter-updated',
-  $("form :input").change(function (e, params) {
+  $(document).on('filter-updated',function (e, params) {
     var searchParams = {};
 
     // locations filter selection
@@ -18,21 +17,27 @@ $(function() {
     });
     searchParams.location_ids = selected;
 
+    function convert_to_time(s){
+      s = s.split(' ');
+      var time = s[0].split(':').reverse().reduce((prev, curr, i) => prev + (curr == 12 ? 0 : curr)*Math.pow(60, i+1), 0);
+      if(s[1]=="PM"){
+        time += 12*3600;
+      }
+      return time;
+    }
     // time filter selection
-    var time = $('#hour-range-slider').slider('getValue');
-
+    var timeStart = $('#datetimepicker6').val();
+    var timeEnd = $('#datetimepicker7').val();
     searchParams.time_range = {
-      start: time[0] * 3600,
-      end: time[1] * 3600
+      start: convert_to_time(timeStart),
+      end: convert_to_time(timeEnd)
     };
 
     // date filter selection
     var selected = [];
 
-    var selectedDate = $('.datepicker-element').first().datepicker('getFormattedDate');
-    var dateArr = selectedDate.split('/');
-
-    var date = dateArr[2] + '-' + dateArr[0] + '-' + dateArr[1];
+    var selectedDate = $('.datepicker-element').first().data('DateTimePicker').date();
+    var date = selectedDate.format('YYYY-MM-DD');
 
     selected.push(date);
     searchParams.days = selected;
@@ -69,16 +74,34 @@ $(function() {
    * Date filter
    */
 
-  $('.datepicker-element').datepicker('setDate', 'today');
-
-  $(".datepicker-element").on("changeDate", function (event) {
+  $('.datepicker-element').datetimepicker({
+    inline: true,
+    format: 'YYYY-MM-DD'
+  });
+  $('#datetimepicker6').datetimepicker({
+    format: 'LT'
+  });
+  $('#datetimepicker7').datetimepicker({
+    format: 'LT',
+    useCurrent: false //Important! See issue #1075
+  });
+  $("#datetimepicker6").on("dp.change", function (e) {
+      $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+      var endDate = $('#datetimepicker7').data("DateTimePicker").date();
+      if (endDate <= e.date || endDate == undefined) {
+        $('#datetimepicker7').data("DateTimePicker").date(e.date);
+      }
+      $(document).trigger('filter-updated');
+      NProgress.start();
+  });
+  $("#datetimepicker7").on("dp.change", function (e) {
+      $(document).trigger('filter-updated');
+      NProgress.start();
+  });
+  $(".datepicker-element").on("dp.change", function (event) {
     NProgress.start();
 
     $(document).trigger('filter-updated');
-  });
-
-  $(".datepicker-element").on("hide", function (event) {
-    console.log('foo');
   });
 
   $('form.booking .date-this-week button').on('click', function () {
@@ -89,40 +112,45 @@ $(function() {
     $(document).trigger('filter-updated');
   });
 
+  $('.clear-time').on('click',function() {
+    console.log("clearing");
+    $('#datetimepicker6').data("DateTimePicker").date(null);
+    $('#datetimepicker7').data("DateTimePicker").date(null);
+  });
   /**
    * Time filter
    */
 
-  $("#hour-range-slider").slider({});
-  $("#hour-range-slider").on('change', function (object) {
-    var min_start = object.value["oldValue"][0];
-    var min_end = object.value["newValue"][0];
-    var max_start = object.value["oldValue"][1];
-    var max_end = object.value["newValue"][1];
-    var minutes, hour;
-
-    if (min_start != min_end) {
-      hour = Math.floor(min_end);
-      minutes = s.lpad((min_end - hour) * 60, 2, '0');
-      $(this).parent().find('.slider-min').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour >= 12 ? 'PM' : 'AM'));
-    }
-    if (max_start != max_end) {
-      hour = Math.floor(max_end);
-      minutes = s.lpad((max_end - hour) * 60, 2, '0');
-      $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour >= 12 ? 'PM' : 'AM'));
-    }
-
-    // refresh a list only when user finished moving
-    if (typeof hourRangeTimer !== 'undefined') {
-      clearTimeout(hourRangeTimer);
-    }
-    hourRangeTimer = setTimeout(function () {
-      NProgress.start();
-
-      // getting nooks items
-      $(document).trigger('filter-updated');
-    }, 700);
-  });
+  // $("#hour-range-slider").slider({});
+  // $("#hour-range-slider").on('change', function (object) {
+  //   var min_start = object.value["oldValue"][0];
+  //   var min_end = object.value["newValue"][0];
+  //   var max_start = object.value["oldValue"][1];
+  //   var max_end = object.value["newValue"][1];
+  //   var minutes, hour;
+  //
+  //   if (min_start != min_end) {
+  //     hour = Math.floor(min_end);
+  //     minutes = s.lpad((min_end - hour) * 60, 2, '0');
+  //     $(this).parent().find('.slider-min').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour >= 12 ? 'PM' : 'AM'));
+  //   }
+  //   if (max_start != max_end) {
+  //     hour = Math.floor(max_end);
+  //     minutes = s.lpad((max_end - hour) * 60, 2, '0');
+  //     $(this).parent().find('.slider-max').html((hour > 12 ? hour - 12 : hour) + ':' + minutes + (hour >= 12 ? 'PM' : 'AM'));
+  //   }
+  //
+  //   // refresh a list only when user finished moving
+  //   if (typeof hourRangeTimer !== 'undefined') {
+  //     clearTimeout(hourRangeTimer);
+  //   }
+  //   hourRangeTimer = setTimeout(function () {
+  //     NProgress.start();
+  //
+  //     // getting nooks items
+  //     $(document).trigger('filter-updated');
+  //   }, 700);
+  // });
 
   /**
    * Location filter
@@ -264,9 +292,9 @@ $(function() {
     $(document).trigger('filter-updated');
   });
 
+  var $select = $('select').selectize();
   $('form.booking #clear-select').on('click',function(e){
     e.preventDefault();
-    var $select = $('select').selectize();
     var control = $select[0].selectize;
     control.clear();
   });

@@ -45,5 +45,4 @@ $(function() {
       $("#page-wrapper").toggleClass("active");
   });
 
-  $("select").selectize();
 });

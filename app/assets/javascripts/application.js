@@ -21,7 +21,7 @@
 //= require moment
 //= require selectize
 //= require twitter/bootstrap
-//= require bootstrap-datepicker.min
+//= require datetime_picker
 //= require bootstrap-slider.min
 //= require masonry.min
 //= require imagesloaded.pkgd.min
