@@ -1,4 +1,8 @@
 ul.nav.nav-pills.navbar-left
+  li role="presentation"
+    = link_to '#',{ id:"sidebar-toggle"} do
+      span.glyphicon.glyphicon-menu-hamburger
+    end
   - if active_page?('nooks')
     li role="presentation" data-view="masonry" class="active"
       = link_to '#' do
