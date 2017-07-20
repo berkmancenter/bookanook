@@ -79,22 +79,42 @@ $(function() {
     format: 'YYYY-MM-DD'
   });
   $('#datetimepicker6').datetimepicker({
-    format: 'LT'
+    format: 'LT',
+    stepping: 30,
+    showClear: true,
+    icons: {
+      clear: 'clear btn btn-primary'
+    }
   });
   $('#datetimepicker7').datetimepicker({
     format: 'LT',
+    stepping: 30,
+    showClear: true,
+    icons: {
+      clear: 'clear btn btn-primary'
+    },
     useCurrent: false //Important! See issue #1075
   });
-  $("#datetimepicker6").on("dp.change", function (e) {
+  $("#datetimepicker6").on("dp.show", function(e) {
+    $('.clear').html("Any Time");
+  }).on("dp.change", function (e) {
       $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
       var endDate = $('#datetimepicker7').data("DateTimePicker").date();
       if (endDate <= e.date || endDate == undefined) {
         $('#datetimepicker7').data("DateTimePicker").date(e.date);
       }
+      if(e.date === false){
+        $(e.target).val("Any");
+      }
       $(document).trigger('filter-updated');
       NProgress.start();
   });
-  $("#datetimepicker7").on("dp.change", function (e) {
+  $("#datetimepicker7").on("dp.show", function(e) {
+    $('.clear').html("Any Time");
+  }).on("dp.change", function (e) {
+      if(e.date === false){
+        $(e.target).val("Any");
+      }
       $(document).trigger('filter-updated');
       NProgress.start();
   });
@@ -293,6 +313,11 @@ $(function() {
   });
 
   var $select = $('select').selectize();
+  $('select').on('change', function(e){
+    NProgress.start();
+
+    $(document).trigger('filter-updated');
+  });
   $('form.booking #clear-select').on('click',function(e){
     e.preventDefault();
     var control = $select[0].selectize;

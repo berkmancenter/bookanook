@@ -15,8 +15,6 @@
             div.input-group
               span.input-group-addon = "From"
               <input type='text' class="form-control" id='datetimepicker6'>
-              span.input-group-btn
-                button class="btn btn-primary clear-time" type="button" = "Any"
 
           br
           br
@@ -24,8 +22,6 @@
             div.input-group
               span.input-group-addon = "Up to"
               <input type='text' class="form-control" id='datetimepicker7'>
-              span.input-group-btn
-                button class="btn btn-primary clear-time" type="button" = "Any"
     div.amenities.filter
       div.filter-title 3. #{t('nooks.filters.what')}
       - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
