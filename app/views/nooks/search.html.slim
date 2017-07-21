@@ -3,5 +3,21 @@ div.nooks-masonry style="display:none;"
 div.nooks-expanded style="display:none;"
   = render partial: 'nooks/search_expanded', locals: { nooks: @nooks }
 
+  template.amenities_template
+    h3 = "Filter By:"
+    div.filter-title = "Amenities"
+    - @nooks.collect(&:amenities).flatten.uniq.each do |amenity|
+      div.amenity
+        = check_box_tag amenity.name, amenity.name, @search.amenities.include?(amenity.name.downcase)
+        = label_tag amenity do
+          span
+          = amenity.name.downcase
+
 javascript:
   $('.nooks-' + currentView()).show();
+  $('.amenities.filter').html($('.amenities_template').html());
+  $('form.booking .amenity input').on('change', function () {
+    NProgress.start();
+
+    $(document).trigger('filter-updated');
+  });

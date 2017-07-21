@@ -323,4 +323,8 @@ $(function() {
     var control = $select[0].selectize;
     control.clear();
   });
+
+  NProgress.start();
+
+  $(document).trigger('filter-updated');
 });
