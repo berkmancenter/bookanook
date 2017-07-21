@@ -23,13 +23,7 @@
               span.input-group-addon = "Up to"
               <input type='text' class="form-control" id='datetimepicker7'>
     div.amenities.filter
-      div.filter-title 3. #{t('nooks.filters.what')}
-      - Nook.all.collect(&:amenities).flatten.uniq.each do |amenity|
-        div.amenity
-          = check_box_tag amenity.name, amenity.name
-          = label_tag amenity do
-            span
-            = amenity.name.downcase
+
     div.transparent-separator
     div#filtered-results.filter
       div.filter-title #{t('nooks.filters.filtered_results')}
