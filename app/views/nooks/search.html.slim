@@ -4,7 +4,7 @@ div.nooks-expanded style="display:none;"
   = render partial: 'nooks/search_expanded', locals: { nooks: @nooks }
 
   template.amenities_template
-    h3 = "Filter By:"
+    h3 style="padding-top:0" = "Filter By:"
     div.filter-title = "Amenities"
     - @nooks.collect(&:amenities).flatten.uniq.each do |amenity|
       div.amenity
@@ -12,11 +12,18 @@ div.nooks-expanded style="display:none;"
         = label_tag amenity do
           span
           = amenity.name.downcase
+    div.filter-title = "Room Types"
+    - @nooks.collect(&:type).flatten.uniq.each do |key|
+      div#matching-types-list
+        = check_box_tag key, key, @search.nook_types.include?(key)
+        = label_tag key do
+          span
+          = key.titleize.pluralize
 
 javascript:
   $('.nooks-' + currentView()).show();
-  $('.amenities.filter').html($('.amenities_template').html());
-  $('form.booking .amenity input').on('change', function () {
+  $('div#filtered-results.filter').html($('.amenities_template').html());
+  $('form.booking #filtered-results input').on('change', function () {
     NProgress.start();
 
     $(document).trigger('filter-updated');

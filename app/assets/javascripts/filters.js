@@ -50,14 +50,6 @@ $(function() {
       searchParams.amenities.push(elem.val());
     });
 
-    // matching rooms filter selection
-    searchParams.matching_rooms = [];
-    $('#matching-rooms-list input:checked').each(function (key, val) {
-      var elem = $(this);
-
-      searchParams.matching_rooms.push(elem.val());
-    });
-
     // matching rooms types filter selection
     searchParams.nook_types = [];
     $('#matching-types-list input:checked').each(function (key, val) {
