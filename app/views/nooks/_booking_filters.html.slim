@@ -30,20 +30,7 @@
 
     div.amenities.filter
 
-    div.transparent-separator
     div#filtered-results.filter
-      div.filter-title #{t('nooks.filters.filtered_results')}
-      div.dropdown
-        a#matching-rooms-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
-          | #{Nook.count} #{t('nooks.filters.matching_rooms')}
-          span.caret
-        ul.dropdown-menu#matching-rooms-list aria-labelledby="matching-rooms-dropdown"
-          - Nook.all.each do |nook|
-            li
-              = check_box_tag nook.id, nook.id, true
-              = label_tag nook.id do
-                span
-                = nook.name
       div.dropdown
         a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
           | #{Nook.distinct.pluck(:type).count} #{t('nooks.filters.matching_types')}
