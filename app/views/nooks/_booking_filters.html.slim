@@ -27,18 +27,4 @@
       div.filter-title 3. #{t('nooks.filters.capacity')}
       = select_tag "Capacity", options_from_collection_for_select(nook_capacity, :first, :last), width: "100%"
 
-
-    div.amenities.filter
-
     div#filtered-results.filter
-      div.dropdown
-        a#matching-types-dropdown.dropdown-toggle data-toggle="dropdown" href="#"
-          | #{Nook.distinct.pluck(:type).count} #{t('nooks.filters.matching_types')}
-          span.caret
-        ul.dropdown-menu#matching-types-list aria-labelledby="matching-types-dropdown"
-          - Nook.distinct.pluck(:type).each do |key|
-            li
-              = check_box_tag key, key, true
-              = label_tag key do
-                span
-                = key.titleize.pluralize
