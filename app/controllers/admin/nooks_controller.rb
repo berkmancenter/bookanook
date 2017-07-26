@@ -80,7 +80,7 @@ module Admin
         requested_resource.amenity_list = params[:nook][:amenities]
         requested_resource.open_schedule.blocks = params[:nook][:open_schedule]
         photos = requested_resource.photos
-        photos += params[:nook][:photos]
+        photos += (params[:nook][:photos] || [])
         requested_resource.photos = photos
         requested_resource.open_schedule.save
         requested_resource.save
