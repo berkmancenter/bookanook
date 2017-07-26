@@ -25,6 +25,6 @@
               <input type='text' class="form-control" id='datetimepicker7'>
     div#location-filter.btn-group-sm.filter
       div.filter-title 3. #{t('nooks.filters.capacity')}
-      = select_tag "Capacity", options_from_collection_for_select(nook_capacity, :first, :last), width: "100%"
+      = select_tag :nook_capacity, options_from_collection_for_select(nook_capacity, :first, :last), width: "100%"
 
     div#filtered-results.filter

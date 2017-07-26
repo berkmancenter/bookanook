@@ -41,6 +41,7 @@ $(function() {
 
     selected.push(date);
     searchParams.days = selected;
+    searchParams.nook_capacity = $('#nook_capacity').val();
 
     // amentities filter selection
     searchParams.amenities = [];
