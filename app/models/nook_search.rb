@@ -8,7 +8,7 @@ class NookSearch
     @location_ids = params[:location_ids] || []
     @amenities = params[:amenities] || []
     @nook_types = params[:nook_types] || []
-    @nook_capacity = params[:nook_capacity] || 0
+    @nook_capacity = params[:nook_capacity].to_i || 0
     # An array of Date objects
     @days = params[:days] || []
 
@@ -39,7 +39,12 @@ class NookSearch
     scope = Nook.where(bookable: true)
     scope = scope.where(location_id: location_ids) unless location_ids.empty?
     scope = scope.where(type: nook_types) unless nook_types.empty?
-    scope = scope.where("min_capacity <= :capacity AND :capacity <= max_capacity", capacity: nook_capacity) if nook_capacity > 0
+    if nook_capacity > 0
+      scope = scope.where(
+      "( min_capacity is null OR min_capacity <= :capacity ) AND
+        ( :capacity <= max_capacity OR max_capacity is null)
+      ", capacity: nook_capacity)
+    end
     unless amenities.empty?
       scope = scope.tagged_with(amenities)
     end
