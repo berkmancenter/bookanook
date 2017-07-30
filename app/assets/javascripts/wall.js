@@ -138,9 +138,12 @@ $(function() {
 
   // set the default day and time as selected in filter
   setDefaultValue = function() {
-    from = $('#datetimepicker6').data("DateTimePicker").date().format("HHmm");
-    to   = $('#datetimepicker7').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
-
+    if ($('#datetimepicker6').data("DateTimePicker").date()) {
+      from = $('#datetimepicker6').data("DateTimePicker").date().format("HHmm");
+      to   = $('#datetimepicker7').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
+    } else {
+      from = to = null;
+    }
     var date = $('input[id=nook-reservation-date]').attr('value');
     var day = new Date(date).getDay();
 
