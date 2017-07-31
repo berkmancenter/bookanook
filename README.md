@@ -54,7 +54,6 @@ Tests are run using RSpec, by simply running `rspec` in your terminal.
 
 If you receive an issue about "Web Console is activated in the test environment" that is preventing your tests from running, remove the following gem from your Gemfile:
 
-In the Gem file if you have this line
 ```
 gem 'web-console', '~> 2.0'
 ```
