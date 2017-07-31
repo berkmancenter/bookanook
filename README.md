@@ -2,7 +2,7 @@
 [![Test Coverage](https://codeclimate.com/github/berkmancenter/bookanook/badges/coverage.svg)](https://codeclimate.com/github/berkmancenter/bookanook/coverage)
 
 ## About
-Book-a-Nook is an online platform where a user can look up for available community spaces like libraries and make reservation requests to the admin. The admin checks for the conflicts and sends the corresponding confirmations. 
+Book-a-Nook is an online platform where a user can look up for available community spaces like libraries and make reservation requests to the admin. The admin checks for the conflicts and sends the corresponding confirmations.
 Check full features and entities involved on the [wiki home page](https://github.com/berkmancenter/bookanook/wiki).
 
 ## Specifications
@@ -11,15 +11,56 @@ Check full features and entities involved on the [wiki home page](https://github
 3. PostgreSQL (Dev, Test)
 
 ## Setup
+
 1. Clone the repository
-2. Go to the application's root directory in terminal
+
+`git clone https://github.com/berkmancenter/bookanook.git`
+
+Or clone down from your own fork of the repository.
+
+2. Go to the application's root directory in terminal: `cd bookanook`
+
 3. If you are using RVM, create gemset for this application: `rvm gemset create bookanook`
+
 4. Use the gemset: `rvm gemset use bookanook`
+
 5. Install gems from Gemfile: `bundle install`
+
+  Notes:
+    * You may need to run `gem install bundle` first.
+    * If you're having issues installing gems with `bundle install`, try running `bundle update` first.
+
 6. Make necessary changes (postgresql username and password) in config/database.yml
-7. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add key and secret for Google authentication.
+
+  Here's a [resource](https://www.digitalocean.com/community/tutorials/how-to-setup-ruby-on-rails-with-postgres) to help setup a username and password for PostgreSQL on your machine.
+
+7. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add your own key and secret for Google authentication by setting up OAuth for your environment [here](https://cloud.google.com/ruby/getting-started/authenticate-users).
+
 8. Create database: `rake db:create`
+
 9. Run migrations: `rake db:migrate`
+
 10. Seed database with initial data: `rake db:seed`
+
 11. Start the server: `rails s`
+
+  Note: If you're having issues starting the server, try running `bundle exec rails server`.
+
 12. Visit the application at localhost:3000
+
+## Running Tests
+
+Tests are run using RSpec, by simply running `rspec` in your terminal.
+
+If you receive an issue about "Web Console is activated in the test environment" that is preventing your tests from running, remove the following gem from your Gemfile:
+
+```
+gem 'web-console', '~> 2.0'
+```
+
+Then in your terminal, run the following:
+
+```
+$ gem install bundler
+$ bundle install --without production
+```
