@@ -34,7 +34,6 @@ $(function() {
     });
   };
 
-  $(document).trigger('filter-updated');
 });
 
 $(function() {
@@ -138,9 +137,9 @@ $(function() {
 
   // set the default day and time as selected in filter
   setDefaultValue = function() {
-    if ($('#datetimepicker6').data("DateTimePicker").date()) {
-      from = $('#datetimepicker6').data("DateTimePicker").date().format("HHmm");
-      to   = $('#datetimepicker7').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
+    if ($('#timeStart').data("DateTimePicker").date()) {
+      from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
+      to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
     } else {
       from = to = null;
     }
