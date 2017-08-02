@@ -1,8 +1,7 @@
 module NooksHelper
   def nook_capacity
-    if Nook.where(min_capacity: nil).empty?
-      min = Nook.minimum(:min_capacity)
-    else
+    min = Nook.minimum(:min_capacity)
+    if min == nil || Nook.where(min_capacity: nil).count > 0
       min = 0
     end
     array = ( min..(Nook.maximum(:max_capacity) || (min + 1) ) ).to_a
