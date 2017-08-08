@@ -2,63 +2,101 @@ input id="nook-reservation-date" type="text" hidden="true" value="#{@search_date
 input id="nook-reservation-start" type="text" hidden="true"
 input id="nook-reservation-end" type="text" hidden="true"
 
-- nooks.flatten.each.with_index do |nook, i|
-  div.nook-item-expanded.col-md-9
-    div.nook-expanded
-      div.row
-        div.col-md-4
-          = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg'
-        div.col-md-4
-          div.nook-property
-            span.nook-icon.name
-            = nook.name
-          div.nook-property
-            span.nook-icon.location
-            = nook.location_name
-          div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
-            span.nook-icon.availability
-            = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
-          div.nook-property
-            span.nook-icon.amenities
-            = nook.amenities.join(', ')
-          div.nook-property
-            span.nook-icon.maxcapacity
-            = nook.max_capacity
-            = ' '
-            = "people".pluralize(nook.max_capacity)
+div.row
+  - nooks.flatten.each.with_index do |nook, i|
+    div.col-md-3
+      div.nook
+        = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg', height: "100%", width: "100%"
+
+        div.nook-property
+          span.nook-icon.name
+          = nook.name
+        div.nook-property
+          span.nook-icon.location
+          = nook.location_name
+
+div.row style="margin: 10px 0px;"
+  div.timeline.col-sm-6
+    div.row
+      div.col-sm-1
+        span.small 12am
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 2am
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 4am
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 6am
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 8am
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 10am
+      div.col-sm-1
+        span.small
 
 
-    div.schedule-wrapper
-      div.row.timeline-wrapper
-        div.timeline.col-sm-6
-          - (0..11).each do |hour|
-            div.col-sm-1
-              span.small
-                = "#{hour == 0 ? 12 : hour}am" if hour.even?
-        div.timeline.col-sm-6
-          - (12..23).each do |hour|
-            div.col-sm-1
-              span.small
-                = "#{hour == 12 ? hour : hour - 12}pm" if hour.even?
+  div.timeline.col-sm-6
+    div.row
+      div.col-sm-1
+        span.small 12pm
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 2pm
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 4pm
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 6pm
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 8pm
+      div.col-sm-1
+        span.small
+      div.col-sm-1
+        span.small 10pm
+      div.col-sm-1
+        span.small
 
-      div.nook-weekly-schedule
-        - open_ranges = OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)
-        - @date_range.each_with_index do |date, index|
-            div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
-              div.row.date data-date="#{date}"
-                = date.strftime("%a, %B %d")
-                span.local-time
-                  span.start
-                  span.end
-              div.row
-                = render 'shared/time_select', show_hours: false,
-                         schedule: open_ranges[index],
-                         reserved_slots: nook.reserved_slots(date)
-    div
-      = link_to reserve_nook_path(nook),
-        class: 'remote-modal book-this-expanded-nook', data: { modal: '#modal',
-                                                      callback: 'bookModalLoaded' }
-        button.btn.pull-right Reserve
+
+
+div.day
+  div.event.col-sm-12
+    div.time.nook-1 style="margin-left:calc(12*2.083333%); width: calc(12*2.083333%);"
+    div.time.nook-1 style="margin-left:calc(6*2.083333%); width: calc(8*2.083333%);"
+
+  div.event.col-sm-12
+    div.time.nook-2 style="margin-left:calc(24*2.083333%); width: calc(12*2.083333%);"
+
+  div.event.col-sm-12
+    div.time.nook-3 style="margin-left:calc(18*2.083333%); width: calc(12*2.083333%);"
+
+  div.event.col-sm-12
+    div.time.nook-4 style="margin-left:calc(21*2.083333%); width: calc(15*2.083333%);"
+
+  div.event.col-sm-12
+    div.time.nook-5 style="margin-left:calc(18*2.083333%); width: calc(8*2.083333%);"
+
+  div.event.col-sm-12
+    div.time.nook-6 style="margin-left:calc(12*2.083333%); width: calc(12*2.083333%);"
+    div.time.nook-6 style="margin-left:calc(6*2.083333%); width: calc(8*2.083333%);"
+
+
+
+  - nooks.flatten.each.with_index do |nook, i|
 
 javascript:
   var timeSelectors = []
