@@ -3,8 +3,8 @@ input id="nook-reservation-start" type="text" hidden="true"
 input id="nook-reservation-end" type="text" hidden="true"
 
 div.row
-  - nooks.flatten.each.with_index do |nook, i|
-    div.col-md-3
+  - nooks.flatten.each do |nook|
+    div.col-md-3 style="padding-left:5px; padding-right:5px;" data-nook=nook.id
       div.nook
         = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg', height: "100%", width: "100%"
 
@@ -14,6 +14,11 @@ div.row
         div.nook-property
           span.nook-icon.location
           = nook.location_name
+
+h1
+  = @search_date.strftime("%A") + ", "
+  = @search_date.strftime("%B %_d") + " "
+  small = @search_date.strftime("%Y")
 
 div.row style="margin: 10px 0px;"
   div.timeline.col-sm-6
@@ -43,8 +48,7 @@ div.row style="margin: 10px 0px;"
       div.col-sm-1
         span.small
 
-
-  div.timeline.col-sm-6
+  div.timeline.col-sm-6 style="margin-left: -1px;"
     div.row
       div.col-sm-1
         span.small 12pm
@@ -71,36 +75,19 @@ div.row style="margin: 10px 0px;"
       div.col-sm-1
         span.small
 
-
-
 div.day
-  div.event.col-sm-12
-    div.time.nook-1 style="margin-left:calc(12*2.083333%); width: calc(12*2.083333%);"
-    div.time.nook-1 style="margin-left:calc(6*2.083333%); width: calc(8*2.083333%);"
+  - nooks.flatten.each do |nook|
+    div.event.col-sm-12.reservation-when-times id="nook--#{nook.id}" data-reserved-slots=nook.reserved_slots(@search_date)
+      = render 'shared/time_select', show_hours: false,
+                unselectable: true,
+                schedule: OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@search_date.wday],
+                reserved_slots: nook.reserved_slots(@search_date)
 
-  div.event.col-sm-12
-    div.time.nook-2 style="margin-left:calc(24*2.083333%); width: calc(12*2.083333%);"
-
-  div.event.col-sm-12
-    div.time.nook-3 style="margin-left:calc(18*2.083333%); width: calc(12*2.083333%);"
-
-  div.event.col-sm-12
-    div.time.nook-4 style="margin-left:calc(21*2.083333%); width: calc(15*2.083333%);"
-
-  div.event.col-sm-12
-    div.time.nook-5 style="margin-left:calc(18*2.083333%); width: calc(8*2.083333%);"
-
-  div.event.col-sm-12
-    div.time.nook-6 style="margin-left:calc(12*2.083333%); width: calc(12*2.083333%);"
-    div.time.nook-6 style="margin-left:calc(6*2.083333%); width: calc(8*2.083333%);"
-
-
-
-  - nooks.flatten.each.with_index do |nook, i|
+div.clearfix
 
 javascript:
-  var timeSelectors = []
+  var timeSelectors = {}
   var lastSelectedDay = -1;
 
-  initializeTimeSelectors();
-  bindTimeSelectorTriggers();
+  initializeTimeSelectors()
+  initializeNookDayline()

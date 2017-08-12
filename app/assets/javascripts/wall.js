@@ -127,14 +127,43 @@ $(function() {
   // initialize 7 time selectors
   // each for a day in the week for all nooks
   initializeTimeSelectors = function() {
-    for (var i = 0; i < 7; i++) {
-      var timeSelector = new TimeSelect('#day--' + i + '--times', {
+    list = $('div[data-nook]');
+    list.each(function(key, nook){
+      console.log(nook);
+      data = $(nook).data("nook");
+      var timeSelector = new TimeSelect('#nook--'+data, {
         continuous: true
       });
-      timeSelectors.push(timeSelector);
-    };
+      timeSelectors[data] = timeSelector;
+    });
   };
 
+  initializeNookDayline = function() {
+    list = $('div[data-nook]');
+    list.each(function(key, nook){
+      $(nook).on("click", function() {
+        data = $(nook).data("nook");
+        scrollTo = $('#nook--'+data);
+        window.scroll(0,scrollTo.offset().top - $('.nooks.col-xs-12').offset().top + $('.nooks.col-xs-12').scrollTop());
+        if ($('#timeStart').data("DateTimePicker").date()) {
+          from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
+          to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
+        } else {
+          from = to = null;
+        }
+        clearTimeSelectors([from, to]);
+        timeSelectors[data].selectRange([from, to]);
+        timeSelectors[data].syncDom();
+      });
+    });
+  };
+
+  clearTimeSelectors = function(range) {
+    for(key in timeSelectors) {
+      timeSelectors[key].deselectRange(range);
+      timeSelectors[key].syncDom();
+    }
+  }
   // set the default day and time as selected in filter
   setDefaultValue = function() {
     if ($('#timeStart').data("DateTimePicker").date()) {
