@@ -184,7 +184,7 @@ $(function() {
       $('#timeStart').val(moment().startOf('day').seconds(formData.time_range.start).format("hh:mm A"));
       $('#timeEnd').val(moment().startOf('day').seconds(formData.time_range.end).format("hh:mm A"));
       $('#nook_capacity').val(formData.nook_capacity);
-      window.localStorage.removeItem('form');
+      // window.localStorage.removeItem('form');
     }
   }
 
