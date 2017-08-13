@@ -129,15 +129,8 @@ $(function() {
     var from = 0;
     var to = 0;
 
-    if ($('.nook-item-expanded') && lastSelectedDay >= 0 &&
-        timeSelectors[lastSelectedDay].selected.length > 0) {
-      var selected = timeSelectors[lastSelectedDay].selected
-      from = parseInt(selected[0]._i)
-      to = parseInt(selected[selected.length - 1]._i)
-    } else {
-      from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
-      to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
-    }
+    from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
+    to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
 
     timeSelector.selectRange([from, to]);
     updateTimeRange($('#new_reservation'), timeSelector);

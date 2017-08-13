@@ -154,12 +154,14 @@ $(function() {
         clearTimeSelectors([from, to]);
         timeSelectors[data].selectRange([from, to]);
         timeSelectors[data].syncDom();
+        $('#book--'+data).show();
       });
     });
   };
 
   clearTimeSelectors = function(range) {
     for(key in timeSelectors) {
+      $('#book--'+key).hide();
       timeSelectors[key].deselectRange(range);
       timeSelectors[key].syncDom();
     }

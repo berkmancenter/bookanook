@@ -2,88 +2,93 @@ input id="nook-reservation-date" type="text" hidden="true" value="#{@search_date
 input id="nook-reservation-start" type="text" hidden="true"
 input id="nook-reservation-end" type="text" hidden="true"
 
-div.row
-  - nooks.flatten.each do |nook|
-    div.col-md-3 style="padding-left:5px; padding-right:5px;" data-nook=nook.id
-      div.nook
-        = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg', height: "100%", width: "100%"
+div.col-sm-10.col-sm-offset-1
+  div.row
+    - nooks.flatten.each do |nook|
+      div.col-md-3 style="padding-left:5px; padding-right:5px;" data-nook=nook.id
+        div.nook
+          = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg', height: "100%", width: "100%"
 
-        div.nook-property
-          span.nook-icon.name
-          = nook.name
-        div.nook-property
-          span.nook-icon.location
-          = nook.location_name
+          div.nook-property
+            span.nook-icon.name
+            = nook.name
+          div.nook-property
+            span.nook-icon.location
+            = nook.location_name
 
-h1
-  = @search_date.strftime("%A") + ", "
-  = @search_date.strftime("%B %_d") + " "
-  small = @search_date.strftime("%Y")
+  h1
+    = @search_date.strftime("%A") + ", "
+    = @search_date.strftime("%B %_d") + " "
+    small = @search_date.strftime("%Y")
 
-div.row style="margin: 10px 0px;"
-  div.timeline.col-sm-6
-    div.row
-      div.col-sm-1
-        span.small 12am
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 2am
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 4am
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 6am
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 8am
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 10am
-      div.col-sm-1
-        span.small
+  div.row. style="margin: 10px 0px;"
+    div.timeline.col-sm-6
+      div.row
+        div.col-sm-1
+          span.small 12am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 2am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 4am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 6am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 8am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 10am
+        div.col-sm-1
+          span.small
 
-  div.timeline.col-sm-6 style="margin-left: -1px;"
-    div.row
-      div.col-sm-1
-        span.small 12pm
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 2pm
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 4pm
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 6pm
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 8pm
-      div.col-sm-1
-        span.small
-      div.col-sm-1
-        span.small 10pm
-      div.col-sm-1
-        span.small
+    div.timeline.col-sm-6 style="margin-left: -1px;"
+      div.row
+        div.col-sm-1
+          span.small 12pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 2pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 4pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 6pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 8pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 10pm
+        div.col-sm-1
+          span.small
 
-div.day
-  - nooks.flatten.each do |nook|
-    div.event.col-sm-12.reservation-when-times id="nook--#{nook.id}" data-reserved-slots=nook.reserved_slots(@search_date)
-      = render 'shared/time_select', show_hours: false,
-                unselectable: true,
-                schedule: OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@search_date.wday],
-                reserved_slots: nook.reserved_slots(@search_date)
-
-div.clearfix
+  div.day
+    - nooks.flatten.each do |nook|
+      div.event.col-sm-12.reservation-when-times-2 id="nook--#{nook.id}" data-reserved-slots=nook.reserved_slots(@search_date)
+        = render 'shared/time_select', show_hours: false,
+                  unselectable: true,
+                  schedule: OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@search_date.wday],
+                  reserved_slots: nook.reserved_slots(@search_date)
+  div.book
+    - nooks.flatten.each do |nook|
+      div id="book--#{nook.id}" style="display:none"
+        = link_to reserve_nook_path(id: nook, search_date: @search_date),
+          class: 'remote-modal book-this-nook btn btn-primary pull-right', data: {modal: '#modal', callback: 'bookModalLoaded'}
+          ="Reserve"
 
 javascript:
   var timeSelectors = {}
