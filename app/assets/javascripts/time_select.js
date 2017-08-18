@@ -173,6 +173,10 @@ _.extend(TimeSelect.prototype, {
     range.sort(function(a, b) { return a - b; });
     var current = this.toMoment(range[0]);
     var end = this.toMoment(range[1]);
+    // Checking if the selected times are not them same.
+    if(current.format("HHmm") == end.add({minutes: 30}).format("HHmm")) {
+      return;
+    }
     do {
       this._pushSelected(this.fromMoment(current));
       current = current.add(this.options.slotDuration);
