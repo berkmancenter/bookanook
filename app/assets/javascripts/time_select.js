@@ -57,12 +57,12 @@ _.extend(TimeSelect.prototype, {
     if (moment.isMoment(time)) { return time; }
     if (!isNaN(time) || _.isNumber(time)) {
       var prefix = '';
-      if (time < 100) {
+      if (Number(time) < 100) {
         prefix = '00'
-      } else if (time < 1000) {
+      } else if (Number(time) < 1000) {
         prefix = '0'
       }
-      time = prefix + String(time);
+      time = prefix + String(Number(time));
     }
     return moment(String(time), this.format);
   },
@@ -191,6 +191,7 @@ _.extend(TimeSelect.prototype, {
     if(current.format("HHmm") == this.toMoment(range[1]).add({minutes: 30}).format("HHmm")) {
       return;
     }
+    console.log(end);
     do {
       this._pushSelected(this.fromMoment(current));
       current = current.add(this.options.slotDuration);
