@@ -151,6 +151,7 @@ $(function() {
           from = to = null;
         }
         clearTimeSelectors([from, to]);
+        $(nook).addClass("selected");
         timeSelectors[data].selectRange([from, to]);
         timeSelectors[data].syncDom();
         $('#book--'+data).show();
@@ -160,6 +161,7 @@ $(function() {
 
   clearTimeSelectors = function(range) {
     for(key in timeSelectors) {
+      $('div[data-nook='+key+']').removeClass("selected");
       $('#book--'+key).hide();
       timeSelectors[key].deselectRange(range);
       timeSelectors[key].syncDom();
