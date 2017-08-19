@@ -82,25 +82,17 @@ $(function() {
 
   function updateTimeRange($form, timeSelector) {
 
-    var startDate;
-    var endDate;
-
-    if ($('li[role=presentation][data-view=expanded]').hasClass('active')) {
-      var date = $('#nook-reservation-date').val();
-      startDate = new Date(date);
-      endDate = new Date(date);
-    } else {
-      var startDate = $('#datepicker-element').data("DateTimePicker").date()._d;
-      var endDate = $('#datepicker-element').data("DateTimePicker").date()._d;
-    }
+    var startDate = $('#datepicker-element').data("DateTimePicker").date()._d;
+    var endDate = $('#datepicker-element').data("DateTimePicker").date()._d;
 
     timeSelector.syncDom();
     var dateTimeRange = getDateTimeRange(timeSelector, startDate, endDate);
 
     updateTimeRangeLabel(dateTimeRange, $('.time-range'));
-
-    $form.find('#reservation_start_time').val(dateTimeRange[0].toISOString());
-    $form.find('#reservation_end_time').val(dateTimeRange[1].toISOString());
+    if(dateTimeRange[0] != 'Invalid Date') {
+      $form.find('#reservation_start_time').val(dateTimeRange[0].toISOString());
+      $form.find('#reservation_end_time').val(dateTimeRange[1].toISOString());
+    }
   }
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {

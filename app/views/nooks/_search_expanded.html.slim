@@ -4,7 +4,7 @@ input id="nook-reservation-end" type="text" hidden="true"
 
 div.col-sm-10.col-sm-offset-1
   div.row
-    - nooks.flatten.each do |nook|
+    - nooks.first(4).flatten.each do |nook|
       div.col-md-3 style="padding-left:5px; padding-right:5px;" data-nook=nook.id
         div.nook
           = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg', height: "100%", width: "100%"
@@ -77,14 +77,14 @@ div.col-sm-10.col-sm-offset-1
           span.small
 
   div.day
-    - nooks.flatten.each do |nook|
+    - nooks.first(4).flatten.each do |nook|
       div.event.col-sm-12.reservation-when-times-2 id="nook--#{nook.id}" data-reserved-slots=nook.reserved_slots(@search_date)
         = render 'shared/time_select', show_hours: false,
                   unselectable: true,
                   schedule: OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@search_date.wday],
                   reserved_slots: nook.reserved_slots(@search_date)
   div.book
-    - nooks.flatten.each do |nook|
+    - nooks.first(4).flatten.each do |nook|
       div id="book--#{nook.id}" style="display:none"
         = link_to reserve_nook_path(id: nook, search_date: @search_date),
           class: 'remote-modal book-this-nook btn btn-primary pull-right', data: {modal: '#modal', callback: 'bookModalLoaded'}
