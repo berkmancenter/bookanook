@@ -1,7 +1,8 @@
 div.reservation-form
   div.reservation-when-time
     div.row-title
-      | #{t('reservations.time_range')}
+      = @search_date.strftime("%A, %B %_d")
+
       span.time-range
         span.start
         span.end
