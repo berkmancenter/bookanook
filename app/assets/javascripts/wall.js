@@ -129,7 +129,6 @@ $(function() {
   initializeTimeSelectors = function() {
     list = $('div[data-nook]');
     list.each(function(key, nook){
-      console.log(nook);
       data = $(nook).data("nook");
       var timeSelector = new TimeSelect('#nook--'+data, {
         continuous: true
