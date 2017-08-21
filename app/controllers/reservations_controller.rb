@@ -153,7 +153,7 @@ class ReservationsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def reservation_params
       params.require(:reservation).permit(:name, :start_time, :end_time, :description,
-                                          :url, :stream_url, :notes)
+                                          :url, :stream_url, :notes, :no_of_people, :nook_id)
     end
 
     def redirect_to_nooks_with_errors(format)

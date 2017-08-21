@@ -101,6 +101,8 @@ $(function() {
 
   bookModalLoaded = function () {
 
+    $('#new_reservation input[name="reservation[no_of_people]"]').val($('#nook_capacity').val());
+
     $('#new_reservation').on('ajax:before', function(e) {
       var $form = $(this);
 
