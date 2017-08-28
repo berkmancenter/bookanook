@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:name, 'Nook 1')
     description "It's a nice nook."
     location
+    min_capacity 2
     bookable true
   end
 
@@ -41,7 +42,7 @@ FactoryGirl.define do
     add_attribute('public', true)
     start 49.hour.from_now
     add_attribute('end', 50.hour.from_now)
-
+    add_attribute('no_of_people', 2)
     factory :confirmed_reservation do
       status Reservation::Status::CONFIRMED
     end
