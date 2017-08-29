@@ -1,4 +1,5 @@
-div.time-select
+- unselectable = false unless defined? unselectable
+div.time-select class=("unselectable" if unselectable)
   - disabled = false
   - hour_counter = 0
   - schedule.each do |half_day|

@@ -2,67 +2,97 @@ input id="nook-reservation-date" type="text" hidden="true" value="#{@search_date
 input id="nook-reservation-start" type="text" hidden="true"
 input id="nook-reservation-end" type="text" hidden="true"
 
-- nooks.flatten.each.with_index do |nook, i|
-  div.nook-item-expanded.col-md-9
-    div.nook-expanded
-      div.row
-        div.col-md-4
-          = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg'
-        div.col-md-4
+div.col-sm-10.col-sm-offset-1
+  div.row
+    - nooks.first(4).flatten.each do |nook|
+      div.col-md-3 style="padding-left:5px; padding-right:5px;" data-nook=nook.id
+        div.nook
+          = image_tag nook.photos.first ? nook.photos.first.thumb : 'placeholder.jpg', height: "100%", width: "100%"
+
           div.nook-property
             span.nook-icon.name
             = nook.name
           div.nook-property
             span.nook-icon.location
             = nook.location_name
-          div class="nook-property availability #{nook.available_now? ? 'available-now' : ''}"
-            span.nook-icon.availability
-            = nook.available_now? ? t('nooks.available_now') : t('nooks.not_available_now')
-          div.nook-property
-            span.nook-icon.amenities
-            = nook.amenities.join(', ')
-          div.nook-property
-            span.nook-icon.maxcapacity
-            = nook.max_capacity
-            = ' '
-            = "people".pluralize(nook.max_capacity)
 
+  h1
+    = @search_date.strftime("%A") + ", "
+    = @search_date.strftime("%B %_d") + " "
+    small = @search_date.strftime("%Y")
 
-    div.schedule-wrapper
-      div.row.timeline-wrapper
-        div.timeline.col-sm-6
-          - (0..11).each do |hour|
-            div.col-sm-1
-              span.small
-                = "#{hour == 0 ? 12 : hour}am" if hour.even?
-        div.timeline.col-sm-6
-          - (12..23).each do |hour|
-            div.col-sm-1
-              span.small
-                = "#{hour == 12 ? hour : hour - 12}pm" if hour.even?
+  div.row. style="margin: 10px 0px;"
+    div.timeline.col-sm-6
+      div.row
+        div.col-sm-1
+          span.small 12am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 2am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 4am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 6am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 8am
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 10am
+        div.col-sm-1
+          span.small
 
-      div.nook-weekly-schedule
-        - open_ranges = OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)
-        - @date_range.each_with_index do |date, index|
-            div.reservation-when-times-2 id="day--#{index}--times" class="day-#{index}"
-              div.row.date data-date="#{date}"
-                = date.strftime("%a, %B %d")
-                span.local-time
-                  span.start
-                  span.end
-              div.row
-                = render 'shared/time_select', show_hours: false,
-                         schedule: open_ranges[index],
-                         reserved_slots: nook.reserved_slots(date)
-    div
-      = link_to reserve_nook_path(nook),
-        class: 'remote-modal book-this-expanded-nook', data: { modal: '#modal',
-                                                      callback: 'bookModalLoaded' }
-        button.btn.pull-right Reserve
+    div.timeline.col-sm-6 style="margin-left: -1px;"
+      div.row
+        div.col-sm-1
+          span.small 12pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 2pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 4pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 6pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 8pm
+        div.col-sm-1
+          span.small
+        div.col-sm-1
+          span.small 10pm
+        div.col-sm-1
+          span.small
+
+  div.day
+    - nooks.first(4).flatten.each do |nook|
+      div.event.col-sm-12.reservation-when-times-2 id="nook--#{nook.id}" data-reserved-slots=nook.reserved_slots(@search_date)
+        = render 'shared/time_select', show_hours: false,
+                  unselectable: true,
+                  schedule: OpenSchedule.advance(nook.open_schedule, (Time.zone.utc_offset.to_f/1.hour - @old_time_zone.now.utc_offset.to_f/1.hour)).spans_chunk(2)[@search_date.wday],
+                  reserved_slots: nook.reserved_slots(@search_date)
+  div.book
+    - nooks.first(4).flatten.each do |nook|
+      div id="book--#{nook.id}" style="display:none"
+        = link_to reserve_nook_path(id: nook, search_date: @search_date),
+          class: 'remote-modal book-this-nook btn btn-primary pull-right', data: {modal: '#modal', callback: 'bookModalLoaded'}
+          ="Reserve"
 
 javascript:
-  var timeSelectors = []
+  var timeSelectors = {}
   var lastSelectedDay = -1;
 
-  initializeTimeSelectors();
-  bindTimeSelectorTriggers();
+  initializeTimeSelectors()
+  initializeNookDayline()

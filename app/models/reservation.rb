@@ -38,11 +38,16 @@ class Reservation < ActiveRecord::Base
 
   serialize :repeats_every
 
-  validates_presence_of :name, :start_time, :end_time, :nook, :requester
+  validates_presence_of :name, :start_time, :end_time, :nook, :requester, :no_of_people
   validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
     greater_than_or_equal_to: 0
+  validates_numericality_of :no_of_people, only_integer: true,
+    greater_than: 0
+
+  validate :minimum_length, :maximum_length, :people_validation
+
   validate :minimum_length, :maximum_length
   validate :available
   after_initialize :set_defaults
@@ -123,11 +128,11 @@ class Reservation < ActiveRecord::Base
   # Used in downloadable statistics report
   def self.to_csv(reservations, options = {})
     CSV.generate(options) do |csv|
-      csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'Start', 'End', 'Created at' ]
+      csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'No. of People', 'Start', 'End', 'Created at' ]
       reservations.each do |reservation|
         csv << [ reservation.nook.location.name,
                  reservation.nook.name,
-                 reservation.attributes.values_at('id', 'name', 'description', 'start_time', 'end_time', 'created_at') ].flatten
+                 reservation.attributes.values_at('id', 'name', 'description', 'no_of_people', 'start_time', 'end_time', 'created_at') ].flatten
       end
     end
   end
@@ -184,6 +189,17 @@ class Reservation < ActiveRecord::Base
       self.start > Time.now + nook.max_schedulable.seconds
       errors.add(:start_time, "can't start more than " +
                  "#{Reservation.humanize_seconds(nook.max_schedulable)} from now")
+    end
+  end
+
+  def people_validation
+    if no_of_people.present?
+      unless (nook.min_capacity.present? && nook.min_capacity <= no_of_people) ||
+        (nook.max_capacity.present? && no_of_people <= nook.max_capacity)      ||
+        ((nook.min_capacity.present? && nook.min_capacity <= no_of_people) &&
+          (nook.max_capacity.present? && no_of_people <= nook.max_capacity))
+        errors.add(:no_of_people, "is not within range permitted for booking")
+      end
     end
   end
 

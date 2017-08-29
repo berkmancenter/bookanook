@@ -21,6 +21,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Nice nook #{n}" }
     description "It's a nice nook."
     location
+    min_capacity 2
     bookable true
   end
 
@@ -57,6 +58,7 @@ FactoryGirl.define do
     sequence(:name) { |n| "Test Reservation #{n}" }
     association :requester, factory: :confirmed_user
     add_attribute('public', true)
+    add_attribute('no_of_people', 2)
     start_time
     end_time { start_time + 29.minutes}
     factory :confirmed_reservation do

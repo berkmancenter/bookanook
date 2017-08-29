@@ -82,25 +82,17 @@ $(function() {
 
   function updateTimeRange($form, timeSelector) {
 
-    var startDate;
-    var endDate;
-
-    if ($('li[role=presentation][data-view=expanded]').hasClass('active')) {
-      var date = $('#nook-reservation-date').val();
-      startDate = new Date(date);
-      endDate = new Date(date);
-    } else {
-      var startDate = $('#datepicker-element').data("DateTimePicker").date()._d;
-      var endDate = $('#datepicker-element').data("DateTimePicker").date()._d;
-    }
+    var startDate = $('#datepicker-element').data("DateTimePicker").date()._d;
+    var endDate = $('#datepicker-element').data("DateTimePicker").date()._d;
 
     timeSelector.syncDom();
     var dateTimeRange = getDateTimeRange(timeSelector, startDate, endDate);
 
     updateTimeRangeLabel(dateTimeRange, $('.time-range'));
-
-    $form.find('#reservation_start_time').val(dateTimeRange[0].toISOString());
-    $form.find('#reservation_end_time').val(dateTimeRange[1].toISOString());
+    if(dateTimeRange[0] != 'Invalid Date') {
+      $form.find('#reservation_start_time').val(dateTimeRange[0].toISOString());
+      $form.find('#reservation_end_time').val(dateTimeRange[1].toISOString());
+    }
   }
 
   $(document).on('click', '.reservation-form .reservation-when-day button', function () {
@@ -108,6 +100,8 @@ $(function() {
   });
 
   bookModalLoaded = function () {
+
+    $('#new_reservation input[name="reservation[no_of_people]"]').val($('#nook_capacity').val());
 
     $('#new_reservation').on('ajax:before', function(e) {
       var $form = $(this);
@@ -129,15 +123,8 @@ $(function() {
     var from = 0;
     var to = 0;
 
-    if ($('.nook-item-expanded') && lastSelectedDay >= 0 &&
-        timeSelectors[lastSelectedDay].selected.length > 0) {
-      var selected = timeSelectors[lastSelectedDay].selected
-      from = parseInt(selected[0]._i)
-      to = parseInt(selected[selected.length - 1]._i)
-    } else {
-      from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
-      to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
-    }
+    from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
+    to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
 
     timeSelector.selectRange([from, to]);
     updateTimeRange($('#new_reservation'), timeSelector);

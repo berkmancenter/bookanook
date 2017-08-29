@@ -1,7 +1,8 @@
 div.reservation-form
   div.reservation-when-time
     div.row-title
-      | #{t('reservations.time_range')}
+      = (@search_date || @reservation.start.to_date).strftime("%A, %B %_d")
+
       span.time-range
         span.start
         span.end
@@ -22,18 +23,6 @@ div.reservation-form
       var timeSelector = new TimeSelect('.reservation-when-times', {
         continuous: true
       });
-      var reserved = $('.reservation-when-times').data('reserved-slots').toString();
-      reserved = reserved.substring(1, reserved.length - 1).split(', ');
-      for(var i = 0; i < reserved.length; i++) {
-        var interval = reserved[i].split('..');
-        var slots = timeSelector.getIntRange(interval[0], interval[1]);
-        slots.pop();
-        for(var j = 0; j < slots.length; j++) {
-          var $button = $('.reservation-when-times button[value="' + slots[j] + '"]');
-          $button.addClass('taken');
-          $button.attr('disabled', 'true');
-        }
-      }
 
       updateTimeRangeLabel(getDateTimeRange(timeSelector), $('.time-range'));
       $('.reservation-when-times').on('timeSelector:change', function(e, selector) {

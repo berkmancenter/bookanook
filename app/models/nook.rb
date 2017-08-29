@@ -51,7 +51,7 @@ class Nook < ActiveRecord::Base
   # used in blocking reserved slots on reservation form or expanded-nook view
   def reserved_slots(date)
     Reservation.confirmed.where(nook_id: self.id)
-                          .happening_within(date.beginning_of_day..date.end_of_day)
+                          .happening_within(date.in_time_zone.beginning_of_day..date.in_time_zone.end_of_day)
                           .map do |r|
                             r.start.strftime('%H%M').to_i..
                             (r.end + 1.seconds).strftime('%H%M').to_i

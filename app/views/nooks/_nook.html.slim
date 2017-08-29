@@ -44,30 +44,13 @@
           });
 
 - content_for(:modal_right) do
-  div class="panel panel-default"
-    div.panel-heading
-      h3.panel-title #{t('nooks.room_attributes')}
-    div.panel-body
-      - amenities.each do |amenity|
-        div.amenity
-          = check_box_tag '', '', amenity.in?(nook.amenities), disabled: true
-          = label_tag '' do
-            span.blue
-            = amenity.name.downcase
-        div
-      div.empty-separator
-      span #{t('nooks.capacity')}:
-      = ' '
-      span #{[nook.min_capacity.to_i, 1].max}-#{nook.max_capacity}
-      div.empty-separator
-      = render partial: 'shared/rating_tag', locals: {rating_label: 'Noise Level'}
-      = render partial: 'shared/rating_tag', locals: {rating_label: 'Sunlight'}
-      = render partial: 'shared/rating_tag', locals: {rating_label: 'Outlets'}
+  //= render 'nooks/nook_attributes', nook: nook, amenties: amenities
 
-  div class="panel panel-default"
-    div.panel-heading
-      h3.panel-title #{t('nooks.upcoming')}
-    div.panel-body
-      = render 'shared/nook_reservations', nook: nook
+  - if current_user.superadmin? or current_user.has_role? :admin, nook.location
+    div class="panel panel-default"
+      div.panel-heading
+        h3.panel-title #{t('nooks.upcoming')}
+      div.panel-body
+        = render 'shared/nook_reservations', nook: nook
 
 = render 'shared/modal'
