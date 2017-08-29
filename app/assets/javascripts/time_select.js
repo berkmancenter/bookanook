@@ -33,6 +33,10 @@ var TimeSelect = function(parent, options) {
   }
 
   self.syncDom();
+
+  $(self.parent).on("timeSelector:change", function(){
+    self.selected = _.filter(self.selected, function (a) { return a._isValid });
+  });
 };
 
 _.extend(TimeSelect.prototype, {

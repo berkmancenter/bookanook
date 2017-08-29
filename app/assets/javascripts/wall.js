@@ -34,7 +34,6 @@ $(function() {
     });
   };
 
-  $(document).trigger('filter-updated');
 });
 
 $(function() {
@@ -138,12 +137,12 @@ $(function() {
 
   // set the default day and time as selected in filter
   setDefaultValue = function() {
-    var timeSliderValues = $('#hour-range-slider').slider('getValue');
-    var hour = Math.floor(timeSliderValues[0]);
-    from = parseInt(hour + '00');
-    hour = Math.floor(timeSliderValues[1] - 1);
-    to = parseInt(hour + '30');
-
+    if ($('#timeStart').data("DateTimePicker").date()) {
+      from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
+      to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
+    } else {
+      from = to = null;
+    }
     var date = $('input[id=nook-reservation-date]').attr('value');
     var day = new Date(date).getDay();
 
