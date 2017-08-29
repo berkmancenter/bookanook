@@ -41,8 +41,8 @@ class Nook < ActiveRecord::Base
     available
   end
 
-  def available_for?(time_range)
-    available = bookable && reservations.overlapping_with(time_range).empty?
+  def available_for?(time_range,res=nil)
+    available = bookable && reservations.overlapping_with(time_range,res).empty?
     available &&= location.open_for_range?(time_range) if location.open_schedule
     available &&= open_for_range?(time_range) if open_schedule
     available # I don't think this line is necessary, but not sure yet.

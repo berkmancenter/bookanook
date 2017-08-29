@@ -7,6 +7,7 @@ class Reservation < ActiveRecord::Base
 
   scope :is_public, -> { where(public: true) }
   scope :confirmed, -> { where(status: Reservation::Status::CONFIRMED) }
+  scope :possible_conflict, ->(res=nil) { where.not(status: Reservation::Status::HIDEABLE, id: res) }
 
   acts_as_taggable_on :remarks
 
@@ -20,6 +21,7 @@ class Reservation < ActiveRecord::Base
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
     CANCELABLE = [PENDING, CONFIRMED]
     MODIFIABLE = [PENDING]
+    HIDEABLE = [REJECTED, CANCELED]
   end
 
   STATUSES = Status.constants.map{|s| Status.const_get(s)}.flatten.uniq
@@ -46,6 +48,8 @@ class Reservation < ActiveRecord::Base
 
   validate :minimum_length, :maximum_length, :people_validation
 
+  validate :minimum_length, :maximum_length
+  validate :available
   after_initialize :set_defaults
 
   def time_range
@@ -91,6 +95,10 @@ class Reservation < ActiveRecord::Base
     (Status::MODIFIABLE.include? status) && ((self.start.to_i-Time.now.to_i) > (self.nook.modifiable_before*3600))
   end
 
+  def available
+    errors.add(:nook_id, "is not available for given time duration") unless self.nook.available_for?(self.start_time..self.end_time,self)
+  end
+
   def self.confirmed(reservations=nil)
     return where(status: Status::CONFIRMED) if reservations.nil?
     reservations.where(status: Status::CONFIRMED)
@@ -112,8 +120,8 @@ class Reservation < ActiveRecord::Base
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
-  def self.overlapping_with(time_range)
-    confirmed.where('tsrange("reservations"."start_time", "reservations"."end_time") && ' +
+  def self.overlapping_with(time_range,res=nil)
+    possible_conflict(res).where('tsrange("reservations"."start_time", "reservations"."end_time") && ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
