@@ -29,9 +29,9 @@ module Admin
       if resource.save
         UserMailer.send_password(resource).deliver_now
         if params[:is_superadmin]
-          resource.add_role :superadmin
+          resource.add_superadmin
         else
-          resource.remove_role :superadmin
+          resource.remove_superadmin
         end
         redirect_to(
           [namespace, resource],
@@ -55,9 +55,9 @@ module Admin
 
       if requested_resource.update(update_params)
         if params[:is_superadmin]
-          requested_resource.add_role :superadmin
+          requested_resource.add_superadmin
         else
-          requested_resource.remove_role :superadmin
+          requested_resource.remove_superadmin
         end
         redirect_to(
           [namespace, requested_resource],
