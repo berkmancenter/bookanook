@@ -90,8 +90,8 @@ $(function() {
       startDate = new Date(date);
       endDate = new Date(date);
     } else {
-      var startDate = $('.datepicker-element').first().datepicker('getDate');
-      var endDate = $('.datepicker-element').first().datepicker('getDate');
+      var startDate = $('#datepicker-element').data("DateTimePicker").date()._d;
+      var endDate = $('#datepicker-element').data("DateTimePicker").date()._d;
     }
 
     timeSelector.syncDom();
@@ -115,6 +115,8 @@ $(function() {
       updateTimeRange($form, timeSelector);
 
       $form.on('ajax:success', function(e, data, status, xhr) {
+        var searchParams = getSearchParams();
+        window.localStorage.setItem('form',JSON.stringify(searchParams));
         window.location.assign(data);
       });
       $form.on('ajax:error', function(e, xhr, status, error) {
@@ -133,13 +135,8 @@ $(function() {
       from = parseInt(selected[0]._i)
       to = parseInt(selected[selected.length - 1]._i)
     } else {
-      var timeSliderValues = $('#hour-range-slider').slider('getValue');
-
-      var hour = Math.floor(timeSliderValues[0]);
-      from = parseInt(hour + '00');
-
-      hour = Math.floor(timeSliderValues[1] - 1);
-      to = parseInt(hour + '30');
+      from = $('#timeStart').data("DateTimePicker").date().format("HHmm");
+      to   = $('#timeEnd').data("DateTimePicker").date().subtract({minutes: 30}).format("HHmm");
     }
 
     timeSelector.selectRange([from, to]);
