@@ -33,6 +33,34 @@ Works well with:
 Setup
 -----
 
+## Setup using Docker & Docker-Compose
+1. Clone the repository:
+
+`git clone https://github.com/berkmancenter/bookanook.git`
+
+Or clone down from your own fork of the repository.
+
+2. Go to the application's root directory in terminal: `cd bookanook`
+
+3. Run `cp config/social_keys.yml.sample config/social_keys.yml`. Add your own key and secret for Google authentication by setting up OAuth for your environment [here](https://cloud.google.com/ruby/getting-started/authenticate-users).
+
+4. Create a `.env` file in the project root and populate with the preferred rails environment as follows:
+```
+RAILS_ENV=production
+SECRET_KEY_BASE=<some key>
+DEVISE_SECRET_KEY=<some key>
+RAILS_SERVE_STATIC_FILES=true
+```
+
+5. Run Docker-Compose to build images: `docker-compose build`
+
+6. Setup Docker Database: `docker-compose run app rake db:create db:migrate db:seed`
+
+7. Run the docker images: `docker-compose up -d`
+
+8. To stop the app: `docker-compose stop`
+
+## Regular Setup
 1. Clone the repository
 
 `git clone https://github.com/berkmancenter/bookanook.git`
