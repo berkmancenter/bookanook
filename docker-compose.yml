@@ -8,6 +8,9 @@ app:
   # rely on the RAILS_ENV value of the host machine
   environment:
     RAILS_ENV: $RAILS_ENV
+  # persistent storage across containers for app
+  volumes:
+    - assets:/var/www/bookanook/public/assets
   # makes the app container aware of the DB container
   links:
     - db
