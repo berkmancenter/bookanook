@@ -3,7 +3,7 @@
 <% field.days.each_with_index do |day, i| %>
   <% id = "open-at-day-#{i}" %>
   <% selector_ids << id %>
-  <div class="open-at" id="<%= id %>">
+  <div class="open-at" id="<%= id %>" data-start="<%=  %>" data-end="<%= %>" data-reserved-slots="<%= day %>">
     <span><%= Date::DAYNAMES[i] %></span>
     <%= render 'shared/plain_time_select', show_hours: true %>
   </div>

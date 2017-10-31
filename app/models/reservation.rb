@@ -7,6 +7,7 @@ class Reservation < ActiveRecord::Base
 
   scope :is_public, -> { where(public: true) }
   scope :confirmed, -> { where(status: Reservation::Status::CONFIRMED) }
+  scope :possible_conflict, ->(res=nil) { where.not(status: Reservation::Status::HIDEABLE, id: res) }
 
   acts_as_taggable_on :remarks
 
@@ -20,6 +21,7 @@ class Reservation < ActiveRecord::Base
       'Awaiting review', 'Rejected', 'Confirmed', 'Canceled'
     CANCELABLE = [PENDING, CONFIRMED]
     MODIFIABLE = [PENDING]
+    HIDEABLE = [REJECTED, CANCELED]
   end
 
   STATUSES = Status.constants.map{|s| Status.const_get(s)}.flatten.uniq
@@ -36,13 +38,18 @@ class Reservation < ActiveRecord::Base
 
   serialize :repeats_every
 
-  validates_presence_of :name, :start_time, :end_time, :nook, :requester
+  validates_presence_of :name, :start_time, :end_time, :nook, :requester, :no_of_people
   validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :public, in: [true, false]
   validates_numericality_of :priority, only_integer: true,
     greater_than_or_equal_to: 0
-  validate :minimum_length, :maximum_length
+  validates_numericality_of :no_of_people, only_integer: true,
+    greater_than: 0
 
+  validate :minimum_length, :maximum_length, :people_validation
+
+  validate :minimum_length, :maximum_length
+  validate :available
   after_initialize :set_defaults
 
   def time_range
@@ -88,6 +95,10 @@ class Reservation < ActiveRecord::Base
     (Status::MODIFIABLE.include? status) && ((self.start.to_i-Time.now.to_i) > (self.nook.modifiable_before*3600))
   end
 
+  def available
+    errors.add(:nook_id, "is not available for given time duration") unless self.nook.available_for?(self.start_time..self.end_time,self)
+  end
+
   def self.confirmed(reservations=nil)
     return where(status: Status::CONFIRMED) if reservations.nil?
     reservations.where(status: Status::CONFIRMED)
@@ -109,19 +120,19 @@ class Reservation < ActiveRecord::Base
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
-  def self.overlapping_with(time_range)
-    confirmed.where('tsrange("reservations"."start_time", "reservations"."end_time") && ' +
+  def self.overlapping_with(time_range,res=nil)
+    possible_conflict(res).where('tsrange("reservations"."start_time", "reservations"."end_time") && ' +
                     'tsrange(?, ?)', time_range.begin, time_range.end)
   end
 
   # Used in downloadable statistics report
   def self.to_csv(reservations, options = {})
     CSV.generate(options) do |csv|
-      csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'Start', 'End', 'Created at' ]
+      csv << [ 'Location', 'Nook name', 'Id', 'Name', 'Description', 'No. of People', 'Start', 'End', 'Created at' ]
       reservations.each do |reservation|
         csv << [ reservation.nook.location.name,
                  reservation.nook.name,
-                 reservation.attributes.values_at('id', 'name', 'description', 'start_time', 'end_time', 'created_at') ].flatten
+                 reservation.attributes.values_at('id', 'name', 'description', 'no_of_people', 'start_time', 'end_time', 'created_at') ].flatten
       end
     end
   end
@@ -178,6 +189,17 @@ class Reservation < ActiveRecord::Base
       self.start > Time.now + nook.max_schedulable.seconds
       errors.add(:start_time, "can't start more than " +
                  "#{Reservation.humanize_seconds(nook.max_schedulable)} from now")
+    end
+  end
+
+  def people_validation
+    if no_of_people.present?
+      unless (nook.min_capacity.present? && nook.min_capacity <= no_of_people) ||
+        (nook.max_capacity.present? && no_of_people <= nook.max_capacity)      ||
+        ((nook.min_capacity.present? && nook.min_capacity <= no_of_people) &&
+          (nook.max_capacity.present? && no_of_people <= nook.max_capacity))
+        errors.add(:no_of_people, "is not within range permitted for booking")
+      end
     end
   end
 

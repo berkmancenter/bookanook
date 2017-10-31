@@ -33,19 +33,36 @@ var TimeSelect = function(parent, options) {
   }
 
   self.syncDom();
+
+  var reserved = $(self.parent).data('reserved-slots').toString();
+  reserved = reserved.substring(1, reserved.length - 1).split(', ');
+  for(var i = 0; i < reserved.length; i++) {
+    var interval = reserved[i].split('..');
+    var slots = self.getIntRange(interval[0], interval[1]);
+    slots.pop();
+    for(var j = 0; j < slots.length; j++) {
+      var $button = $(self.parent + ' button[value="' + slots[j] + '"]');
+      $button.addClass('taken');
+      $button.attr('disabled', 'true');
+    }
+  }
+
+  $(self.parent).on("timeSelector:change", function(){
+    self.selected = _.filter(self.selected, function (a) { return a._isValid });
+  });
 };
 
 _.extend(TimeSelect.prototype, {
   toMoment: function(time) {
     if (moment.isMoment(time)) { return time; }
-    if (_.isNumber(time)) {
+    if (!isNaN(time) || _.isNumber(time)) {
       var prefix = '';
-      if (time < 100) {
+      if (Number(time) < 100) {
         prefix = '00'
-      } else if (time < 1000) {
+      } else if (Number(time) < 1000) {
         prefix = '0'
       }
-      time = prefix + String(time);
+      time = prefix + String(Number(time));
     }
     return moment(String(time), this.format);
   },
@@ -169,6 +186,12 @@ _.extend(TimeSelect.prototype, {
     range.sort(function(a, b) { return a - b; });
     var current = this.toMoment(range[0]);
     var end = this.toMoment(range[1]);
+    // Checking if the selected times are not them same.
+
+    if(current.format("HHmm") == this.toMoment(range[1]).add({minutes: 30}).format("HHmm")) {
+      return;
+    }
+    console.log(end);
     do {
       this._pushSelected(this.fromMoment(current));
       current = current.add(this.options.slotDuration);
@@ -224,12 +247,24 @@ _.extend(TimeSelect.prototype, {
   },
 
   getIntRange: function(start, end) {
+    function padding(val) {
+      var prefix = '';
+      if (val < 10){
+        prefix = '000';
+      } else if(val < 100){
+        prefix = '00';
+      } else if(val < 1000){
+        prefix = '0';
+      }
+      return prefix + String(val);
+    }
     var current = this.toMoment(start);
     var end = this.toMoment(end);
     var array = [];
-    array.push(this.fromMoment(current));
+    array.push(padding(this.fromMoment(current)));
      while (current.isBefore(end)) {
-      array.push(this.fromMoment(current.add(this.options.slotDuration)));
+      var val = this.fromMoment(current.add(this.options.slotDuration));
+      array.push(padding(val));
     }
     return array;
   },

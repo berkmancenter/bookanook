@@ -100,7 +100,7 @@ module Admin
       @reservation = Reservation.where(id: reservation_id).first
       @available = nil
       unless @reservation.nil?
-        @available = @reservation.nook.available_for?(@reservation.start..@reservation.end)
+        @available = @reservation.nook.available_for?(@reservation.start..@reservation.end,@reservation)
       end
       render :js, template: 'admin/nooks/availability'
     end
