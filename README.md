@@ -69,6 +69,31 @@ Or clone down from your own fork of the repository.
 
 12. Visit the application at localhost:3000
 
+
+## Initial Data
+`rake db:seed`, Seeds the database with some Users, Libraries and Nooks.
+The users are
+```
+         Email-ID                      Role           Password
+User 1 : superadmin@bookanook.com      SuperAdmin     Password:12345678
+User 2 : admin1@bookanook.com          Admin          Password:12345678
+User 3 : admin2@bookanook.com          Admin          Password:12345678
+User 4 : admin3@bookanook.com          Admin          Password:12345678
+User 5 : patron@bookanook.com          Patron         Password:12345678
+```
+The Libraries are
+```
+Library 1
+Library 2
+Library 3
+```
+The Rooms are
+```
+Library 1: Nice Office 1, Nice Office 3, Nice Office 5, Nice Office 6, Nice Office 10, Nice Office 13
+Library 2: Nice Office 2, Nice Office 7, Nice Office 9, Nice Office 12
+Library 3: Nice Office 4, Nice Office 8, Nice Office 11, Nice Office 14
+```
+
 Running Tests
 -------------
 
